@@ -250,10 +250,12 @@
       <li><a href="#scope"><span class="toc-num">01</span>Scope, method &amp; limitations</a></li>
       <li><a href="#directory"><span class="toc-num">02</span>Resource directory</a></li>
       <li><a href="#catalog"><span class="toc-num">03</span>Hardware catalog (filterable)</a></li>
+      <li style="padding-left:2.2rem"><a href="#categories"><span class="toc-num">03.1</span>Categories &amp; form factors</a></li>
       <li><a href="#turnkey-vs-selfbuild"><span class="toc-num">04</span>Turnkey vs. self-build</a></li>
       <li><a href="#most-turnkey"><span class="toc-num">05</span>Most-turnkey ranking &amp; buyer guide</a></li>
       <li><a href="#selfbuild"><span class="toc-num">06</span>Self-build guide (6 builds)</a></li>
       <li><a href="#setup"><span class="toc-num">07</span>Meshtastic setup guide</a></li>
+      <li style="padding-left:2.2rem"><a href="#roles"><span class="toc-num">07.1</span>Mesh roles &amp; modes</a></li>
       <li><a href="#glossary"><span class="toc-num">08</span>Glossary</a></li>
       <li><a href="#sources"><span class="toc-num">09</span>Sources &amp; citations</a></li>
     </ol>
@@ -344,6 +346,36 @@
 <section id="catalog">
   <h2><span class="sec-num">03</span>Hardware catalog</h2>
   <p class="lede">Every device or meaningful variant documented in this research. Use the filters to narrow by category or support status, search by name/chip/feature, and sort. <strong>Prices in USD, checked 23 Aug 2026</strong>; “≈” = estimate not re-verified live on that date — confirm at the linked store before buying.</p>
+
+  <h3 id="categories">Device categories &amp; form factors, explained</h3>
+  <p>Before the table, here is how to decode the ecosystem's labels — the “what am I even looking at” guide. The catalog below tags every entry with one of the first five categories; the form-factor list maps those categories to how you'll actually use the device.</p>
+  <div class="tblwrap"><table>
+    <caption>Device categories — what each label means in this guide and on storefronts.</caption>
+    <thead><tr><th>Category</th><th>What it is</th><th>You must add</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Radio module</strong></td><td>Bare radio + MCU building block, often surface-mount</td><td>Carrier board, antenna, power, case — soldering usually required</td><td>HT-CT62, RAK4631, RAK13302, Elecrow nRFLR1262</td></tr>
+      <tr><td><strong>Dev board</strong></td><td>Module on a PCB with USB, power, antenna connector, and pin headers</td><td>Antenna, battery, case (no soldering when connectors exist)</td><td>Heltec LoRa 32 V3, T-Beam, T114, Pico + Waveshare</td></tr>
+      <tr><td><strong>Turnkey device</strong></td><td>Ready-to-use: case, battery, antenna integrated — often pre-flashed</td><td>Nothing (charge, pair, set region)</td><td>T1000-E, WisMesh Pocket V2, T-Echo, ThinkNode M1, Nano G2 Ultra</td></tr>
+      <tr><td><strong>Gateway / infrastructure</strong></td><td>Bridges mesh ↔ MQTT/Ethernet/Wi-Fi, or a dedicated fixed relay</td><td>Network/power; fixed mounting</td><td>WisMesh Gateway, ThinkNode M7, Station G3, WisMesh Repeater</td></tr>
+      <tr><td><strong>Accessory / self-build part</strong></td><td>Antennas, batteries, GPS, sensors, displays, enclosures, base boards</td><td>A compatible board to attach to</td><td>RAK19007 base, RAK12500 GPS, WisBlock sensors</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tblwrap"><table>
+    <caption>Form factors &amp; intended use — choose by how you will carry or mount the device.</caption>
+    <thead><tr><th>Form factor</th><th>What it is</th><th>Typical devices</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Handheld terminal</strong></td><td>Keyboard/touchscreen; message from the device itself, phone-free</td><td>T-Deck (Plus/Pro), TAP V2, Cardputer Mesh Kit, T-Lora Pager</td></tr>
+      <tr><td><strong>Portable / EDC node</strong></td><td>Pocketable; pairs to your phone over Bluetooth</td><td>WisMesh Pocket V2/Mini, T-Echo, Nano G2 Ultra, R1 Neo, MeshPocket</td></tr>
+      <tr><td><strong>Tracker tag</strong></td><td>Card-sized, GPS-first; attaches to a person or asset</td><td>T1000-E, WisMesh Tag, Heltec Mesh Node T1, ThinkNode M3</td></tr>
+      <tr><td><strong>Fixed / base station</strong></td><td>Mains-powered, high antenna, often a high-power option</td><td>Station G3/G2, WisBlock on house power, ThinkNode M7</td></tr>
+      <tr><td><strong>Relay / repeater</strong></td><td>Infrastructure node on a hill/roof to extend coverage</td><td>WisMesh Repeater (Mini/Pro), ThinkNode M6, SenseCAP Solar Node</td></tr>
+      <tr><td><strong>Indoor node</strong></td><td>Cheap always-on node near a window</td><td>Heltec LoRa 32 V3, LILYGO T3-S3</td></tr>
+      <tr><td><strong>Solar / off-grid node</strong></td><td>Panel + battery, runs unattended</td><td>SenseCAP Solar Node, ThinkNode M6, RAK Repeater Mini V2</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note tip"><span class="lbl">Which one do you need?</span>
+    Start with a <strong>turnkey portable or tracker</strong> (fastest path to on-air). Reach for a <strong>dev board</strong> when you want to choose your own antenna/battery/case. Reach for a <strong>module</strong> only for custom PCB work. Add a <strong>gateway</strong> only when you need internet (MQTT) bridging or a dedicated fixed relay.
+  </div>
 
   <div class="filterbar" role="search" aria-label="Filter the hardware catalog">
     <input type="search" id="cat-search" placeholder="Search name, chip, feature (e.g. nRF52840, GPS, e-ink, 1W)…" aria-label="Search catalog">
@@ -1253,8 +1285,40 @@
     <li><strong>Hurts:</strong> walls/foliage/hills, antenna mismatch, long lossy coax, noise (near LTE towers), weather.</li>
     <li><strong>Verify with the range-test module</strong> — one node transmits repeatedly, another logs reception <a href="#s12">[12]</a>.</li>
   </ul>
+  <h3 id="roles">Mesh roles &amp; modes, explained</h3>
+  <p>A node's <strong>role</strong> controls how it relays and what it prioritizes. The default <code>CLIENT</code> is right for almost everyone; the others exist for infrastructure and specialized trackers/sensors <a href="#s66">[66]</a>.</p>
+  <div class="tblwrap"><table>
+    <caption>Mesh roles. “Retransmit” = does it rebroadcast other nodes' packets. Power/screen/visibility reflect defaults <a href="#s66">[66]</a>.</caption>
+    <thead><tr><th>Role</th><th>What it does</th><th>Power</th><th>Retransmit</th><th>Visible in list</th><th>Best use</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CLIENT</strong> (default)</td><td>Messaging node; relays when no other node has</td><td>Regular</td><td>Yes</td><td>Yes</td><td>Everyday users</td></tr>
+      <tr><td><strong>CLIENT_MUTE</strong></td><td>Participates but does not forward others' packets</td><td>Lowest</td><td>No</td><td>Yes</td><td>Quiet personal node</td></tr>
+      <tr><td><strong>CLIENT_HIDDEN</strong></td><td>Broadcasts only as needed (stealth/power)</td><td>Lowest</td><td>Local only</td><td>No</td><td>Hidden / low-usage deployments</td></tr>
+      <tr><td><strong>CLIENT_BASE</strong></td><td>Always rebroadcasts to/from your favorited nodes</td><td>Regular</td><td>Favorites only</td><td>Yes</td><td>Roof/attic base for your weaker indoor nodes</td></tr>
+      <tr><td><strong>TRACKER</strong></td><td>Prioritizes GPS position broadcasts</td><td>Regular / low</td><td>Awake only</td><td>Yes</td><td>Asset / person tracking</td></tr>
+      <tr><td><strong>LOST_AND_FOUND</strong></td><td>Regular location broadcasts to the default channel for recovery</td><td>Regular</td><td>Yes</td><td>Yes</td><td>Recovering a lost device</td></tr>
+      <tr><td><strong>SENSOR</strong></td><td>Prioritizes telemetry broadcasts</td><td>Regular / low</td><td>Awake only</td><td>Yes</td><td>Environmental monitoring</td></tr>
+      <tr><td><strong>TAK / TAK_TRACKER</strong></td><td>Optimized for ATAK (reduces routine broadcasts; auto PLI)</td><td>Regular</td><td>Yes</td><td>Yes</td><td>ATAK integration</td></tr>
+      <tr><td><strong>ROUTER</strong></td><td>Infrastructure: always rebroadcasts once; visible</td><td>High</td><td>Yes</td><td>Yes</td><td>Well-placed, mains/solar-powered relay</td></tr>
+      <tr><td><strong>ROUTER_LATE</strong></td><td>Rebroadcasts once, but only after all other modes</td><td>High</td><td>Yes</td><td>Yes</td><td>Filling dead spots / local clusters</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn"><span class="lbl">Deprecated roles</span>
+    <strong>ROUTER_CLIENT</strong> was deprecated in firmware 2.3.15; <strong>REPEATER</strong> (the old “not shown in nodes list” relay) is deprecated as of firmware 2.7.11 — use <strong>ROUTER</strong> instead <a href="#s66">[66]</a>.
+  </div>
+  <h4>Practical role rules of thumb</h4>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li><strong>Default CLIENT</strong> — you almost never need to change it.</li>
+    <li><strong>ROUTER for infrastructure only</strong> — battery-hungry, and on ESP32 it disables BLE/Wi-Fi/serial by default, so reconfigure via an admin channel or temporarily switch role. Use mains or a correctly-sized solar setup <a href="#s66">[66]</a>.</li>
+    <li><strong>CLIENT_MUTE</strong> — a discreet relay that won't re-broadcast others' traffic (reduces network load).</li>
+    <li><strong>CLIENT_BASE</strong> — place one in your attic/roof and favorite your indoor nodes so it prioritizes their packets.</li>
+    <li><strong>TRACKER / SENSOR</strong> — special sleep behavior tied to their broadcast intervals; the radio does not sit in standby listening between intervals <a href="#s66">[66]</a>.</li>
+  </ul>
+  <h4>Rebroadcast modes</h4>
+  <p>A second setting controls which packets a node re-sends: <code>ALL</code> (default), <code>LOCAL_ONLY</code> (only your channel's mesh), <code>KNOWN_ONLY</code> (only known node IDs), <code>NONE</code> (sensor/tracker/TAK-tracker only), <code>ALL_SKIP_DECODING</code> (repeater only), and <code>CORE_PORTNUMS_ONLY</code> (standard packet types only) <a href="#s66">[66]</a>.</p>
+
   <h3>Setting up a relay / router node</h3>
-  <p>A relay sits at a high point and re-broadcasts for everyone. Flash it, set region, set a fixed position (no GPS needed), and choose a <strong>role</strong>: <code>ROUTER</code> (always relays, battery-hungry — use house/solar power) or <code>CLIENT_MUTE</code> (relays but stays quiet) for a low-profile repeater. Place it high with a good antenna and validate coverage by walking the area <a href="#s12">[12]</a>.</p>
+  <p>A relay sits at a high point and re-broadcasts for everyone. Flash it, set region, set a fixed position (no GPS needed), and choose the role from the table above: <code>ROUTER</code> (always relays, battery-hungry — use house/solar power) for a visible relay, or <code>CLIENT_MUTE</code> for a low-profile relay that stays out of the way. Place it high with a good antenna and validate coverage by walking the area <a href="#s12">[12]</a>.</p>
 
   <h3>Solar &amp; battery planning basics</h3>
   <ol class="steps">
@@ -1409,6 +1473,7 @@
     <li id="s63">Meshtastic Reddit. <a href="https://reddit.com/r/meshtastic">https://reddit.com/r/meshtastic</a></li>
     <li id="s64">Meshtastic Web Flasher. <a href="https://flasher.meshtastic.org/">https://flasher.meshtastic.org/</a></li>
     <li id="s65">Meshtastic Web Client. <a href="https://client.meshtastic.org/">https://client.meshtastic.org/</a></li>
+    <li id="s66">Meshtastic Docs — Device Configuration (roles, rebroadcast modes, power-save behavior). <a href="https://meshtastic.org/docs/configuration/radio/device/">https://meshtastic.org/docs/configuration/radio/device/</a></li>
   </ol>
 </section>
 </main>
