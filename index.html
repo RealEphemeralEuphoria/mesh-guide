@@ -141,8 +141,14 @@
   footer .inner{max-width:var(--maxw);margin:0 auto;font-size:.86rem;color:var(--muted)}
   .backtop{position:fixed;right:1rem;bottom:1rem;background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;width:2.6rem;height:2.6rem;font-size:1.1rem;cursor:pointer;box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transition:opacity .2s}
   .backtop.show{opacity:1;pointer-events:auto}
+  .topnav{position:sticky;top:0;z-index:998;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm)}
+  .topnav-inner{max-width:var(--maxw);margin:0 auto;display:flex;gap:.25rem;align-items:center;padding:.5rem 1.25rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .topnav-inner::-webkit-scrollbar{display:none}
+  .topnav a{flex:0 0 auto;padding:.32rem .85rem;border-radius:999px;color:var(--muted);text-decoration:none;font-size:.87rem;font-weight:600;white-space:nowrap}
+  .topnav a:hover{color:var(--ink);background:var(--surface-2)}
+  .topnav a.active{background:var(--accent);color:var(--accent-ink)}
   @media print{
-    #progress,.backtop,.filterbar,.no-print{display:none !important}
+    #progress,.backtop,.filterbar,.no-print,.topnav{display:none !important}
     body{background:#fff;color:#000;font-size:11pt}
     .masthead{background:#fff;color:#000;border-bottom:2px solid #000}
     .masthead h1,.masthead .subtitle,.masthead .meta{color:#000}
@@ -179,6 +185,18 @@
     </div>
   </div>
 </header>
+
+<nav class="topnav" aria-label="Sections">
+  <div class="topnav-inner">
+    <a href="#first-principles">Start here</a>
+    <a href="#directory">Resources</a>
+    <a href="#catalog">Catalog</a>
+    <a href="#turnkey-vs-selfbuild">Turnkey</a>
+    <a href="#selfbuild">Self-build</a>
+    <a href="#setup">Setup</a>
+    <a href="#glossary">Glossary</a>
+  </div>
+</nav>
 
 <div class="wrap">
 <main id="main">
@@ -1578,6 +1596,25 @@
   onScroll();
   var bt = document.getElementById('backtop');
   if(bt){ bt.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); }); }
+
+  // Sticky nav scrollspy
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.topnav a'));
+  if(navLinks.length){
+    var navItems = navLinks.map(function(a){
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      return { link: a, el: el };
+    }).filter(function(x){ return x.el; });
+    function updateNav(){
+      var current = navItems[0].link;
+      for(var i=0;i<navItems.length;i++){
+        if(navItems[i].el.getBoundingClientRect().top <= 140){ current = navItems[i].link; }
+      }
+      navLinks.forEach(function(a){ a.classList.remove('active'); });
+      if(current){ current.classList.add('active'); }
+    }
+    window.addEventListener('scroll', updateNav, {passive:true});
+    updateNav();
+  }
 
   // Catalog filter + sort
   var search = document.getElementById('cat-search');
