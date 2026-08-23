@@ -308,6 +308,7 @@
       <li><a href="#selfbuild"><span class="toc-num">06</span>Self-build guide (6 builds)</a></li>
       <li><a href="#setup"><span class="toc-num">07</span>Meshtastic setup guide</a></li>
       <li style="padding-left:2.2rem"><a href="#roles"><span class="toc-num">07.1</span>Mesh roles &amp; modes</a></li>
+      <li style="padding-left:2.2rem"><a href="#finding-networks"><span class="toc-num">07.2</span>Finding networks &amp; meeting people</a></li>
       <li><a href="#glossary"><span class="toc-num">08</span>Glossary</a></li>
       <li><a href="#sources"><span class="toc-num">09</span>Sources &amp; citations</a></li>
     </ol>
@@ -1332,6 +1333,20 @@
   <h3>Creating a simple local mesh</h3>
   <p>Two or more nodes on the <strong>same region and same channel key</strong> automatically form a mesh. No hub required. Send a test message and watch for the “ACK” receipt; each node re-broadcasts, so adding nodes between endpoints extends reach <a href="#s6">[6]</a>.</p>
 
+  <h3 id="finding-networks">Finding existing networks &amp; talking to people nearby</h3>
+  <p>Your own nodes are the easy part. Meeting other people takes a few extra steps.</p>
+  <ol class="steps">
+    <li><h4>Stay on the default channel</h4>Meshtastic ships with a primary channel named <strong>LongFast</strong> and a shared default encryption key. Anyone in radio range on your band and region who has not changed that key can see your messages and reply. It is the public commons, on purpose.</li>
+    <li><h4>Deploy, then check the node list</h4>Power a node on the default channel and open the app's <strong>Nodes</strong> list. Nearby nodes announce themselves periodically (NodeInfo broadcasts default to every 3 hours), so give it a few hours, not a few minutes <a href="#s66">[66]</a>.</li>
+    <li><h4>Read the map as a hint, not proof</h4>MeshMap and similar maps only show nodes that opted in. An empty map is not an empty area. See the maps section under <a href="#directory">Resource directory</a>.</li>
+    <li><h4>Join a local group</h4>The official <a href="https://meshtastic.org/docs/community/local-groups/">Local Groups directory</a> lists regional communities (Discord, Telegram, and Facebook groups) by country and city. That is the fastest way to learn your area's channels, etiquette, and scheduled nets <a href="#s67">[67]</a>. The main <a href="https://discord.gg/meshtastic">Discord</a> and <a href="https://reddit.com/r/meshtastic">r/meshtastic</a> are also good places to ask.</li>
+    <li><h4>Be a good neighbor</h4>Use a short, clear node name. Do not spam. The airtime is shared, and duty-cycle limited in the EU. If you can, put a relay somewhere high to help everyone, not just yourself.</li>
+  </ol>
+  <div class="note info"><span class="lbl">Going beyond radio range (optional)</span>
+    You can bridge a node to internet <strong>MQTT</strong> to see nodes and channels far beyond radio range. It is off by default and a privacy tradeoff, because your node can then appear on public maps. Turn it on only if you accept that.
+  </div>
+  <p class="small">No nodes nearby? Deploy anyway and be the first. Two nodes and one well-placed relay is the seed of a local mesh.</p>
+
   <h3>Range expectations &amp; the factors that move them</h3>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
     <li><strong>Typical:</strong> a few hundred meters through dense buildings; 1–5 km suburban; 5–20+ km with clear line-of-sight and decent antennas <a href="#s12">[12]</a>.</li>
@@ -1530,6 +1545,7 @@
     <li id="s64">Meshtastic Web Flasher. <a href="https://flasher.meshtastic.org/">https://flasher.meshtastic.org/</a></li>
     <li id="s65">Meshtastic Web Client. <a href="https://client.meshtastic.org/">https://client.meshtastic.org/</a></li>
     <li id="s66">Meshtastic Docs — Device Configuration (roles, rebroadcast modes, power-save behavior). <a href="https://meshtastic.org/docs/configuration/radio/device/">https://meshtastic.org/docs/configuration/radio/device/</a></li>
+    <li id="s67">Meshtastic Docs — Local Groups (regional community directory). <a href="https://meshtastic.org/docs/community/local-groups/">https://meshtastic.org/docs/community/local-groups/</a></li>
   </ol>
 </section>
 </main>
