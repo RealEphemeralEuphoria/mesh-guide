@@ -166,16 +166,16 @@
   <div class="masthead-inner">
     <p class="kicker">Independent research report &amp; field guide</p>
     <h1>Meshtastic Hardware Research Guide</h1>
-    <p class="subtitle">A current, evidence-based catalog and practical how-to for the Meshtastic LoRa mesh hardware ecosystem — turnkey devices, dev boards, radios, antennas, power, GPS, sensors, cases, and self-build paths.</p>
+    <p class="subtitle">A current, evidence-based catalog and practical how-to for the Meshtastic LoRa mesh hardware ecosystem: turnkey devices, dev boards, radios, antennas, power, GPS, sensors, cases, and self-build paths.</p>
     <div class="meta">
       <span><b>Research date:</b> 23 August 2026</span>
       <span><b>Last verified:</b> 23 August 2026 (time-sensitive items marked inline)</span>
-      <span><b>Regions covered:</b> Global — US / EU / UK / ANZ / Asia, with regional notes</span>
+      <span><b>Regions covered:</b> Global: US / EU / UK / ANZ / Asia, with regional notes</span>
     </div>
     <div class="disclaimer">
       <strong>Independent community resource.</strong> Not affiliated with, endorsed by, or sponsored by Meshtastic LLC.
       “Meshtastic®” is a registered trademark of Meshtastic LLC <a href="https://meshtastic.org/docs/legal/" style="color:#bfe5de">[7]</a>.
-      Radio regulations vary by country and change over time — always verify local rules before transmitting.
+      Radio regulations vary by country and change over time. Always verify local rules before transmitting.
     </div>
   </div>
 </header>
@@ -184,11 +184,11 @@
 <main id="main">
 
 <section id="first-principles">
-  <h2><span class="sec-num">★</span>Start here — what is Meshtastic, really?</h2>
-  <p class="lede">One sentence: Meshtastic is a bunch of small battery-powered radios that form their own private text-and-location network — no cell towers, no internet, no Wi-Fi. This is the plain-language version; the rest of the guide is the detail.</p>
+  <h2><span class="sec-num">★</span>Start here: what is Meshtastic, really?</h2>
+  <p class="lede">One sentence: Meshtastic is a bunch of small battery-powered radios that form their own private text-and-location network. No cell towers, no internet, no Wi-Fi. This section is the plain-language version; the rest of the guide is the detail.</p>
 
   <h3>The big idea: a bucket brigade</h3>
-  <p>Picture a row of people passing buckets from a lake to a fire — no single person walks the whole way, but together they move water for miles. Meshtastic does the same with <strong>messages</strong>. Each radio only reaches its neighbors, but when a radio hears a message it <strong>repeats it</strong> to the next radio, which repeats it to the next… so a message hops radio-to-radio across town. That repeating is the <strong>mesh</strong>.</p>
+  <p>Picture a row of people passing buckets from a lake to a fire. No single person walks the whole way, but together they move water for miles. Meshtastic does the same with <strong>messages</strong>. Each radio only reaches its neighbors, but when a radio hears a message it <strong>repeats it</strong> to the next radio, which repeats it to the next. So a message hops radio to radio across town. That repeating is the <strong>mesh</strong>.</p>
 
   <h3>The two jobs every device does</h3>
   <div class="grid grid-2">
@@ -201,53 +201,53 @@
     <div class="card" style="border-top:4px solid var(--blue)">
       <div class="tag-row"><span class="badge b-backer">ROUTER / CLIENT_MUTE</span><span class="badge b-cat">Carries everyone's messages</span></div>
       <h4>Relay / network devices</h4>
-      <p>Not for chatting — these are the workhorses. Bolt one to a <strong>roof, hilltop, tree, or tower</strong>, and it just listens and <strong>repeats every message it hears</strong>, so everyone's range gets longer. It's your own miniature cell tower — the “host” that propagates the signal.</p>
+      <p>Not for chatting. These are the workhorses. Bolt one to a <strong>roof, hilltop, tree, or tower</strong>, and it just listens and <strong>repeats every message it hears</strong>, so everyone's range gets longer. It's your own miniature cell tower: the “host” that propagates the signal.</p>
       <p class="small">Bucket-brigade version: the person in the middle who only passes buckets along.</p>
     </div>
   </div>
   <div class="note tip"><span class="lbl">The rule of thumb</span>
-    Two <strong>clients</strong> talk when they're close. Put a <strong>relay</strong> on the hill between them, and they can be miles apart — the relay hops the message along. <strong>Clients = you. Relays = the backbone.</strong> You usually want a few of both.
+    Two <strong>clients</strong> talk when they're close. Put a <strong>relay</strong> on the hill between them, and they can be miles apart, because the relay hops the message along. <strong>Clients = you. Relays = the backbone.</strong> You usually want a few of both.
   </div>
 
   <h3>How you get one</h3>
   <div class="grid grid-2">
     <div class="card">
       <h4>Buy it ready (turnkey)</h4>
-      <p>A finished device — case, battery, antenna, and brain already assembled, often pre-flashed. Charge, pair, set your region, go. <a href="#turnkey-vs-selfbuild">See the turnkey vs self-build breakdown →</a></p>
+      <p>A finished device: case, battery, antenna, and brain already assembled, often pre-flashed. Charge, pair, set your region, go. <a href="#turnkey-vs-selfbuild">See the turnkey vs self-build breakdown →</a></p>
     </div>
     <div class="card">
       <h4>Build it (self-build)</h4>
-      <p>Four parts + one software step: a <strong>board</strong> (brain + LoRa radio), an <strong>antenna</strong> (matched to your country's band), a <strong>battery</strong>, a <strong>case</strong> — then <strong>flash Meshtastic firmware</strong> and configure it. <a href="#selfbuild">See the six build guides →</a></p>
+      <p>Four parts plus one software step: a <strong>board</strong> (brain + LoRa radio), an <strong>antenna</strong> (matched to your country's band), a <strong>battery</strong>, and a <strong>case</strong>. Then <strong>flash Meshtastic firmware</strong> and configure it. <a href="#selfbuild">See the six build guides →</a></p>
     </div>
   </div>
   <div class="note info"><span class="lbl">The neat part</span>
-    The <em>same physical device</em> can be either job. You flip one setting — its <strong>role</strong> — to decide whether it's a <strong>CLIENT</strong> (you talk through it) or a <strong>ROUTER/relay</strong> (it carries everyone's messages). <a href="#roles">Read the mesh roles explainer →</a>
+    The <em>same physical device</em> can be either job. You flip one setting (its <strong>role</strong>) to decide whether it's a <strong>CLIENT</strong> (you talk through it) or a <strong>ROUTER/relay</strong> (it carries everyone's messages). <a href="#roles">Read the mesh roles explainer →</a>
   </div>
 
   <h3>Where to go next</h3>
   <ul>
-    <li><a href="#categories">Device categories &amp; form factors</a> — module vs dev board vs turnkey vs gateway, and handheld vs tracker vs relay.</li>
-    <li><a href="#roles">Mesh roles &amp; modes</a> — the exact client / relay / sensor settings and when to use each.</li>
-    <li><a href="#catalog">The full hardware catalog</a> — every device, filterable.</li>
-    <li><a href="#setup">The setup guide</a> — flashing, pairing, region, channels, range, and troubleshooting.</li>
+    <li><a href="#categories">Device categories &amp; form factors</a>: module vs dev board vs turnkey vs gateway, and handheld vs tracker vs relay.</li>
+    <li><a href="#roles">Mesh roles &amp; modes</a>: the exact client / relay / sensor settings and when to use each.</li>
+    <li><a href="#catalog">The full hardware catalog</a>: every device, filterable.</li>
+    <li><a href="#setup">The setup guide</a>: flashing, pairing, region, channels, range, and troubleshooting.</li>
   </ul>
 </section>
 
 <section id="exec-summary">
   <p class="small" style="margin:-.4rem 0 .8rem"><a href="#first-principles">New to Meshtastic? Read “Start here” first →</a></p>
   <h2><span class="sec-num">00</span>Executive summary</h2>
-  <p class="lede">Meshtastic turns inexpensive LoRa radios into a long-range, off-grid, encrypted text-and-GPS mesh that works without cell service or internet <a href="#s6">[6]</a>. The ecosystem has matured well beyond “boards that need assembly”: there is now a genuine tier of <strong>ready-to-use turnkey devices</strong> — IP-rated card trackers, handheld keyboard terminals, solar relays, and pre-flashed pocket nodes — that you can charge, pair to a phone, and use within minutes.</p>
+  <p class="lede">Meshtastic turns inexpensive LoRa radios into a long-range, off-grid, encrypted text-and-GPS mesh that works without cell service or internet <a href="#s6">[6]</a>. There is now a real tier of <strong>ready-to-use devices</strong>: IP-rated card trackers, handheld keyboard terminals, solar relays, and pre-flashed pocket nodes. Charge one, pair it to a phone, and you are on the air within minutes.</p>
   <div class="grid grid-2" style="margin-top:1.1rem">
     <div class="card">
       <h4>The shortest path to a working first node</h4>
-      <p>Buy a <strong>pre-flashed turnkey tracker</strong> (SenseCAP Card Tracker T1000-E, Heltec Mesh Node T1, or RAK WisMesh Tag), a <strong>WisMesh Pocket V2</strong>, or a <strong>Seeed Wio Tracker L1 Pro</strong>. Charge, pair over Bluetooth, set your region, and you are on the air — no soldering, no flashing.</p>
+      <p>Buy a <strong>pre-flashed turnkey tracker</strong> (SenseCAP Card Tracker T1000-E, Heltec Mesh Node T1, or RAK WisMesh Tag), a <strong>WisMesh Pocket V2</strong>, or a <strong>Seeed Wio Tracker L1 Pro</strong>. Charge it, pair over Bluetooth, set your region. No soldering, no flashing.</p>
     </div>
     <div class="card">
       <h4>The two decisions that matter most</h4>
-      <p><strong>1. Radio region</strong> — buy hardware for your country's band (US 915 MHz, EU 868 MHz, etc.) and set the matching software region. <strong>2. nRF52 vs ESP32</strong> — nRF52840 nodes sip power (ideal for solar/portable); ESP32 nodes add Wi-Fi and more RAM but drain batteries faster <a href="#s2">[2]</a>.</p>
+      <p><strong>1. Radio region:</strong> buy hardware for your country's band (US 915 MHz, EU 868 MHz, etc.) and set the matching software region. <strong>2. nRF52 vs ESP32:</strong> nRF52840 nodes sip power (ideal for solar and portable use); ESP32 nodes add Wi-Fi and more RAM but drain batteries faster <a href="#s2">[2]</a>.</p>
     </div>
     <div class="card">
-      <h4>Turnkey ≠ self-build — neither is automatically better</h4>
+      <h4>Turnkey ≠ self-build (neither is automatically better)</h4>
       <p>Turnkey devices trade flexibility for convenience and weatherproofing. Self-builds trade time for cost control and repairability. Both routes are mapped in full below, with six concrete build paths.</p>
     </div>
     <div class="card">
@@ -256,7 +256,7 @@
     </div>
   </div>
   <div class="note caution"><span class="lbl">Caution</span>
-    Never power a LoRa radio without an antenna attached — reflected RF can permanently damage the transmitter <a href="#s11">[11]</a>. Never transmit on a band or with a power level your local rules don't allow.
+    Never power a LoRa radio without an antenna attached. Reflected RF can permanently damage the transmitter <a href="#s11">[11]</a>. Never transmit on a band or with a power level your local rules don't allow.
   </div>
 </section>
 
@@ -266,7 +266,7 @@
     <div class="card">
       <h4>What was researched</h4>
       <ul style="margin:.4rem 0;padding-left:1.2rem">
-        <li>Official Meshtastic documentation — supported-hardware pages, getting-started, antennas, solar, legal <a href="#s2">[2]</a> <a href="#s3">[3]</a></li>
+        <li>Official Meshtastic documentation: supported-hardware pages, getting-started, antennas, solar, legal <a href="#s2">[2]</a> <a href="#s3">[3]</a></li>
         <li>Official Meshtastic GitHub repositories and community channels <a href="#s47">[47]</a></li>
         <li>Manufacturer product pages and stores (Seeed, RAK, LILYGO, Heltec, Elecrow, muzi, B&amp;Q Consulting, M5Stack) <a href="#s52">[52–61]</a></li>
         <li>US/EU retailer storefronts (Rokland, HexaSpot) and the MeshMap node directory <a href="#s51">[51]</a></li>
@@ -287,8 +287,8 @@
   <div class="note warn"><span class="lbl">Limitations</span>
     <ul style="margin:.3rem 0;padding-left:1.2rem">
       <li>Prices and stock were spot-checked on <b>23 Aug 2026</b>, primarily at RAKwireless, muzi works, and the B&amp;Q Consulting store. Seeed / LILYGO / Heltec / Elecrow / AliExpress / Amazon / Etsy prices were <b>not</b> re-verified live for every SKU; those are marked “≈ estimate — verify”.</li>
-      <li>Retailer listings, marketplace descriptions, and user reviews were <b>not</b> treated as authoritative for radio compliance or firmware support — those claims were checked against official docs or manufacturer datasheets wherever possible.</li>
-      <li>Mesh maps (e.g. MeshMap) are <b>voluntary and incomplete</b> — an empty area does not mean no active nodes are nearby.</li>
+      <li>Retailer listings, marketplace descriptions, and user reviews were <b>not</b> treated as authoritative for radio compliance or firmware support. Those claims were checked against official docs or manufacturer datasheets wherever possible.</li>
+      <li>Mesh maps (e.g. MeshMap) are <b>voluntary and incomplete</b>: an empty area does not mean no active nodes are nearby.</li>
       <li>Frequency-region legality is summarized for convenience only; it is not legal advice and varies by country and license class (unlicensed ISM vs licensed amateur operation).</li>
     </ul>
   </div>
@@ -297,7 +297,7 @@
   <div class="toc">
     <h2>On this page</h2>
     <ol>
-      <li><a href="#first-principles"><span class="toc-num">★</span>Start here — what is Meshtastic?</a></li>
+      <li><a href="#first-principles"><span class="toc-num">★</span>Start here: what is Meshtastic?</a></li>
       <li><a href="#exec-summary"><span class="toc-num">00</span>Executive summary</a></li>
       <li><a href="#scope"><span class="toc-num">01</span>Scope, method &amp; limitations</a></li>
       <li><a href="#directory"><span class="toc-num">02</span>Resource directory</a></li>
@@ -346,7 +346,7 @@
     </tbody>
   </table></div>
   <div class="note info"><span class="lbl">How to read a node map</span>
-    Meshtastic can optionally forward node positions to a public map over MQTT. This is <strong>opt-in</strong> and can be disabled for privacy. A sparse or empty map says nothing about real local activity — range-test locally before concluding an area is dead <a href="#s51">[51]</a>.
+    Meshtastic can optionally forward node positions to a public map over MQTT. This is <strong>opt-in</strong> and can be disabled for privacy. A sparse or empty map says nothing about real local activity. Range-test locally before concluding an area is dead <a href="#s51">[51]</a>.
   </div>
   <h3>Hardware manufacturers &amp; retailers</h3>
   <div class="tblwrap"><table>
@@ -397,10 +397,10 @@
 </section>
 <section id="catalog">
   <h2><span class="sec-num">03</span>Hardware catalog</h2>
-  <p class="lede">Every device or meaningful variant documented in this research. Use the filters to narrow by category or support status, search by name/chip/feature, and sort. <strong>Prices in USD, checked 23 Aug 2026</strong>; “≈” = estimate not re-verified live on that date — confirm at the linked store before buying.</p>
+  <p class="lede">Every device or meaningful variant documented in this research. Use the filters to narrow by category or support status, search by name/chip/feature, and sort. <strong>Prices in USD, checked 23 Aug 2026</strong>; “≈” means an estimate that was not re-verified live on that date. Confirm at the linked store before buying.</p>
 
   <h3 id="categories">Device categories &amp; form factors, explained</h3>
-  <p>Before the table, here is how to decode the ecosystem's labels — the “what am I even looking at” guide. The catalog below tags every entry with one of the first five categories; the form-factor list maps those categories to how you'll actually use the device.</p>
+  <p>Before the table, here is how to decode the ecosystem's labels: the “what am I even looking at” guide. The catalog below tags every entry with one of the first five categories. The form-factor list maps those categories to how you'll actually use the device.</p>
   <div class="tblwrap"><table>
     <caption>Device categories — what each label means in this guide and on storefronts.</caption>
     <thead><tr><th>Category</th><th>What it is</th><th>You must add</th><th>Examples</th></tr></thead>
@@ -856,7 +856,7 @@
     </tbody>
   </table></div>
   <div class="note info" style="margin-top:1rem"><span class="lbl">Reading the table</span>
-    <strong>Region</strong> lists the frequency variants a buyer must select. <strong>“≈” prices</strong> are estimates from typical listings and were <b>not</b> re-verified live on the research date — confirm at the linked store. RAK, muzi, and B&amp;Q prices were read from storefronts on 23 Aug 2026. “Documented” = listed on the official devices page without an explicit partner/backer label in the sources reviewed.
+    <strong>Region</strong> lists the frequency variants a buyer must select. <strong>“≈” prices</strong> are estimates from typical listings and were <b>not</b> re-verified live on the research date. Confirm at the linked store. RAK, muzi, and B&amp;Q prices were read from storefronts on 23 Aug 2026. “Documented” = listed on the official devices page without an explicit partner/backer label in the sources reviewed.
   </div>
 </section>
 <section id="turnkey-vs-selfbuild">
@@ -866,7 +866,7 @@
   <div class="grid grid-2">
     <div class="card">
       <h4>Turnkey</h4>
-      <p>A device that is <strong>ready to use (or nearly so)</strong> out of the box: board, radio, antenna, battery, and case are already integrated — often with Meshtastic pre-flashed. You charge it, pair it, set your region, and transmit. Little or no soldering, wiring, enclosure work, or component selection.</p>
+      <p>A device that is <strong>ready to use (or nearly so)</strong> out of the box: board, radio, antenna, battery, and case are already integrated, often with Meshtastic pre-flashed. You charge it, pair it, set your region, and transmit. Little or no soldering, wiring, enclosure work, or component selection.</p>
     </div>
     <div class="card">
       <h4>Self-build</h4>
@@ -929,7 +929,7 @@
     </div>
   </div>
   <div class="note warn"><span class="lbl">Two myths</span>
-    <strong>Turnkey does not mean fully configured</strong> — you must still set the LoRa region, name, and channel; pairing and app setup are on you. <strong>Self-build does not automatically mean cheaper or better</strong> — after antenna, battery, enclosure, tools, and mistakes, a scratch build can cost more than a turnkey device, and its radio performance depends on your workmanship.
+    <strong>Turnkey does not mean fully configured.</strong> You must still set the LoRa region, name, and channel; pairing and app setup are on you. <strong>Self-build does not automatically mean cheaper or better.</strong> After antenna, battery, enclosure, tools, and mistakes, a scratch build can cost more than a turnkey device, and its radio performance depends on your workmanship.
   </div>
 </section>
 <section id="most-turnkey">
@@ -959,14 +959,14 @@
     </tbody>
   </table></div>
   <div class="note info"><span class="lbl">What every turnkey buyer still does</span>
-    Regardless of ranking, plan on: <strong>(1)</strong> charging the device, <strong>(2)</strong> pairing over Bluetooth/USB, <strong>(3)</strong> setting the LoRa region, <strong>(4)</strong> naming the node, and <strong>(5)</strong> (for privacy) changing the channel PSK. A few devices still require a one-time firmware flash on arrival — marked “web-flash” above. Verify “pre-flashed” claims against the linked device page before buying <a href="#s2">[2]</a>.
+    Regardless of ranking, plan on: <strong>(1)</strong> charging the device, <strong>(2)</strong> pairing over Bluetooth/USB, <strong>(3)</strong> setting the LoRa region, <strong>(4)</strong> naming the node, and <strong>(5)</strong> (for privacy) changing the channel PSK. A few devices still require a one-time firmware flash on arrival, marked “web-flash” above. Verify “pre-flashed” claims against the linked device page before buying <a href="#s2">[2]</a>.
   </div>
 
   <h3>Evidence-based recommendations</h3>
   <p class="small">Criteria: verified specs from official docs <a href="#s2">[2]</a>, verified pricing where available, and suitability for the stated goal. These are <strong>recommendations/inference, not product endorsements</strong>.</p>
   <div class="grid grid-2">
     <div class="card rec"><div class="rec-title"><h4>🏆 Most turnkey / easiest first node</h4><span class="badge b-partner">Partner</span></div>
-      <p><strong>SenseCAP Card Tracker T1000-E</strong> (≈$40). Pre-flashed, IP65, GPS, magnetic charging — genuinely charge-and-go.</p>
+      <p><strong>SenseCAP Card Tracker T1000-E</strong> (≈$40). Pre-flashed, IP65, GPS, magnetic charging. Genuinely charge-and-go.</p>
       <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>Nothing to assemble or flash</li><li>IP65 + GPS built in</li></ul></div>
       <div class="c"><strong>Cons</strong><ul><li>LR1110 can't hear legacy SX127x nodes directly <a href="#s15">[15]</a></li><li>No display; phone required</li></ul></div></div>
     </div>
@@ -976,7 +976,7 @@
       <div class="c"><strong>Cons</strong><ul><li>ESP32 nodes use more power</li><li>Heltec route needs antenna + cell</li></ul></div></div>
     </div>
     <div class="card rec"><div class="rec-title"><h4>🌱 Best beginner-friendly node</h4><span class="badge b-partner">Partner</span></div>
-      <p><strong>RAK WisMesh Pocket V2</strong> ($89.97) — pre-flashed, OLED, GPS, 3200 mAh, USB-C. Or <strong>LILYGO T-Echo</strong> (≈$65) for a long-battery e-ink option.</p>
+      <p><strong>RAK WisMesh Pocket V2</strong> ($89.97): pre-flashed, OLED, GPS, 3200 mAh, USB-C. Or <strong>LILYGO T-Echo</strong> (≈$65) for a long-battery e-ink option.</p>
       <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>No assembly; visible screen feedback</li><li>Official docs + big community</li></ul></div>
       <div class="c"><strong>Cons</strong><ul><li>Costlier than bare boards</li><li>T-Echo needs firmware flash on arrival</li></ul></div></div>
     </div>
@@ -991,7 +991,7 @@
       <div class="c"><strong>Cons</strong><ul><li>P1 needs 4×18650 supplied by you</li><li>Fixed, not portable</li></ul></div></div>
     </div>
     <div class="card rec"><div class="rec-title"><h4>📡 Best fixed / base-station setup</h4><span class="badge b-backer">Backer</span></div>
-      <p><strong>B&amp;Q Station G3</strong> ($109, high power — licensed operation) for reach; <strong>RAK WisBlock Starter Kit</strong> ($23.99–$51.99) on house power for a reliable budget base.</p>
+      <p><strong>B&amp;Q Station G3</strong> ($109, high power, licensed operation) for reach; <strong>RAK WisBlock Starter Kit</strong> ($23.99–$51.99) on house power for a reliable budget base.</p>
       <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>Station G3: 35 dBm PA + LNA, SMA</li><li>WisBlock: modular, upgradeable</li></ul></div>
       <div class="c"><strong>Cons</strong><ul><li>High power may require a license</li><li>Station stock was thin on research date</li></ul></div></div>
     </div>
@@ -1006,7 +1006,7 @@
       <div class="c"><strong>Cons</strong><ul><li>More parts to buy and configure</li><li>BASE needs expansion board for GPS/display</li></ul></div></div>
     </div>
     <div class="card rec"><div class="rec-title"><h4>🔒 Best privacy-conscious / off-grid setup</h4><span class="badge b-partner">Partner</span></div>
-      <p>Any <strong>nRF52 node with Wi-Fi off and MQTT disabled</strong> — e.g. <strong>T1000-E</strong> or <strong>WisMesh Pocket V2</strong> — keeps traffic local to the mesh.</p>
+      <p>Any <strong>nRF52 node with Wi-Fi off and MQTT disabled</strong>, such as <strong>T1000-E</strong> or <strong>WisMesh Pocket V2</strong>, keeps traffic local to the mesh.</p>
       <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>No Wi-Fi radio = no cloud path</li><li>End-to-end AES channel encryption <a href="#s6">[6]</a></li></ul></div>
       <div class="c"><strong>Cons</strong><ul><li>Mesh traffic still re-broadcasts to all nodes on the channel</li><li>GPS position can be shared if you enable it</li></ul></div></div>
     </div>
@@ -1017,12 +1017,12 @@
     </div>
   </div>
   <div class="note info"><span class="lbl">How these were chosen</span>
-    Recommendations weigh: (1) official support status, (2) verified specs from the docs, (3) how much assembly/flashing remains, (4) availability on the research date, and (5) fit for the stated goal. They are <strong>inference</strong> — your budget, region, and license status should drive the final call. No affiliate or sponsored links appear anywhere in this guide.
+    Recommendations weigh: (1) official support status, (2) verified specs from the docs, (3) how much assembly/flashing remains, (4) availability on the research date, and (5) fit for the stated goal. They are <strong>inference</strong>. Your budget, region, and license status should drive the final call. No affiliate or sponsored links appear anywhere in this guide.
   </div>
 </section>
 <section id="selfbuild">
   <h2><span class="sec-num">06</span>Self-build guide</h2>
-  <p class="lede">Six practical build paths, from a $25 indoor node to a solar relay and a sensor automation node — plus the background you need to choose parts correctly. Costs are approximate USD (23 Aug 2026). All firmware/flash steps reference the official Meshtastic flasher and docs <a href="#s8">[8]</a> <a href="#s9">[9]</a>.</p>
+  <p class="lede">Six practical build paths, from a $25 indoor node to a solar relay and a sensor automation node. Plus the background you need to choose parts correctly. Costs are approximate USD (23 Aug 2026). All firmware/flash steps reference the official Meshtastic flasher and docs <a href="#s8">[8]</a> <a href="#s9">[9]</a>.</p>
   <div class="note caution"><span class="lbl">Read before building</span>
     Never power a LoRa radio without an antenna. Match the board's radio band to your region. Match battery chemistry to the board's charger. Verify pin/connector compatibility before ordering.
   </div>
@@ -1041,13 +1041,13 @@
     </tbody>
   </table></div>
   <ol class="steps">
-    <li><h4>Verify the cable</h4>Confirm your USB cable transfers <em>data</em>, not just charge — a charge-only cable will not flash <a href="#s3">[3]</a>.</li>
+    <li><h4>Verify the cable</h4>Confirm your USB cable transfers <em>data</em>, not just charge. A charge-only cable will not flash <a href="#s3">[3]</a>.</li>
     <li><h4>Attach the antenna</h4>Screw/tab the matched antenna on <em>before</em> powering the board.</li>
     <li><h4>Flash Meshtastic</h4>Open <a href="https://flasher.meshtastic.org/">flasher.meshtastic.org</a> in Chrome/Edge, pick your board, use “1200bps reset” for ESP32, and flash <a href="#s8">[8]</a>.</li>
     <li><h4>Configure</h4>Connect via the web client or phone app, set LoRa region, name, and channel (see §07).</li>
     <li><h4>Place high</h4>Put it near a window, away from the USB cable and metal; LoRa likes elevation and clear line of sight <a href="#s12">[12]</a>.</li>
   </ol>
-  <p><strong>Common mistakes:</strong> charge-only cable; transmitting before attaching antenna; buying a 433 MHz board for a 915 MHz region; using a USB-C→C cable on some Heltec boards (charging bug — use USB-A→C) <a href="#s34">[34]</a>.</p>
+  <p><strong>Common mistakes:</strong> charge-only cable; transmitting before attaching antenna; buying a 433 MHz board for a 915 MHz region; using a USB-C→C cable on some Heltec boards (charging bug; use USB-A→C) <a href="#s34">[34]</a>.</p>
 
   <h3 id="build2">Build 2 · Battery-powered portable node</h3>
   <p><strong>Use:</strong> a pocket/handheld node that runs for days on a cell. <strong>Skill:</strong> beginner–intermediate.</p>
@@ -1063,10 +1063,10 @@
     </tbody>
   </table></div>
   <ol class="steps">
-    <li><h4>Choose nRF52, not ESP32</h4>nRF52840 uses far less power — days-to-weeks of runtime vs a day or two for ESP32 <a href="#s2">[2]</a>.</li>
+    <li><h4>Choose nRF52, not ESP32</h4>nRF52840 uses far less power: days to weeks of runtime vs a day or two for ESP32 <a href="#s2">[2]</a>.</li>
     <li><h4>Wire the battery</h4>Use the correct JST connector; confirm polarity. Never solder directly to a cell.</li>
-    <li><h4>Flash via UF2</h4>nRF52/RP2040 devices appear as a USB drive — drag the <code>.uf2</code> file on (double-click RST for DFU) <a href="#s9">[9]</a>.</li>
-    <li><h4>Set fixed position or GPS</h4>Disable GPS if not needed — it is a major power drain; use a fixed position for a static node <a href="#s14">[14]</a>.</li>
+    <li><h4>Flash via UF2</h4>nRF52/RP2040 devices appear as a USB drive. Drag the <code>.uf2</code> file on (double-click RST for DFU) <a href="#s9">[9]</a>.</li>
+    <li><h4>Set fixed position or GPS</h4>Disable GPS if not needed. It is a major power drain; use a fixed position for a static node <a href="#s14">[14]</a>.</li>
     <li><h4>Field-test battery</h4>Run it a full day with your normal usage and note the drop before relying on it.</li>
   </ol>
   <p><strong>Common mistakes:</strong> picking ESP32 and being surprised by 1–2 day runtime; leaving GPS on with no need; using a protected/button-top 18650 in holders sized only for flat-tops <a href="#s28">[28]</a>.</p>
@@ -1159,7 +1159,7 @@
   <h3>Self-build background: choosing parts correctly</h3>
 
   <h4>How to choose a compatible board &amp; LoRa radio</h4>
-  <p>Start from the <a href="https://meshtastic.org/docs/hardware/devices/">official supported-hardware list</a> and pick a board whose <strong>MCU, radio chip, and frequency variant</strong> match your plan. Prefer the newer <strong>SX126x or LR11xx</strong> radios — they outperform and out-compat the older SX127x, which Meshtastic now recommends avoiding for new purchases <a href="#s2">[2]</a>. Then confirm the firmware target exists (check the device page's “firmware-…” filename) before buying.</p>
+  <p>Start from the <a href="https://meshtastic.org/docs/hardware/devices/">official supported-hardware list</a> and pick a board whose <strong>MCU, radio chip, and frequency variant</strong> match your plan. Prefer the newer <strong>SX126x or LR11xx</strong> radios. They outperform and out-compat the older SX127x, which Meshtastic now recommends avoiding for new purchases <a href="#s2">[2]</a>. Then confirm the firmware target exists (check the device page's “firmware-…” filename) before buying.</p>
 
   <h4>ESP32 vs nRF52 vs others</h4>
   <div class="tblwrap"><table>
@@ -1175,24 +1175,24 @@
   </table></div>
 
   <h4>Choosing a frequency band legally &amp; correctly</h4>
-  <p>Meshtastic's region codes map your country to an allowed band, duty cycle, and power limit — see the full table in <a href="#region-table">§07</a> and the <a href="https://meshtastic.org/docs/configuration/region-by-country/">region-by-country list</a> <a href="#s5">[5]</a>. Two rules: <strong>(1)</strong> buy hardware for the physical band (a 433 MHz or 470–510 MHz board can't be “flashed” into a 915 MHz radio), and <strong>(2)</strong> set the software region to match where you are — EU_868 enforces a 10% duty cycle and lower power that US 915 does not <a href="#s4">[4]</a>. High-power (1 W) setups are for licensed amateur operation in most places.</p>
+  <p>Meshtastic's region codes map your country to an allowed band, duty cycle, and power limit. See the full table in <a href="#region-table">§07</a> and the <a href="https://meshtastic.org/docs/configuration/region-by-country/">region-by-country list</a> <a href="#s5">[5]</a>. Two rules: <strong>(1)</strong> buy hardware for the physical band (a 433 MHz or 470–510 MHz board can't be “flashed” into a 915 MHz radio), and <strong>(2)</strong> set the software region to match where you are. EU_868 enforces a 10% duty cycle and lower power that US 915 does not <a href="#s4">[4]</a>. High-power (1 W) setups are for licensed amateur operation in most places.</p>
 
   <h4>Battery chemistry, charging, protection &amp; safety</h4>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
     <li><strong>Li-ion (18650/21700):</strong> 3.7 V nominal, 4.2 V full. Match the board's charger (many charge Li-ion only). Use flat-top cells in T-Beam-style holders (protected/button-top are too long) <a href="#s28">[28]</a>.</li>
-    <li><strong>LiPo:</strong> pouch cells; easy to shape, easier to puncture — always protect and cushion them.</li>
+    <li><strong>LiPo:</strong> pouch cells; easy to shape, easier to puncture. Always protect and cushion them.</li>
     <li><strong>LiFePO4:</strong> 3.2 V nominal, safer and better in heat, but only on boards that support it (e.g. muzi BASE) <a href="#s42">[42]</a>.</li>
     <li><strong>Protection:</strong> use protected cells or an external PCM; never solder directly to a cell; never charge a frozen Li-ion.</li>
     <li><strong>Safety:</strong> buy cells from reputable vendors with datasheets; an unbranded “9999 mAh” 18650 is a red flag.</li>
   </ul>
 
   <h4>USB vs solar power</h4>
-  <p>USB is simplest and most reliable for indoor/fixed nodes. Solar is only worth it when you <strong>measure</strong> consumption first (see <a href="#build4">Build 4</a>) and size the panel with real winter/sun-hours margin — a 5 W panel on a low-power nRF52 node is the common sweet spot <a href="#s14">[14]</a>. ESP32 nodes generally make poor solar candidates without a much bigger panel.</p>
+  <p>USB is simplest and most reliable for indoor/fixed nodes. Solar is only worth it when you <strong>measure</strong> consumption first (see <a href="#build4">Build 4</a>) and size the panel with real winter/sun-hours margin. A 5 W panel on a low-power nRF52 node is the common sweet spot <a href="#s14">[14]</a>. ESP32 nodes generally make poor solar candidates without a much bigger panel.</p>
   <h4>Antenna: type, gain, cable loss, connectors, placement</h4>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
     <li><strong>Match the band.</strong> A 915 MHz antenna on an 868 MHz radio (or vice-versa) loses significant range. Cheap “universal” antennas are often mistuned <a href="#s12">[12]</a>.</li>
     <li><strong>Type:</strong> quarter-wave stubby (pocketable, ~couple km), half-wave whip (better, conspicuous), omni base (5–8 dBi for fixed), directional Yagi (point-to-point only) <a href="#s11">[11]</a>.</li>
-    <li><strong>Gain ≠ always better.</strong> High gain omni flattens the pattern — good on flat ground, bad on hills. Beware “huge gain” marketing without a datasheet <a href="#s12">[12]</a>.</li>
+    <li><strong>Gain ≠ always better.</strong> High gain omni flattens the pattern: good on flat ground, bad on hills. Beware “huge gain” marketing without a datasheet <a href="#s12">[12]</a>.</li>
     <li><strong>Connectors:</strong> boards use SMA, RP-SMA, or U.FL/IPEX. Buy the matching pigtail; U.FL is fragile — strain-relieve it.</li>
     <li><strong>Cable loss:</strong> keep coax short and use low-loss cable; it's often better to move the whole node outside than run long coax indoors <a href="#s11">[11]</a>.</li>
     <li><strong>Placement:</strong> vertical, clear of metal and the human body, as high as possible. Check SWR with a NanoVNA if you can (<$100) <a href="#s12">[12]</a>.</li>
@@ -1201,15 +1201,15 @@
   <h4>GPS, displays, sensors, buttons &amp; other add-ons</h4>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
     <li><strong>GPS/GNSS:</strong> great for trackers; a real power drain. Use smart-position updates or a fixed position for static nodes <a href="#s14">[14]</a>.</li>
-    <li><strong>Displays:</strong> OLED (cheap, bright, draws power) vs e-ink (readable, near-zero idle power, slower) — pick for your use <a href="#s2">[2]</a>.</li>
+    <li><strong>Displays:</strong> OLED (cheap, bright, draws power) vs e-ink (readable, near-zero idle power, slower). Pick for your use <a href="#s2">[2]</a>.</li>
     <li><strong>Sensors:</strong> RAK1901/1902/1906 and Grove I²C sensors are the easy path; confirm I²C address/pin conflicts.</li>
-    <li><strong>Buttons/buzzer/LED:</strong> useful for pings, alerts, and mute — many turnkey trackers use press-patterns (double = position ping, triple = toggle GPS) <a href="#s15">[15]</a>.</li>
+    <li><strong>Buttons/buzzer/LED:</strong> useful for pings, alerts, and mute. Many turnkey trackers use press-patterns (double = position ping, triple = toggle GPS) <a href="#s15">[15]</a>.</li>
   </ul>
 
   <h4>Enclosures, strain relief, waterproofing, heat &amp; condensation</h4>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
     <li>Use IP65+ boxes for outdoors; glands + drip loops + desiccant for moisture; a small vent or breather to avoid condensation cycling.</li>
-    <li>Solar panels and black boxes bake in sun — allow airflow and keep batteries out of direct heat.</li>
+    <li>Solar panels and black boxes bake in sun. Allow airflow and keep batteries out of direct heat.</li>
     <li>Strain-relieve every connector (U.FL especially); hot-glue or cable-tie inside the box.</li>
     <li>Mount antennas above the enclosure and away from metal roofs/towers.</li>
   </ul>
@@ -1233,8 +1233,8 @@
   </ul>
 
   <div class="note caution"><span class="lbl">Two hard warnings</span>
-    <strong>1.</strong> Never transmit without an antenna — reflected power can destroy the radio's final amplifier <a href="#s11">[11]</a>.
-    <strong>2.</strong> Never run frequency-mismatched hardware — an 868 MHz radio with a 915 MHz antenna (or wrong region setting) is both illegal and performs badly <a href="#s4">[4]</a>.
+    <strong>1.</strong> Never transmit without an antenna. Reflected power can destroy the radio's final amplifier <a href="#s11">[11]</a>.
+    <strong>2.</strong> Never run frequency-mismatched hardware. An 868 MHz radio with a 915 MHz antenna (or wrong region setting) is both illegal and performs badly <a href="#s4">[4]</a>.
   </div>
 </section>
 <section id="setup">
@@ -1244,16 +1244,16 @@
   <h3>What Meshtastic is — and its core limitations</h3>
   <p>Meshtastic is open-source firmware that turns LoRa radios into a <strong>long-range, off-grid, encrypted text-and-GPS mesh</strong> with no cell or internet dependency. Each node relays messages for others, and you pair a phone/PC over Bluetooth, Wi-Fi, or USB <a href="#s6">[6]</a>. Real-world caveats to internalize:</p>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
-    <li><strong>Low bandwidth, small messages</strong> — short text and telemetry, not voice, photos, or video.</li>
-    <li><strong>Best-effort delivery</strong> — no guaranteed delivery; reliability depends on node density and terrain.</li>
+    <li><strong>Low bandwidth, small messages</strong>: short text and telemetry, not voice, photos, or video.</li>
+    <li><strong>Best-effort delivery</strong>: no guaranteed delivery; reliability depends on node density and terrain.</li>
     <li><strong>One phone per node</strong> at a time <a href="#s6">[6]</a>.</li>
-    <li><strong>Range varies wildly</strong> — meters indoors to tens of km line-of-sight; the community record is ~331 km from a high-altitude link <a href="#s6">[6]</a>.</li>
+    <li><strong>Range varies wildly</strong>: meters indoors to tens of km line-of-sight; the community record is ~331 km from a high-altitude link <a href="#s6">[6]</a>.</li>
   </ul>
 
   <h3>Legal / regional frequency, duty cycle &amp; power</h3>
-  <p>Meshtastic uses license-free ISM bands in most regions, but <strong>the band, power limit, and duty cycle differ by country</strong>, and some countries allow more power only under an amateur license. Set your software region to where you physically are — not where you bought the device.</p>
+  <p>Meshtastic uses license-free ISM bands in most regions, but <strong>the band, power limit, and duty cycle differ by country</strong>, and some countries allow more power only under an amateur license. Set your software region to where you physically are. Not where you bought the device.</p>
   <div class="note warn"><span class="lbl">Verify before transmitting</span>
-    This table summarizes Meshtastic's region settings <a href="#s4">[4]</a> and the community-maintained country list <a href="#s5">[5]</a>. It is <strong>not legal advice</strong> — check your national regulator (e.g. FCC for the US, Ofcom for the UK, ACMA for Australia) before keying up.
+    This table summarizes Meshtastic's region settings <a href="#s4">[4]</a> and the community-maintained country list <a href="#s5">[5]</a>. It is <strong>not legal advice</strong>. Check your national regulator (e.g. FCC for the US, Ofcom for the UK, ACMA for Australia) before keying up.
   </div>
   <div class="tblwrap" id="region-table"><table>
     <caption>Meshtastic LoRa region codes (frequency, duty cycle, power limit). Source: official docs <a href="#s4">[4]</a>.</caption>
@@ -1279,10 +1279,10 @@
       <tr><td><strong>UA_433 / KZ_433 / MY_433 / PH_433 / ANZ_433 / KZ_863 / NP_865</strong></td><td>Other 433 / 863 / 865 variants</td><td>433–435 / 863–868 / 865–868</td><td>varies</td><td>10–30</td></tr>
     </tbody>
   </table></div>
-  <p class="tiny">EU_433 and EU_868 enforce a 10% hourly duty cycle calculated on a rolling 1-hour basis — the device stops transmitting if exceeded <a href="#s4">[4]</a>.</p>
+  <p class="tiny">EU_433 and EU_868 enforce a 10% hourly duty cycle calculated on a rolling 1-hour basis. The device stops transmitting if exceeded <a href="#s4">[4]</a>.</p>
 
   <h3>Selecting correct frequency-region hardware</h3>
-  <p>Match the physical radio to your band at purchase time — this is not changeable in software. US/ANZ/BR: 902–928 MHz. EU/UK/IN/RU: 868 MHz (or 433 in some EU cases). CN: 470–510 MHz. JP/KR/TW/TH/SG/MY: 920–925 MHz. Then set the matching software region code from the table above <a href="#s4">[4]</a> <a href="#s5">[5]</a>.</p>
+  <p>Match the physical radio to your band at purchase time. This is not changeable in software. US/ANZ/BR: 902–928 MHz. EU/UK/IN/RU: 868 MHz (or 433 in some EU cases). CN: 470–510 MHz. JP/KR/TW/TH/SG/MY: 920–925 MHz. Then set the matching software region code from the table above <a href="#s4">[4]</a> <a href="#s5">[5]</a>.</p>
 
   <h3>What to buy for a two-person starter setup</h3>
   <div class="tblwrap"><table>
@@ -1295,7 +1295,7 @@
       <tr><td>Optional better antennas</td><td>2</td><td>Matched-band whip</td><td>≈$10–20</td></tr>
     </tbody>
   </table></div>
-  <p class="small">Two identical-band nodes is the single most important detail — mismatched bands simply won't hear each other <a href="#s12">[12]</a>.</p>
+  <p class="small">Two identical-band nodes is the single most important detail. Mismatched bands simply won't hear each other <a href="#s12">[12]</a>.</p>
   <h3>Flashing / installing Meshtastic firmware</h3>
   <ol class="steps">
     <li><h4>Verify your cable</h4>Charge-only cables won't flash. Test file transfer on another device first <a href="#s3">[3]</a>.</li>
@@ -1324,20 +1324,20 @@
 
   <h3>Antenna selection, placement &amp; safe handling</h3>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
-    <li>Start with the stock antenna; upgrade only if range is inadequate — a <strong>matched-band</strong> quarter-wave or half-wave whip is the standard first upgrade <a href="#s12">[12]</a>.</li>
+    <li>Start with the stock antenna; upgrade only if range is inadequate. A <strong>matched-band</strong> quarter-wave or half-wave whip is the standard first upgrade <a href="#s12">[12]</a>.</li>
     <li>Keep it vertical, clear of metal and your body; elevation and line-of-sight dominate range <a href="#s11">[11]</a>.</li>
     <li>Never transmit without an antenna; don't hold/transmit against metal surfaces.</li>
   </ul>
 
   <h3>Creating a simple local mesh</h3>
-  <p>Two or more nodes on the <strong>same region and same channel key</strong> automatically form a mesh — no hub required. Send a test message and watch for the “ACK” receipt; each node re-broadcasts, so adding nodes between endpoints extends reach <a href="#s6">[6]</a>.</p>
+  <p>Two or more nodes on the <strong>same region and same channel key</strong> automatically form a mesh. No hub required. Send a test message and watch for the “ACK” receipt; each node re-broadcasts, so adding nodes between endpoints extends reach <a href="#s6">[6]</a>.</p>
 
   <h3>Range expectations &amp; the factors that move them</h3>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
     <li><strong>Typical:</strong> a few hundred meters through dense buildings; 1–5 km suburban; 5–20+ km with clear line-of-sight and decent antennas <a href="#s12">[12]</a>.</li>
     <li><strong>Helps:</strong> height, clear Fresnel zone, matched antennas, higher spreading factor (at cost of speed).</li>
     <li><strong>Hurts:</strong> walls/foliage/hills, antenna mismatch, long lossy coax, noise (near LTE towers), weather.</li>
-    <li><strong>Verify with the range-test module</strong> — one node transmits repeatedly, another logs reception <a href="#s12">[12]</a>.</li>
+    <li><strong>Verify with the range-test module</strong>: one node transmits repeatedly, another logs reception <a href="#s12">[12]</a>.</li>
   </ul>
   <h3 id="roles">Mesh roles &amp; modes, explained</h3>
   <p>A node's <strong>role</strong> controls how it relays and what it prioritizes. The default <code>CLIENT</code> is right for almost everyone; the others exist for infrastructure and specialized trackers/sensors <a href="#s66">[66]</a>.</p>
@@ -1358,15 +1358,15 @@
     </tbody>
   </table></div>
   <div class="note warn"><span class="lbl">Deprecated roles</span>
-    <strong>ROUTER_CLIENT</strong> was deprecated in firmware 2.3.15; <strong>REPEATER</strong> (the old “not shown in nodes list” relay) is deprecated as of firmware 2.7.11 — use <strong>ROUTER</strong> instead <a href="#s66">[66]</a>.
+    <strong>ROUTER_CLIENT</strong> was deprecated in firmware 2.3.15; <strong>REPEATER</strong> (the old “not shown in nodes list” relay) is deprecated as of firmware 2.7.11. Use <strong>ROUTER</strong> instead <a href="#s66">[66]</a>.
   </div>
   <h4>Practical role rules of thumb</h4>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
-    <li><strong>Default CLIENT</strong> — you almost never need to change it.</li>
-    <li><strong>ROUTER for infrastructure only</strong> — battery-hungry, and on ESP32 it disables BLE/Wi-Fi/serial by default, so reconfigure via an admin channel or temporarily switch role. Use mains or a correctly-sized solar setup <a href="#s66">[66]</a>.</li>
-    <li><strong>CLIENT_MUTE</strong> — a discreet relay that won't re-broadcast others' traffic (reduces network load).</li>
-    <li><strong>CLIENT_BASE</strong> — place one in your attic/roof and favorite your indoor nodes so it prioritizes their packets.</li>
-    <li><strong>TRACKER / SENSOR</strong> — special sleep behavior tied to their broadcast intervals; the radio does not sit in standby listening between intervals <a href="#s66">[66]</a>.</li>
+    <li><strong>Default CLIENT:</strong> you almost never need to change it.</li>
+    <li><strong>ROUTER for infrastructure only:</strong> battery-hungry, and on ESP32 it disables BLE/Wi-Fi/serial by default, so reconfigure via an admin channel or temporarily switch role. Use mains or a correctly-sized solar setup <a href="#s66">[66]</a>.</li>
+    <li><strong>CLIENT_MUTE:</strong> a discreet relay that won't re-broadcast others' traffic (reduces network load).</li>
+    <li><strong>CLIENT_BASE:</strong> place one in your attic/roof and favorite your indoor nodes so it prioritizes their packets.</li>
+    <li><strong>TRACKER / SENSOR:</strong> special sleep behavior tied to their broadcast intervals; the radio does not sit in standby listening between intervals <a href="#s66">[66]</a>.</li>
   </ul>
   <h4>Rebroadcast modes</h4>
   <p>A second setting controls which packets a node re-sends: <code>ALL</code> (default), <code>LOCAL_ONLY</code> (only your channel's mesh), <code>KNOWN_ONLY</code> (only known node IDs), <code>NONE</code> (sensor/tracker/TAK-tracker only), <code>ALL_SKIP_DECODING</code> (repeater only), and <code>CORE_PORTNUMS_ONLY</code> (standard packet types only) <a href="#s66">[66]</a>.</p>
@@ -1374,7 +1374,7 @@
   <p class="small">New to this? The plain-language version of client vs relay is in <a href="#first-principles">Start here</a>.</p>
 
   <h3>Setting up a relay / router node</h3>
-  <p>A relay sits at a high point and re-broadcasts for everyone. Flash it, set region, set a fixed position (no GPS needed), and choose the role from the table above: <code>ROUTER</code> (always relays, battery-hungry — use house/solar power) for a visible relay, or <code>CLIENT_MUTE</code> for a low-profile relay that stays out of the way. Place it high with a good antenna and validate coverage by walking the area <a href="#s12">[12]</a>.</p>
+  <p>A relay sits at a high point and re-broadcasts for everyone. Flash it, set region, set a fixed position (no GPS needed), and choose the role from the table above: <code>ROUTER</code> (always relays, battery-hungry; use house/solar power) for a visible relay, or <code>CLIENT_MUTE</code> for a low-profile relay that stays out of the way. Place it high with a good antenna and validate coverage by walking the area <a href="#s12">[12]</a>.</p>
 
   <h3>Solar &amp; battery planning basics</h3>
   <ol class="steps">
@@ -1387,7 +1387,7 @@
 
   <h3>Security, privacy, channels &amp; encryption</h3>
   <ul style="margin:.4rem 0;padding-left:1.3rem">
-    <li>Messages are <strong>AES-encrypted</strong> on the channel key; the default public channel uses a well-known key — anyone on it can read you <a href="#s6">[6]</a>.</li>
+    <li>Messages are <strong>AES-encrypted</strong> on the channel key; the default public channel uses a well-known key. Anyone on it can read you <a href="#s6">[6]</a>.</li>
     <li>For a private group, set a <strong>unique channel name + PSK</strong> on every member node. Change it regularly; don't share it publicly.</li>
     <li>Disable <strong>position sharing / MQTT uplink</strong> if you don't want your location on public maps <a href="#s51">[51]</a>.</li>
     <li>Note: encryption protects confidentiality, not metadata (timing, signal, and relay paths are observable), and the project documents these limits honestly <a href="#s7">[7]</a>.</li>
@@ -1537,7 +1537,7 @@
 
 <footer>
   <div class="inner">
-    <p><strong>Meshtastic Hardware Research Guide</strong> — independent community resource. Not affiliated with or endorsed by Meshtastic LLC. “Meshtastic®” is a registered trademark of Meshtastic LLC <a href="https://meshtastic.org/docs/legal/">[7]</a>.</p>
+    <p><strong>Meshtastic Hardware Research Guide</strong>: independent community resource. Not affiliated with or endorsed by Meshtastic LLC. “Meshtastic®” is a registered trademark of Meshtastic LLC <a href="https://meshtastic.org/docs/legal/">[7]</a>.</p>
     <p>Research date: <b>23 August 2026</b> · Time-sensitive data (prices, availability) last verified: <b>23 August 2026</b>. Specs reflect the official Meshtastic documentation as of that date and may change with firmware releases.</p>
     <p class="tiny">Radio regulations vary by country and license class and change over time. Verify local rules before transmitting. Prices marked “≈” are estimates that were not re-verified live on the research date. No affiliate or sponsored links are present. This document is not legal, electrical-safety, or RF-engineering advice.</p>
   </div>
