@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Independent, evidence-based research report and practical how-to guide on the Meshtastic hardware ecosystem: turnkey devices, dev boards, radios, antennas, power, GPS, sensors, cases, and self-build paths.">
+<title>Meshtastic Hardware Research Guide · Turnkey, Self-Build &amp; Buyer Reference</title>
+<style>
+  :root{
+    --bg:#f6f5f2; --surface:#ffffff; --surface-2:#fbfaf8;
+    --ink:#1b2025; --muted:#5b6672; --faint:#8a94a0;
+    --border:#e4e1da; --border-strong:#cfcbc1;
+    --accent:#0d7266; --accent-strong:#0a5b52; --accent-ink:#ffffff; --accent-soft:#e1f0ed;
+    --amber:#a16207; --amber-soft:#fef3df; --amber-border:#eccd8f;
+    --blue:#1d5f8f;  --blue-soft:#e9f2f9;  --blue-border:#b5d3ea;
+    --red:#b42318;   --red-soft:#fdeeec;   --red-border:#f0b8b0;
+    --green:#187038; --green-soft:#e6f4ea; --green-border:#b5ddc0;
+    --purple:#6b3fa0;--purple-soft:#f1ebf8; --purple-border:#d5c4ea;
+    --gray:#59606a;  --gray-soft:#eef0f2;  --gray-border:#d4d8dd;
+    --shadow-sm:0 1px 2px rgba(20,24,28,.06),0 1px 3px rgba(20,24,28,.08);
+    --shadow-md:0 4px 12px rgba(20,24,28,.08),0 2px 4px rgba(20,24,28,.06);
+    --radius:12px; --radius-sm:8px; --maxw:1180px;
+    --mono:"SFMono-Regular",ui-monospace,Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#121518; --surface:#1b1f23; --surface-2:#181c20;
+      --ink:#e7e5e0; --muted:#a6adb6; --faint:#7d8590;
+      --border:#2d333a; --border-strong:#3d454e;
+      --accent:#2aa89a; --accent-strong:#4ac0b2; --accent-ink:#06231f; --accent-soft:#122b28;
+      --amber:#e3b04b; --amber-soft:#2c2413; --amber-border:#5d4a1e;
+      --blue:#74b1e4;  --blue-soft:#14232f;  --blue-border:#2b4860;
+      --red:#ef8b80;   --red-soft:#2c1a18;   --red-border:#62312c;
+      --green:#6fc98b; --green-soft:#16281c; --green-border:#2f5a3d;
+      --purple:#bd9be6;--purple-soft:#241a33; --purple-border:#4a3960;
+      --gray:#a6adb6;  --gray-soft:#21262b;  --gray-border:#3a4148;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+      --shadow-md:0 4px 14px rgba(0,0,0,.5);
+    }
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+  body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.62; font-size:16px; text-rendering:optimizeLegibility}
+  a{color:var(--accent); text-underline-offset:2px; text-decoration-thickness:1px}
+  a:hover{color:var(--accent-strong)}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent); outline-offset:2px; border-radius:3px}
+  .skip-link{position:absolute;left:-999px;top:0;background:var(--accent);color:var(--accent-ink);padding:.6rem 1rem;z-index:1000;border-radius:0 0 8px 0;font-weight:600}
+  .skip-link:focus{left:0}
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:999;transition:width .08s linear}
+  .masthead{background:linear-gradient(180deg,#0e2a26 0%,#12332e 60%,#15403a 100%);color:#eaf3f1;border-bottom:1px solid #1d4b44}
+  .masthead-inner{max-width:var(--maxw);margin:0 auto;padding:2.6rem 1.25rem 2.2rem}
+  .masthead .kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#8fc4bb;font-weight:600;margin:0 0 .6rem}
+  .masthead h1{font-size:clamp(1.7rem,4.4vw,2.6rem);line-height:1.15;margin:0 0 .7rem;font-weight:800;letter-spacing:-.01em;color:#fff}
+  .masthead .subtitle{font-size:clamp(1rem,2.2vw,1.18rem);color:#cfe3df;max-width:56rem;margin:0 0 1.1rem}
+  .masthead .meta{display:flex;flex-wrap:wrap;gap:.5rem .9rem;font-size:.86rem;color:#a9c8c1}
+  .masthead .meta b{color:#eaf3f1;font-weight:600}
+  .disclaimer{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-sm);padding:.7rem .9rem;font-size:.86rem;color:#cfe3df;max-width:56rem;margin-top:1rem}
+  .disclaimer strong{color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.25rem}
+  main{padding:1.6rem 0 4rem}
+  section{margin:0 0 3.4rem}
+  h2{font-size:1.65rem;line-height:1.2;margin:0 0 .9rem;font-weight:750;letter-spacing:-.01em;padding-top:.4rem}
+  h3{font-size:1.2rem;margin:1.8rem 0 .7rem;font-weight:700}
+  h4{font-size:1.02rem;margin:1.4rem 0 .5rem;font-weight:650}
+  h2 .sec-num{color:var(--accent);margin-right:.5rem;font-variant-numeric:tabular-nums}
+  p{margin:.6rem 0}
+  .lede{font-size:1.08rem;color:var(--muted);max-width:62rem}
+  .small{font-size:.86rem;color:var(--muted)}
+  .tiny{font-size:.78rem}
+  .muted{color:var(--muted)}
+  hr{border:0;border-top:1px solid var(--border);margin:2.2rem 0}
+  .toc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem 1.5rem;box-shadow:var(--shadow-sm)}
+  .toc h2{font-size:1.15rem;margin:.2rem 0 1rem;padding-top:0}
+  .toc ol{list-style:none;margin:0;padding:0;columns:2;column-gap:2.5rem}
+  .toc li{margin:0 0 .55rem;break-inside:avoid}
+  .toc a{display:flex;gap:.55rem;text-decoration:none;color:var(--ink);font-size:.95rem;padding:.15rem .2rem;border-radius:5px}
+  .toc a:hover{color:var(--accent);background:var(--accent-soft)}
+  .toc .toc-num{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;min-width:1.6rem}
+  @media (max-width:720px){.toc ol{columns:1}}
+  .grid{display:grid;gap:1rem}
+  .grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .grid-3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.15rem 1.25rem;box-shadow:var(--shadow-sm)}
+  .card h4{margin:.1rem 0 .4rem}
+  .card p{margin:.4rem 0;font-size:.94rem}
+  .card ul{margin:.4rem 0}
+  .card .tag-row{display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0 .2rem}
+  .badge{display:inline-block;font-size:.74rem;font-weight:650;line-height:1;padding:.32em .6em;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+  .b-partner{background:var(--green-soft);color:var(--green);border-color:var(--green-border)}
+  .b-backer{background:var(--blue-soft);color:var(--blue);border-color:var(--blue-border)}
+  .b-supported{background:var(--accent-soft);color:var(--accent)}
+  .b-community{background:var(--amber-soft);color:var(--amber);border-color:var(--amber-border)}
+  .b-legacy{background:var(--gray-soft);color:var(--gray);border-color:var(--gray-border)}
+  .b-experimental{background:var(--purple-soft);color:var(--purple);border-color:var(--purple-border)}
+  .b-cat{background:var(--surface-2);color:var(--muted);border-color:var(--border)}
+  .note{border:1px solid var(--border);border-left:4px solid var(--muted);background:var(--surface-2);border-radius:var(--radius-sm);padding:.85rem 1rem;margin:1rem 0;font-size:.95rem}
+  .note .lbl{font-weight:700;text-transform:uppercase;font-size:.72rem;letter-spacing:.08em;display:block;margin-bottom:.25rem}
+  .note.info{border-left-color:var(--blue)} .note.info .lbl{color:var(--blue)}
+  .note.warn{border-left-color:var(--amber);background:var(--amber-soft)} .note.warn .lbl{color:var(--amber)}
+  .note.caution{border-left-color:var(--red);background:var(--red-soft)} .note.caution .lbl{color:var(--red)}
+  .note.tip{border-left-color:var(--green);background:var(--green-soft)} .note.tip .lbl{color:var(--green)}
+  .tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow-sm)}
+  table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:640px}
+  caption{caption-side:top;text-align:left;font-size:.8rem;color:var(--muted);padding:.7rem .9rem .35rem;font-style:italic}
+  th,td{padding:.6rem .7rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+  thead th{background:var(--surface-2);font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);position:sticky;top:0;border-bottom:2px solid var(--border-strong)}
+  tbody tr:nth-child(even){background:var(--surface-2)}
+  tbody tr:hover{background:var(--accent-soft)}
+  td .devname{font-weight:650}
+  td .sub{display:block;font-size:.8rem;color:var(--muted)}
+  .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .filterbar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem .9rem;margin:1rem 0 .8rem;box-shadow:var(--shadow-sm)}
+  .filterbar input[type=search]{flex:1 1 220px;min-width:180px;padding:.55rem .7rem;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);font-size:.94rem}
+  .filterbar select{padding:.55rem .6rem;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);font-size:.9rem;max-width:230px}
+  .filterbar button{padding:.55rem .9rem;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface-2);color:var(--ink);font-size:.9rem;cursor:pointer;font-weight:600}
+  .filterbar button:hover{border-color:var(--accent);color:var(--accent)}
+  .resultcount{font-size:.85rem;color:var(--muted);margin:0 .2rem .4rem}
+  .row-hidden{display:none}
+  .rec{border-top:4px solid var(--accent)}
+  .rec .rec-title{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
+  .rec .rec-title h4{margin:0}
+  .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.6rem;font-size:.9rem}
+  .pros-cons ul{margin:.2rem 0 0;padding-left:1.1rem}
+  .pros-cons .p{color:var(--green)} .pros-cons .c{color:var(--red)}
+  @media (max-width:560px){.pros-cons{grid-template-columns:1fr}}
+  ol.steps{counter-reset:step;list-style:none;padding:0;margin:1rem 0}
+  ol.steps>li{position:relative;padding:0 0 1.1rem 2.4rem;margin:0}
+  ol.steps>li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:.1rem;width:1.7rem;height:1.7rem;background:var(--accent);color:var(--accent-ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem}
+  ol.steps>li:not(:last-child)::after{content:"";position:absolute;left:.82rem;top:1.9rem;bottom:.1rem;width:2px;background:var(--border-strong)}
+  ol.steps h4{margin:.05rem 0 .3rem}
+  .glossary dl{display:grid;grid-template-columns:1fr;gap:.8rem}
+  .glossary dt{font-weight:700}
+  .glossary dd{margin:0 0 .6rem;color:var(--muted)}
+  @media (min-width:760px){.glossary dl{grid-template-columns:220px 1fr;gap:.6rem 1.4rem}.glossary dd{margin:0}}
+  .sources ol{font-size:.88rem;padding-left:1.4rem;color:var(--muted);columns:1}
+  .sources li{margin:.3rem 0;break-inside:avoid}
+  .sources a{word-break:break-all}
+  footer{background:var(--surface);border-top:1px solid var(--border);padding:2rem 1.25rem 3rem;margin-top:2rem}
+  footer .inner{max-width:var(--maxw);margin:0 auto;font-size:.86rem;color:var(--muted)}
+  .backtop{position:fixed;right:1rem;bottom:1rem;background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;width:2.6rem;height:2.6rem;font-size:1.1rem;cursor:pointer;box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transition:opacity .2s}
+  .backtop.show{opacity:1;pointer-events:auto}
+  @media print{
+    #progress,.backtop,.filterbar,.no-print{display:none !important}
+    body{background:#fff;color:#000;font-size:11pt}
+    .masthead{background:#fff;color:#000;border-bottom:2px solid #000}
+    .masthead h1,.masthead .subtitle,.masthead .meta{color:#000}
+    .masthead .kicker,.masthead .disclaimer{color:#333;border-color:#ccc}
+    .card,.toc,.tblwrap,.note,.filterbar{box-shadow:none;border:1px solid #ccc;background:#fff}
+    a{color:#000;text-decoration:underline}
+    .badge{border:1px solid #999;color:#000;background:#fff}
+    h2,h3{break-after:avoid}
+    .tblwrap{overflow:visible}
+    table{min-width:0;font-size:9.5pt}
+    tr,td,th{break-inside:avoid}
+    a[href]::after{content:" (" attr(href) ")";font-size:.8em;color:#444;word-break:break-all}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<div id="progress" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="kicker">Independent research report &amp; field guide</p>
+    <h1>Meshtastic Hardware Research Guide</h1>
+    <p class="subtitle">A current, evidence-based catalog and practical how-to for the Meshtastic LoRa mesh hardware ecosystem — turnkey devices, dev boards, radios, antennas, power, GPS, sensors, cases, and self-build paths.</p>
+    <div class="meta">
+      <span><b>Research date:</b> 23 August 2026</span>
+      <span><b>Last verified:</b> 23 August 2026 (time-sensitive items marked inline)</span>
+      <span><b>Regions covered:</b> Global — US / EU / UK / ANZ / Asia, with regional notes</span>
+    </div>
+    <div class="disclaimer">
+      <strong>Independent community resource.</strong> Not affiliated with, endorsed by, or sponsored by Meshtastic LLC.
+      “Meshtastic®” is a registered trademark of Meshtastic LLC <a href="https://meshtastic.org/docs/legal/" style="color:#bfe5de">[7]</a>.
+      Radio regulations vary by country and change over time — always verify local rules before transmitting.
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<main id="main">
+
+<section id="exec-summary">
+  <h2><span class="sec-num">00</span>Executive summary</h2>
+  <p class="lede">Meshtastic turns inexpensive LoRa radios into a long-range, off-grid, encrypted text-and-GPS mesh that works without cell service or internet <a href="#s6">[6]</a>. The ecosystem has matured well beyond “boards that need assembly”: there is now a genuine tier of <strong>ready-to-use turnkey devices</strong> — IP-rated card trackers, handheld keyboard terminals, solar relays, and pre-flashed pocket nodes — that you can charge, pair to a phone, and use within minutes.</p>
+  <div class="grid grid-2" style="margin-top:1.1rem">
+    <div class="card">
+      <h4>The shortest path to a working first node</h4>
+      <p>Buy a <strong>pre-flashed turnkey tracker</strong> (SenseCAP Card Tracker T1000-E, Heltec Mesh Node T1, or RAK WisMesh Tag), a <strong>WisMesh Pocket V2</strong>, or a <strong>Seeed Wio Tracker L1 Pro</strong>. Charge, pair over Bluetooth, set your region, and you are on the air — no soldering, no flashing.</p>
+    </div>
+    <div class="card">
+      <h4>The two decisions that matter most</h4>
+      <p><strong>1. Radio region</strong> — buy hardware for your country's band (US 915 MHz, EU 868 MHz, etc.) and set the matching software region. <strong>2. nRF52 vs ESP32</strong> — nRF52840 nodes sip power (ideal for solar/portable); ESP32 nodes add Wi-Fi and more RAM but drain batteries faster <a href="#s2">[2]</a>.</p>
+    </div>
+    <div class="card">
+      <h4>Turnkey ≠ self-build — neither is automatically better</h4>
+      <p>Turnkey devices trade flexibility for convenience and weatherproofing. Self-builds trade time for cost control and repairability. Both routes are mapped in full below, with six concrete build paths.</p>
+    </div>
+    <div class="card">
+      <h4>Scope &amp; honesty</h4>
+      <p>Documented here: <strong id="catalog-count">77</strong> devices/variants, <strong>16 turnkey devices</strong> ranked, <strong>6 self-build guides</strong>, and a beginner-to-intermediate setup guide. Prices marked “≈” are estimates needing verification; availability was spot-checked on the research date and changes fast.</p>
+    </div>
+  </div>
+  <div class="note caution"><span class="lbl">Caution</span>
+    Never power a LoRa radio without an antenna attached — reflected RF can permanently damage the transmitter <a href="#s11">[11]</a>. Never transmit on a band or with a power level your local rules don't allow.
+  </div>
+</section>
+
+<section id="scope">
+  <h2><span class="sec-num">01</span>Research scope, method &amp; limitations</h2>
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>What was researched</h4>
+      <ul style="margin:.4rem 0;padding-left:1.2rem">
+        <li>Official Meshtastic documentation — supported-hardware pages, getting-started, antennas, solar, legal <a href="#s2">[2]</a> <a href="#s3">[3]</a></li>
+        <li>Official Meshtastic GitHub repositories and community channels <a href="#s47">[47]</a></li>
+        <li>Manufacturer product pages and stores (Seeed, RAK, LILYGO, Heltec, Elecrow, muzi, B&amp;Q Consulting, M5Stack) <a href="#s52">[52–61]</a></li>
+        <li>US/EU retailer storefronts (Rokland, HexaSpot) and the MeshMap node directory <a href="#s51">[51]</a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Classification used throughout</h4>
+      <ul style="margin:.4rem 0;padding-left:1.2rem">
+        <li><span class="badge b-partner">Partner</span> officially supported partner hardware</li>
+        <li><span class="badge b-backer">Backer</span> officially supported backer-program hardware</li>
+        <li><span class="badge b-supported">Documented</span> on the official devices page; program status not stated in sources</li>
+        <li><span class="badge b-community">Community</span> community-supported, not officially supported</li>
+        <li><span class="badge b-legacy">Legacy</span> discontinued / superseded, still partially supported</li>
+        <li><span class="badge b-experimental">Experimental</span> announced / new — verify before buying</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note warn"><span class="lbl">Limitations</span>
+    <ul style="margin:.3rem 0;padding-left:1.2rem">
+      <li>Prices and stock were spot-checked on <b>23 Aug 2026</b>, primarily at RAKwireless, muzi works, and the B&amp;Q Consulting store. Seeed / LILYGO / Heltec / Elecrow / AliExpress / Amazon / Etsy prices were <b>not</b> re-verified live for every SKU; those are marked “≈ estimate — verify”.</li>
+      <li>Retailer listings, marketplace descriptions, and user reviews were <b>not</b> treated as authoritative for radio compliance or firmware support — those claims were checked against official docs or manufacturer datasheets wherever possible.</li>
+      <li>Mesh maps (e.g. MeshMap) are <b>voluntary and incomplete</b> — an empty area does not mean no active nodes are nearby.</li>
+      <li>Frequency-region legality is summarized for convenience only; it is not legal advice and varies by country and license class (unlicensed ISM vs licensed amateur operation).</li>
+    </ul>
+  </div>
+</section>
+<section id="toc">
+  <div class="toc">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#exec-summary"><span class="toc-num">00</span>Executive summary</a></li>
+      <li><a href="#scope"><span class="toc-num">01</span>Scope, method &amp; limitations</a></li>
+      <li><a href="#directory"><span class="toc-num">02</span>Resource directory</a></li>
+      <li><a href="#catalog"><span class="toc-num">03</span>Hardware catalog (filterable)</a></li>
+      <li><a href="#turnkey-vs-selfbuild"><span class="toc-num">04</span>Turnkey vs. self-build</a></li>
+      <li><a href="#most-turnkey"><span class="toc-num">05</span>Most-turnkey ranking &amp; buyer guide</a></li>
+      <li><a href="#selfbuild"><span class="toc-num">06</span>Self-build guide (6 builds)</a></li>
+      <li><a href="#setup"><span class="toc-num">07</span>Meshtastic setup guide</a></li>
+      <li><a href="#glossary"><span class="toc-num">08</span>Glossary</a></li>
+      <li><a href="#sources"><span class="toc-num">09</span>Sources &amp; citations</a></li>
+    </ol>
+  </div>
+</section>
+
+<section id="directory">
+  <h2><span class="sec-num">02</span>Where to find hardware, firmware &amp; community coverage</h2>
+  <p class="lede">A purpose-organized directory of the resources actually used in this research. <strong>Source type</strong> matters: official docs and manufacturer datasheets are authoritative for specs and support; retailers and marketplaces are authoritative only for what they happen to sell.</p>
+
+  <h3>Official Meshtastic resources</h3>
+  <div class="tblwrap"><table>
+    <caption>Official Meshtastic documentation and software. All URLs last checked 23 Aug 2026.</caption>
+    <thead><tr><th>Site</th><th>URL</th><th>Purpose / best use</th><th>Cautions</th></tr></thead>
+    <tbody>
+      <tr><td class="devname">Meshtastic home</td><td><a href="https://meshtastic.org/">meshtastic.org</a></td><td>Entry point, blog, links to all tools</td><td>—</td></tr>
+      <tr><td class="devname">Docs — supported hardware</td><td><a href="https://meshtastic.org/docs/hardware/devices/">…/docs/hardware/devices/</a></td><td>Authoritative device list &amp; “which board” guidance</td><td>Specs change with firmware; check the per-device page</td></tr>
+      <tr><td class="devname">Docs — getting started</td><td><a href="https://meshtastic.org/docs/getting-started/">…/docs/getting-started/</a></td><td>Flash, drivers, first connection</td><td>Read the “no antenna” warning first</td></tr>
+      <tr><td class="devname">Docs — region by country</td><td><a href="https://meshtastic.org/docs/configuration/region-by-country/">…/docs/configuration/region-by-country/</a></td><td>Correct LoRa region per country</td><td>Confirm against your regulator; table is community-edited</td></tr>
+      <tr><td class="devname">Web flasher</td><td><a href="https://flasher.meshtastic.org/">flasher.meshtastic.org</a></td><td>Flash firmware from the browser (Chrome/Edge)</td><td>Needs a data-capable USB cable</td></tr>
+      <tr><td class="devname">Web client</td><td><a href="https://client.meshtastic.org/">client.meshtastic.org</a></td><td>Configure nodes over serial/Bluetooth/network</td><td>Network config only on ESP32 <a href="#s4">[4]</a></td></tr>
+      <tr><td class="devname">GitHub org</td><td><a href="https://github.com/meshtastic">github.com/meshtastic</a></td><td>Firmware, apps, docs source</td><td>—</td></tr>
+      <tr><td class="devname">Firmware repo</td><td><a href="https://github.com/meshtastic/firmware">github.com/meshtastic/firmware</a></td><td>Source, releases, issue tracker</td><td>Development builds are beta</td></tr>
+      <tr><td class="devname">Antenna reports repo</td><td><a href="https://github.com/meshtastic/antenna-reports">github.com/meshtastic/antenna-reports</a></td><td>Community SWR / range test reports</td><td>Crowd-sourced, not lab-verified</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Network maps &amp; node discovery</h3>
+  <div class="tblwrap"><table>
+    <caption>Node/coverage maps. Coverage is voluntary and incomplete.</caption>
+    <thead><tr><th>Site</th><th>URL</th><th>Purpose / best use</th><th>Cautions</th></tr></thead>
+    <tbody>
+      <tr><td class="devname">MeshMap</td><td><a href="https://meshmap.net/">meshmap.net</a></td><td>Community node map; see nearby reported nodes</td><td>Only nodes that opted in via MQTT upload appear — absence ≠ no network <a href="#s51">[51]</a></td></tr>
+      <tr><td class="devname">Meshtastic Site Planner</td><td><a href="https://site.meshtastic.org/">site.meshtastic.org</a> <span class="sub">repo: github.com/meshtastic/meshtastic-site-planner</span></td><td>RF coverage prediction (ITM/Longley-Rice) for repeater/hilltop planning</td><td>Prediction, not measurement; runs in-browser <a href="#s50">[50]</a></td></tr>
+      <tr><td class="devname">Radio Mobile / HeyWhat'sThat / TowerCoverage</td><td>via <a href="https://meshtastic.org/docs/hardware/antennas/resources/">antenna resources page</a></td><td>Alternative propagation / path-profile tools</td><td>Third-party; see resources page for caveats <a href="#s13">[13]</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note info"><span class="lbl">How to read a node map</span>
+    Meshtastic can optionally forward node positions to a public map over MQTT. This is <strong>opt-in</strong> and can be disabled for privacy. A sparse or empty map says nothing about real local activity — range-test locally before concluding an area is dead <a href="#s51">[51]</a>.
+  </div>
+  <h3>Hardware manufacturers &amp; retailers</h3>
+  <div class="tblwrap"><table>
+    <caption>Manufacturer and distributor sources. Availability and regional shipping vary.</caption>
+    <thead><tr><th>Vendor</th><th>URL</th><th>Type</th><th>Known for</th><th>Best use / cautions</th></tr></thead>
+    <tbody>
+      <tr><td class="devname">Seeed Studio</td><td><a href="https://www.seeedstudio.com/">seeedstudio.com</a></td><td>Manufacturer</td><td>SenseCAP T1000-E, Wio Tracker L1, Solar Node, Indicator</td><td>Official partner; also on AliExpress/Amazon</td></tr>
+      <tr><td class="devname">RAKwireless</td><td><a href="https://store.rakwireless.com/collections/meshtastic">store.rakwireless.com</a></td><td>Manufacturer</td><td>WisBlock modules, WisMesh turnkey line</td><td>Official partner; strong docs</td></tr>
+      <tr><td class="devname">LILYGO</td><td><a href="https://lilygo.cc/">lilygo.cc</a></td><td>Manufacturer</td><td>T-Beam, T-Echo, T-Deck, T3-S3</td><td>Backer program; buy the region variant you need</td></tr>
+      <tr><td class="devname">HELTEC</td><td><a href="https://heltec.org/">heltec.org</a></td><td>Manufacturer</td><td>LoRa 32 V3/V4, Mesh Node T114, Wireless Tracker/Paper</td><td>Documented on official devices page; wide AliExpress presence</td></tr>
+      <tr><td class="devname">Elecrow</td><td><a href="https://www.elecrow.com/">elecrow.com</a></td><td>Manufacturer</td><td>ThinkNode M1–M7, CrowPanel HMI</td><td>Official partner; ThinkNodes ship pre-flashed</td></tr>
+      <tr><td class="devname">muzi works</td><td><a href="https://muzi.works/">muzi.works</a></td><td>Manufacturer (US)</td><td>R1 Neo, BASE System, T114 bundles/cases</td><td>Backer program; US shipping</td></tr>
+      <tr><td class="devname">B&amp;Q Consulting</td><td><a href="https://store.bqvoy.com/">store.bqvoy.com</a></td><td>Manufacturer</td><td>Nano G2 Ultra, Station G2/G3</td><td>Backer program; stock was “out of stock” on research date — check Tindie/mailing list</td></tr>
+      <tr><td class="devname">M5Stack</td><td><a href="https://m5stack.com/">m5stack.com</a></td><td>Manufacturer</td><td>Cardputer Mesh Kit, Unit C6L</td><td>Documented on official devices page</td></tr>
+      <tr><td class="devname">Rokland</td><td><a href="https://store.rokland.com/">store.rokland.com</a></td><td>Retailer (US)</td><td>RAK, LILYGO, Heltec, antennas</td><td>US distributor; product pages use “Rokland” pricing</td></tr>
+      <tr><td class="devname">HexaSpot</td><td><a href="https://hexaspot.com/">hexaspot.com</a></td><td>Retailer (EU)</td><td>RAK, Heltec</td><td>EU distributor</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn"><span class="lbl">Marketplaces</span>
+    Etsy, Amazon, and AliExpress are usable <strong>only</strong> when a product can be tied to a known manufacturer or official store (e.g. “Seeed Studio Official AliExpress Store”). Many marketplace listings are clones or mislabeled frequency variants. If a listing's band, connector, battery, or firmware-compatibility can't be independently verified, treat it as unverified <a href="#s52">[52]</a>.
+  </div>
+
+  <h3>Community &amp; technical support</h3>
+  <div class="tblwrap"><table>
+    <caption>Community channels. Distinguish official/volunteer support from peer advice.</caption>
+    <thead><tr><th>Channel</th><th>URL</th><th>Type</th><th>Best use</th></tr></thead>
+    <tbody>
+      <tr><td class="devname">Discord</td><td><a href="https://discord.gg/meshtastic">discord.gg/meshtastic</a></td><td>Official community server</td><td>Fastest peer help; device-specific channels</td></tr>
+      <tr><td class="devname">Reddit</td><td><a href="https://reddit.com/r/meshtastic">reddit.com/r/meshtastic</a></td><td>Community</td><td>Builds, range reports, troubleshooting</td></tr>
+      <tr><td class="devname">GitHub Discussions</td><td><a href="https://github.com/orgs/meshtastic/discussions">github.com/orgs/meshtastic/discussions</a></td><td>Official (org)</td><td>Design/feature discussion, antenna threads</td></tr>
+      <tr><td class="devname">Official social</td><td>X <a href="https://x.com/TheMeshtastic">@TheMeshtastic</a> · Mastodon <a href="https://mastodon.social/@meshtastic">@meshtastic</a> · YouTube <a href="https://www.youtube.com/meshtastic">/meshtastic</a></td><td>Official</td><td>Announcements, tutorials</td></tr>
+      <tr><td class="devname">Open Collective</td><td><a href="https://opencollective.com/meshtastic">opencollective.com/meshtastic</a></td><td>Official funding</td><td>Supporting the project</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Antenna, power, enclosure &amp; self-build suppliers</h3>
+  <div class="tblwrap"><table>
+    <caption>Suppliers for the self-build route. Verify band, connector (SMA vs U.FL/IPEX), and battery safety before ordering.</caption>
+    <thead><tr><th>Category</th><th>Recommended sources</th><th>Notes / cautions</th></tr></thead>
+    <tbody>
+      <tr><td>Antennas</td><td>Rokland, RAKwireless store, Mouser, DigiKey, MikroTik (868), Alfa (915)</td><td>Match frequency to your region; 50 Ω; check connector type <a href="#s10">[10]</a> <a href="#s11">[11]</a></td></tr>
+      <tr><td>Batteries &amp; protection</td><td>Reputable 18650/21700 vendors with datasheets; add a protection circuit (PCM) or use protected cells</td><td>Never solder directly to cells; match chemistry to charger <a href="#s14">[14]</a></td></tr>
+      <tr><td>Solar</td><td>RAK solar accessories; 5–6 W panels for small nodes</td><td>Size panel to measured consumption, not guesswork <a href="#s14">[14]</a></td></tr>
+      <tr><td>Enclosures</td><td>RAK Unify enclosure, 3D-printed cases (muzi/Printables), Hammond/plastic IP boxes</td><td>Add strain relief, desiccant, and a weep hole for condensation</td></tr>
+      <tr><td>Connectors &amp; tools</td><td>U.FL/IPEX pigtails to SMA, NanoVNA (≤ $100) for antenna tuning, soldering station for module builds</td><td>A NanoVNA checks match but not radiated performance <a href="#s12">[12]</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+<section id="catalog">
+  <h2><span class="sec-num">03</span>Hardware catalog</h2>
+  <p class="lede">Every device or meaningful variant documented in this research. Use the filters to narrow by category or support status, search by name/chip/feature, and sort. <strong>Prices in USD, checked 23 Aug 2026</strong>; “≈” = estimate not re-verified live on that date — confirm at the linked store before buying.</p>
+
+  <div class="filterbar" role="search" aria-label="Filter the hardware catalog">
+    <input type="search" id="cat-search" placeholder="Search name, chip, feature (e.g. nRF52840, GPS, e-ink, 1W)…" aria-label="Search catalog">
+    <select id="cat-category" aria-label="Filter by category">
+      <option value="">All categories</option>
+      <option value="turnkey">Turnkey device</option>
+      <option value="devboard">Dev board</option>
+      <option value="module">Radio / MCU module</option>
+      <option value="accessory">Accessory</option>
+      <option value="gateway">Gateway / infrastructure</option>
+    </select>
+    <select id="cat-support" aria-label="Filter by support status">
+      <option value="">All support statuses</option>
+      <option value="partner">Partner</option>
+      <option value="backer">Backer</option>
+      <option value="documented">Documented</option>
+      <option value="community">Community</option>
+      <option value="legacy">Legacy</option>
+      <option value="experimental">Experimental</option>
+    </select>
+    <select id="cat-sort" aria-label="Sort">
+      <option value="">Sort: manufacturer order</option>
+      <option value="name">Sort: name A–Z</option>
+      <option value="price">Sort: price low–high</option>
+    </select>
+    <button type="button" id="cat-clear">Clear filters</button>
+  </div>
+  <p class="resultcount" id="cat-count" aria-live="polite"></p>
+
+  <div class="tblwrap"><table id="cat-table">
+    <caption>Meshtastic-compatible hardware catalog. Region column lists the frequency variants a buyer must choose among. Support badges are defined in §01.</caption>
+    <thead><tr>
+      <th>Device</th><th>Mfr</th><th>Category</th><th>MCU · Radio</th><th>Regions</th><th>Highlights</th><th>Support</th><th class="num">Price</th><th>Ref</th>
+    </tr></thead>
+    <tbody>
+
+      <tr data-cat="turnkey" data-support="partner" data-price="38" data-search="rak wisblock starter kit rak4631 rak19007 nrf52840 sx1262 solar">
+        <td><span class="devname">WisBlock Meshtastic Starter Kit</span><span class="sub">RAK19007 + RAK4631</span></td>
+        <td>RAK</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>868 / 915 / 920 / 923</td><td>Modular; solar-ready; add GPS/display/sensors later</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$23.99–$51.99</td><td><a href="#s20">[20]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="partner" data-price="20" data-search="rak4631 core module nrf52840 sx1262 bluetooth">
+        <td><span class="devname">WisBlock Core RAK4631</span></td>
+        <td>RAK</td><td>Module</td><td>nRF52840 · SX1262</td><td>868 / 915 / 920 / 923</td><td>Low-power core; the default WisBlock brain</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$20</td><td><a href="#s20">[20]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="partner" data-price="18" data-search="rak11310 rp2040 core module sx1262">
+        <td><span class="devname">WisBlock Core RAK11310</span></td>
+        <td>RAK</td><td>Module</td><td>RP2040 · SX1262</td><td>868 / 915 / 920 / 923</td><td>Dual-core RP2040; no BT/Wi-Fi</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$18</td><td><a href="#s20">[20]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="partner" data-price="25" data-search="rak3312 esp32-s3 core module sx1262 wifi bluetooth">
+        <td><span class="devname">WisBlock Core RAK3312</span></td>
+        <td>RAK</td><td>Module</td><td>ESP32-S3 · SX1262</td><td>868 / 915 / 920 / 923</td><td>Wi-Fi + BT for network/UI roles</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$25</td><td><a href="#s20">[20]</a></td>
+      </tr>
+      <tr data-cat="accessory" data-support="partner" data-price="20" data-search="rak19007 base board wisblock">
+        <td><span class="devname">WisBlock Base RAK19007</span><span class="sub">2nd-gen base board</span></td>
+        <td>RAK</td><td>Accessory</td><td>—</td><td>—</td><td>Base for cores + sensor slots</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$20</td><td><a href="#s20">[20]</a></td>
+      </tr>
+      <tr data-cat="accessory" data-support="legacy" data-price="15" data-search="rak5005-o base board end of life">
+        <td><span class="devname">WisBlock Base RAK5005-O</span></td>
+        <td>RAK</td><td>Accessory</td><td>—</td><td>—</td><td>First-gen base — End of Life</td>
+        <td><span class="badge b-legacy">Legacy</span></td><td class="num">EOL</td><td><a href="#s20">[20]</a></td>
+      </tr>
+      <tr data-cat="accessory" data-support="partner" data-price="15" data-search="rak12500 rak1910 gps gnss module wisblock">
+        <td><span class="devname">WisBlock GPS (RAK12500 / RAK1910)</span></td>
+        <td>RAK</td><td>Accessory</td><td>—</td><td>—</td><td>GNSS add-on for position/tracker roles</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$15</td><td><a href="#s20">[20]</a></td>
+      </tr>
+      <tr data-cat="accessory" data-support="partner" data-price="10" data-search="rak1901 rak1902 rak1906 environment sensor temperature humidity pressure bme680">
+        <td><span class="devname">WisBlock Sensors (RAK1901/1902/1906)</span></td>
+        <td>RAK</td><td>Accessory</td><td>—</td><td>—</td><td>Temp/humidity, baro, BME680 env sensor</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$10–15</td><td><a href="#s20">[20]</a></td>
+      </tr>
+      <tr data-cat="accessory" data-support="partner" data-price="20" data-search="rak1921 oled rak14000 e-ink display wisblock">
+        <td><span class="devname">WisBlock Displays (OLED / E-Ink)</span></td>
+        <td>RAK</td><td>Accessory</td><td>—</td><td>—</td><td>RAK1921 0.96″ OLED; RAK14000 2.13″ e-ink</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$20</td><td><a href="#s20">[20]</a></td>
+      </tr>
+
+      <tr data-cat="turnkey" data-support="partner" data-price="90" data-search="wismesh pocket v2 oled gps accelerometer 3200mah battery rak19026">
+        <td><span class="devname">WisMesh Pocket V2</span><span class="sub">RAK10709</span></td>
+        <td>RAK</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>868 / 915 / 920 / 923</td><td>OLED, onboard GNSS + accelerometer, 3200 mAh, USB-C</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$89.97</td><td><a href="#s21">[21]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="60" data-search="wismesh pocket mini compact no display 1000mah rak10716">
+        <td><span class="devname">WisMesh Pocket Mini</span><span class="sub">RAK10716</span></td>
+        <td>RAK</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>868 / 915 / 920 / 923</td><td>Ultra-compact, internal PCB antenna, 1000 mAh</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$59.97</td><td><a href="#s21">[21]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="39" data-search="wismesh tag tracker ip66 gps 1000mah magnetic charging">
+        <td><span class="devname">WisMesh Tag</span></td>
+        <td>RAK</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>868–923</td><td>IP66 tracker, GPS, 1000 mAh, pogo-pin charging</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$39.00</td><td><a href="#s22">[22]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="109" data-search="wismesh tap touchscreen keyboard ip65 gps 3200mah esp32-s3">
+        <td><span class="devname">WisMesh TAP / TAP V2</span><span class="sub">RAK10710</span></td>
+        <td>RAK</td><td>Turnkey</td><td>TAP: nRF52840 · V2: ESP32-S3 · SX1262</td><td>868 / 915</td><td>Touchscreen + on-screen keyboard; V2 adds MUI, SD map, buzzer</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$109.00</td><td><a href="#s23">[23]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="52" data-search="wismesh board one oled gpio sensor slot rak10717">
+        <td><span class="devname">WisMesh Board ONE</span><span class="sub">RAK10717 (bare / pocket)</span></td>
+        <td>RAK</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>868 / 915 / 920 / 923</td><td>OLED, exposed GPIO, WisBlock sensor slot</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$46.97–$59.97</td><td><a href="#s27">[27]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="partner" data-price="99" data-search="wismesh repeater solar ip67 fixed outdoor rak10718">
+        <td><span class="devname">WisMesh Repeater</span><span class="sub">RAK10718</span></td>
+        <td>RAK</td><td>Gateway</td><td>nRF52840 · SX1262</td><td>864–923</td><td>IP67, 5.2 Ah option, solar input, fixed mount</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$99.00</td><td><a href="#s24">[24]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="partner" data-price="200" data-search="wismesh repeater pro 5.2ah ip67 solar rak10721">
+        <td><span class="devname">WisMesh Repeater Pro</span><span class="sub">RAK10721</span></td>
+        <td>RAK</td><td>Gateway</td><td>nRF52840 · SX1262</td><td>864–923</td><td>5.2 Ah battery, IP67, universal solar charge</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$99–$299</td><td><a href="#s24">[24]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="partner" data-price="95" data-search="wismesh repeater mini v2 solar ip67 1w rak10728 rak10729">
+        <td><span class="devname">WisMesh Repeater Mini V2</span><span class="sub">RAK10728/10729</span></td>
+        <td>RAK</td><td>Gateway</td><td>nRF52840 · SX1262</td><td>864–923</td><td>Solar IP67 relay, up to 1 W coverage</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$89.90–$99.90</td><td><a href="#s24">[24]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="partner" data-price="51" data-search="wismesh wifi mqtt gateway rak10719 esp32">
+        <td><span class="devname">WisMesh WiFi MQTT Gateway</span><span class="sub">RAK10719</span></td>
+        <td>RAK</td><td>Gateway</td><td>ESP32 · SX1262</td><td>864–923</td><td>Bridges mesh to MQTT over Wi-Fi</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$34–$68</td><td><a href="#s25">[25]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="partner" data-price="78" data-search="wismesh ethernet mqtt gateway poe rak10720">
+        <td><span class="devname">WisMesh Ethernet MQTT Gateway</span><span class="sub">RAK10720</span></td>
+        <td>RAK</td><td>Gateway</td><td>nRF52840 · SX1262</td><td>864–923</td><td>Wired MQTT bridge; optional PoE</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$43–$114</td><td><a href="#s25">[25]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="partner" data-price="39" data-search="wismesh 1w booster rak10724 sky66122 amplifier high power">
+        <td><span class="devname">WisMesh 1W Booster Starter Kit</span><span class="sub">RAK10724</span></td>
+        <td>RAK</td><td>Module</td><td>nRF52840 · SX1262 + SKY66122 (1 W)</td><td>900 band</td><td>1 W TX, LNA + SAW filter for RX</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$39.00</td><td><a href="#s26">[26]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="partner" data-price="15" data-search="rak13302 1w module sx1262 sky66122">
+        <td><span class="devname">RAK13302 1W LoRa module</span></td>
+        <td>RAK</td><td>Module</td><td>SX1262 + SKY66122</td><td>900 band</td><td>1 W transceiver module (needs 5 V)</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$15.00</td><td><a href="#s26">[26]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="partner" data-price="172" data-search="wismesh station raspberry pi 1w rak8622 rak8623">
+        <td><span class="devname">WisMesh Station / Station HP</span><span class="sub">RAK8622/8623</span></td>
+        <td>RAK</td><td>Gateway</td><td>Raspberry Pi + LoRa</td><td>900 band</td><td>Pi-based station, 22 dBm or 1 W options</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$169.99–$175.99</td><td><a href="#s52">[52]</a></td>
+      </tr>
+      <tr data-cat="accessory" data-support="partner" data-price="110" data-search="rak6421 pi hat raspberry pi lora">
+        <td><span class="devname">WisMesh Pi HAT (RAK6421)</span></td>
+        <td>RAK</td><td>Accessory</td><td>LoRa HAT</td><td>900 band</td><td>LoRa for Raspberry Pi nodes</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">$14–$205.99</td><td><a href="#s52">[52]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="backer" data-price="35" data-search="lilygo t-beam s3-core esp32-s3 sx1262 gps neo-m10s l76k">
+        <td><span class="devname">T-Beam S3-Core</span></td>
+        <td>LILYGO</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>433 / 868 / 915</td><td>GPS, U.FL, headless-capable; needs antenna</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$35</td><td><a href="#s28">[28]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="backer" data-price="55" data-search="lilygo t-beam supreme esp32-s3 sx1262 oled bme280 imu rtc">
+        <td><span class="devname">T-Beam Supreme</span></td>
+        <td>LILYGO</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>433 / 868 / 915</td><td>GPS, OLED, BME280, IMU, RTC, SD reader</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$55</td><td><a href="#s28">[28]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="backer" data-price="55" data-search="lilygo t-beam 1w esp32-s3 sx1262 1 watt fan gps oled">
+        <td><span class="devname">T-Beam 1W</span></td>
+        <td>LILYGO</td><td>Dev board</td><td>ESP32-S3 · SX1262 (1 W)</td><td>868 / 915</td><td>1 W TX w/ cooling fan, OLED, GPS; needs stable PSU</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$55</td><td><a href="#s28">[28]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="backer" data-price="65" data-search="lilygo t-echo nrf52840 sx1262 e-ink gps case battery l76k">
+        <td><span class="devname">T-Echo</span></td>
+        <td>LILYGO</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>433 / 868 / 915</td><td>E-ink, GPS, case + battery included; optional BME280</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$65</td><td><a href="#s29">[29]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="backer" data-price="55" data-search="lilygo t-deck esp32-s3 keyboard trackball lcd microphone speaker">
+        <td><span class="devname">T-Deck / T-Deck Plus</span></td>
+        <td>LILYGO</td><td>Turnkey</td><td>ESP32-S3 · SX1262</td><td>433 / 868 / 915</td><td>2.8″ touch LCD, keyboard, trackball; Plus adds GPS + 2000 mAh</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$45–65</td><td><a href="#s30">[30]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="backer" data-price="75" data-search="lilygo t-deck pro e-ink keyboard 1400mah 4g voice">
+        <td><span class="devname">T-Deck Pro</span></td>
+        <td>LILYGO</td><td>Turnkey</td><td>ESP32-S3 · SX1262</td><td>433 / 868 / 915 / 920</td><td>3.1″ e-ink touch, keyboard, 1400 mAh, 4G or voice variant</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$75</td><td><a href="#s30">[30]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="backer" data-price="55" data-search="lilygo t-lora pager esp32-s3 lr1121 qwerty gps nfc imu">
+        <td><span class="devname">T-Lora Pager</span></td>
+        <td>LILYGO</td><td>Turnkey</td><td>ESP32-S3 · LR1121</td><td>433 / 868 / 915</td><td>Pager form, QWERTY, GPS, NFC, audio, foldable antenna</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$55</td><td><a href="#s32">[32]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="backer" data-price="25" data-search="lilygo t3-s3 lora esp32-s3 sx1262 sx1276 lr1121 sx1280 oled">
+        <td><span class="devname">LoRa T3-S3 (v1.0–1.2)</span></td>
+        <td>LILYGO</td><td>Dev board</td><td>ESP32-S3 · SX1262 / SX1276 / LR1121 / SX1280</td><td>868 / 915 / 2.4 GHz</td><td>Inexpensive basic board, OLED, SMA; no GPS</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$25</td><td><a href="#s31">[31]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="legacy" data-price="20" data-search="lilygo lora32 v1 v2 sx127x legacy phased out">
+        <td><span class="devname">LoRa32 V1 / V2.x (SX127x)</span></td>
+        <td>LILYGO</td><td>Dev board</td><td>ESP32 · SX127x</td><td>433 / 868 / 915</td><td>First-gen SX127x — firmware support phased out</td>
+        <td><span class="badge b-legacy">Legacy</span></td><td class="num">EOL</td><td><a href="#s31">[31]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="community" data-price="40" data-search="lilygo t-watch s3 esp32-s3 sx1262 watch">
+        <td><span class="devname">T-Watch S3</span></td>
+        <td>LILYGO</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>868 / 915</td><td>Watch form factor — community-supported</td>
+        <td><span class="badge b-community">Community</span></td><td class="num">≈$40</td><td><a href="#s46">[46]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="community" data-price="20" data-search="lilygo t-lora c6 esp32-c6 sx1262 wifi6">
+        <td><span class="devname">T-Lora C6</span></td>
+        <td>LILYGO</td><td>Dev board</td><td>ESP32-C6 · SX1262</td><td>868 / 915</td><td>Wi-Fi 6; BT not yet in firmware — community</td>
+        <td><span class="badge b-community">Community</span></td><td class="num">≈$20</td><td><a href="#s46">[46]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="22" data-search="heltec lora32 v3 v3.1 esp32-s3 sx1262 oled">
+        <td><span class="devname">LoRa 32 V3 / V3.1</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>433 / 470–510 / 863–870 / 902–928</td><td>OLED, cheap, huge ecosystem; use USB-A→C to charge</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$22</td><td><a href="#s34">[34]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="26" data-search="heltec lora32 v4 esp32-s3 sx1262 oled 28dbm solar">
+        <td><span class="devname">LoRa 32 V4</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>863–870 / 902–928</td><td>OLED, high-power 28±1 dBm option, solar + GNSS ports</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$26</td><td><a href="#s34">[34]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="18" data-search="heltec wireless stick lite v3 esp32-s3 sx1262 no display">
+        <td><span class="devname">Wireless Stick Lite V3</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>433–510 / 863–870 / 902–928</td><td>No display, extra GPIO, two antenna ports</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$18</td><td><a href="#s34">[34]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="28" data-search="heltec wireless tracker v1.1 esp32-s3 sx1262 gps lcd">
+        <td><span class="devname">Wireless Tracker V1.1</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>470–510 / 863–870 / 902–928</td><td>LCD, GPS, LoRa + GNSS antenna ports</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$28</td><td><a href="#s34">[34]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="32" data-search="heltec wireless tracker v2 esp32-s3 sx1262 28dbm dual band gnss solar">
+        <td><span class="devname">Wireless Tracker V2</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>ESP32-S3 · SX1262 (28±1 dBm)</td><td>863–870 / 902–928</td><td>TFT, dual-band GNSS, battery + solar management</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$32</td><td><a href="#s34">[34]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="25" data-search="heltec wireless paper v1.1 esp32-s3 sx1262 e-ink">
+        <td><span class="devname">Wireless Paper V1.1</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>433 / 470–510 / 863–870 / 902–928</td><td>2.13″ e-ink, low-power display, no GPS</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$25</td><td><a href="#s34">[34]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="30" data-search="heltec mesh node t114 nrf52840 sx1262 solar gps optional uf2">
+        <td><span class="devname">Mesh Node T114</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>nRF52840 · SX1262</td><td>433 / 470–510 / 863–870 / 902–928</td><td>Low-power, solar + battery + GNSS ports, UF2 flashing</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$30</td><td><a href="#s33">[33]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="35" data-search="heltec mesh node t096 nrf52840 sx1262 28dbm dual band gnss tft solar">
+        <td><span class="devname">Mesh Node T096</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>nRF52840 · SX1262 (28±1 dBm)</td><td>433 / 470–510 / 863–870 / 902–928</td><td>TFT, amplified radio, dual-band GNSS, solar</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$35</td><td><a href="#s33">[33]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="documented" data-price="40" data-search="heltec mesh node t1 nrf52840 sx1262 ip67 gnss imu buzzer card tracker">
+        <td><span class="devname">Mesh Node T1</span></td>
+        <td>HELTEC</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>863–870 / 902–928</td><td>IP67, card-size, GNSS + 9-axis IMU + buzzer, 1850 mAh</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$40</td><td><a href="#s33">[33]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="documented" data-price="60" data-search="heltec meshpocket nrf52840 sx1262 qi2 wireless charging e-ink power bank">
+        <td><span class="devname">MeshPocket</span></td>
+        <td>HELTEC</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>863–870 / 902–928</td><td>QI2 wireless charger + node, e-ink, 5000/10000 mAh</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$60</td><td><a href="#s35">[35]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="documented" data-price="12" data-search="heltec ht-ct62 esp32-c3 sx1262 surface mount module risc-v">
+        <td><span class="devname">HT-CT62</span></td>
+        <td>HELTEC</td><td>Module</td><td>ESP32-C3 · SX1262</td><td>470 / 868 / 915</td><td>Tiny SMT module for DIY carrier boards; ~10 µA sleep</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$12</td><td><a href="#s36">[36]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="documented" data-price="30" data-search="heltec vision master e213 e290 t190 esp32-s3 e-ink sx1262">
+        <td><span class="devname">Vision Master (E213/E290/T190)</span></td>
+        <td>HELTEC</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>863–870 / 902–928</td><td>E-ink dev boards with optional GPS variants</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$30</td><td><a href="#s2">[2]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="40" data-search="seeed sensecap card tracker t1000-e nrf52840 lr1110 ip65 gps ag3335 magnetic">
+        <td><span class="devname">SenseCAP Card Tracker T1000-E</span></td>
+        <td>Seeed</td><td>Turnkey</td><td>nRF52840 · LR1110</td><td>865–928</td><td>Credit-card size, IP65, GPS (AG3335), 700 mAh, buzzer, pre-flashed</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$40</td><td><a href="#s15">[15]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="partner" data-price="49" data-search="seeed wio tracker l1 lite oled e-ink nrf52840 sx1262 gps l76k solar grove">
+        <td><span class="devname">Wio Tracker L1 (Lite / OLED / E-Ink)</span></td>
+        <td>Seeed</td><td>Dev board</td><td>nRF52840 · SX1262</td><td>862–930</td><td>GPS, solar + battery + Grove connectors, USB-C</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$39–59</td><td><a href="#s16">[16]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="89" data-search="seeed wio tracker l1 pro case battery ready-to-go">
+        <td><span class="devname">Wio Tracker L1 Pro</span></td>
+        <td>Seeed</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>862–930</td><td>Pre-installed case + battery; ready-to-use handheld</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$89</td><td><a href="#s16">[16]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="69" data-search="seeed sensecap solar node p1 p1 pro nrf52840 sx1262 5w solar 18650 outdoor repeater">
+        <td><span class="devname">SenseCAP Solar Node P1 / P1 Pro</span></td>
+        <td>Seeed</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>862–930</td><td>5 W solar, 4×18650 slots, Grove, pre-flashed; outdoor relay</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$69–99</td><td><a href="#s17">[17]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="partner" data-price="70" data-search="seeed sensecap indicator esp32-s3 rp2040 4 inch touchscreen sx1262 grove">
+        <td><span class="devname">SenseCAP Indicator</span></td>
+        <td>Seeed</td><td>Dev board</td><td>ESP32-S3 + RP2040 · SX1262</td><td>862–930</td><td>4″ touchscreen, dual-MCU, 2× Grove</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$70</td><td><a href="#s18">[18]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="partner" data-price="25" data-search="seeed xiao nrf52840 wio-sx1262 kit thumb sized lora">
+        <td><span class="devname">XIAO nRF52840 + Wio-SX1262 Kit</span></td>
+        <td>Seeed</td><td>Module</td><td>nRF52840 · SX1262</td><td>862–930</td><td>Thumb-size LoRa kit; add L76K GPS</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$25</td><td><a href="#s19">[19]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="partner" data-price="25" data-search="seeed xiao esp32-s3 wio-sx1262 kit preflashed enclosure">
+        <td><span class="devname">XIAO ESP32-S3 + Wio-SX1262 Kit</span></td>
+        <td>Seeed</td><td>Module</td><td>ESP32-S3 · SX1262</td><td>862–930</td><td>Pre-flashed; optional 3D-printed enclosure</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$25</td><td><a href="#s19">[19]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="community" data-price="30" data-search="seeed wio-wm1110 wio tracker 1110 lr1110 nrf52840">
+        <td><span class="devname">Wio-WM1110 Dev Kit / Tracker 1110</span></td>
+        <td>Seeed</td><td>Dev board</td><td>nRF52840 · LR1110</td><td>865–928</td><td>LR1110 dev kits — community-supported</td>
+        <td><span class="badge b-community">Community</span></td><td class="num">≈$30</td><td><a href="#s46">[46]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="community" data-price="20" data-search="seeed wio-e5 stm32wle5jc lora module">
+        <td><span class="devname">Wio-E5 mini / Dev Kit</span></td>
+        <td>Seeed</td><td>Dev board</td><td>STM32WLE5JC</td><td>862–930</td><td>STM32 LoRa — community-supported</td>
+        <td><span class="badge b-community">Community</span></td><td class="num">≈$20</td><td><a href="#s46">[46]</a></td>
+      </tr>
+
+      <tr data-cat="turnkey" data-support="partner" data-price="30" data-search="elecrow thinknode m1 nrf52840 sx1262 e-ink gps 1200mah buzzer">
+        <td><span class="devname">ThinkNode M1</span></td>
+        <td>Elecrow</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>US 902–928 / EU_868</td><td>E-ink, GPS, 1200 mAh, buzzer, pre-flashed</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$30</td><td><a href="#s39">[39]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="25" data-search="elecrow thinknode m2 esp32-s3 sx1262 oled 1000mah buzzer">
+        <td><span class="devname">ThinkNode M2</span></td>
+        <td>Elecrow</td><td>Turnkey</td><td>ESP32-S3 · SX1262</td><td>US 902–928 / EU_868</td><td>OLED, 1000 mAh, buzzer, Wi-Fi, pre-flashed</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$25</td><td><a href="#s39">[39]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="35" data-search="elecrow thinknode m3 nrf52840 lr1110 ip66 tracker sensors magnetic">
+        <td><span class="devname">ThinkNode M3</span></td>
+        <td>Elecrow</td><td>Turnkey</td><td>nRF52840 · LR1110</td><td>868 / 915</td><td>IP66 card tracker, GNSS, temp/humidity/accel, 770 mAh</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$35</td><td><a href="#s39">[39]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="40" data-search="elecrow thinknode m4 nrf52840 lr1110 power bank 7000mah qi wireless gnss">
+        <td><span class="devname">ThinkNode M4</span></td>
+        <td>Elecrow</td><td>Turnkey</td><td>nRF52840 · LR1110</td><td>US 902–928 / EU_868</td><td>Power-bank form, 7000 mAh, Qi out, GNSS tracker</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$40</td><td><a href="#s39">[39]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="30" data-search="elecrow thinknode m5 esp32-s3 sx1262 e-ink gnss 1200mah handheld">
+        <td><span class="devname">ThinkNode M5</span></td>
+        <td>Elecrow</td><td>Turnkey</td><td>ESP32-S3 · SX1262</td><td>US 902–928 / EU_868</td><td>Handheld, e-ink, GNSS, 1200 mAh, pre-flashed</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$30</td><td><a href="#s39">[39]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="partner" data-price="60" data-search="elecrow thinknode m6 nrf52840 sx1262 ip65 solar 6w dual 18650 outdoor repeater">
+        <td><span class="devname">ThinkNode M6</span></td>
+        <td>Elecrow</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>US 902–928 / EU_868</td><td>IP65, 6 W solar, dual 18650, outdoor repeater</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$60</td><td><a href="#s39">[39]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="partner" data-price="40" data-search="elecrow thinknode m7 esp32-s3 lr1110 ethernet poe indoor gateway">
+        <td><span class="devname">ThinkNode M7</span></td>
+        <td>Elecrow</td><td>Gateway</td><td>ESP32-S3 · LR1110</td><td>US 902–928 / EU_868</td><td>Ethernet + PoE indoor gateway</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$40</td><td><a href="#s39">[39]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="partner" data-price="35" data-search="elecrow crowpanel advance 2.4 2.8 3.5 4.3 5.0 7.0 esp32-s3 sx1262 hmi touch">
+        <td><span class="devname">CrowPanel Advance (2.4″–7.0″)</span></td>
+        <td>Elecrow</td><td>Dev board</td><td>ESP32-S3 · SX1262</td><td>All Meshtastic regions</td><td>HMI touch displays, MUI platform</td>
+        <td><span class="badge b-partner">Partner</span></td><td class="num">≈$35–90</td><td><a href="#s40">[40]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="backer" data-price="129" data-search="muzi r1 neo nrf52840 sx1262 gps rtc buzzer water resistant aluminum">
+        <td><span class="devname">R1 Neo</span></td>
+        <td>muzi works</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>868 / 915</td><td>Rugged, GPS + RTC + buzzer, whip antenna; sold out on research date</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$129</td><td><a href="#s41">[41]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="backer" data-price="25" data-search="muzi base uno nrf52840 sx1262 qwiic battery solar lifepo4">
+        <td><span class="devname">BASE Uno</span></td>
+        <td>muzi works</td><td>Dev board</td><td>nRF52840 · SX1262</td><td>868 / 915</td><td>Modular; solar/USB/battery; Li-ion/LiPo/LiFePO4 support</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">$25.00</td><td><a href="#s42">[42]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="backer" data-price="35" data-search="muzi base duo nrf52840 lr1121 2.4ghz sub-ghz high speed">
+        <td><span class="devname">BASE Duo</span></td>
+        <td>muzi works</td><td>Dev board</td><td>nRF52840 · LR1121</td><td>868 / 915 / 2.4 GHz</td><td>LR1121 dual-band, high-speed data rates</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">$35.00</td><td><a href="#s42">[42]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="backer" data-price="86" data-search="b&q nano g2 ultra nrf52840 sx1262 gps oled wideband antenna meshtastic preinstalled">
+        <td><span class="devname">Nano G2 Ultra</span></td>
+        <td>B&amp;Q Consulting</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>US / EU_868 / JP / ANZ / RU / KR / TW / IN / NZ_865 / TH / MY_919 / SG_923</td><td>Pre-flashed, GPS, OLED, internal wideband antenna; ~3.5-day battery</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">$86.00</td><td><a href="#s37">[37]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="legacy" data-price="69" data-search="b&q nano g1 g1 explorer esp32 sx1276 sx1262 legacy">
+        <td><span class="devname">Nano G1 / G1 Explorer</span></td>
+        <td>B&amp;Q Consulting</td><td>Turnkey</td><td>ESP32 · SX1276 / SX1262</td><td>US / EU_868</td><td>Superseded by G2 Ultra</td>
+        <td><span class="badge b-legacy">Legacy</span></td><td class="num">$69.00</td><td><a href="#s46">[46]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="backer" data-price="109" data-search="b&q station g3 esp32-s3 sx1262 35dbm pa lna sma ham licensed">
+        <td><span class="devname">Station G3</span></td>
+        <td>B&amp;Q Consulting</td><td>Gateway</td><td>ESP32-S3 · SX1262 + 35 dBm PA</td><td>864–928</td><td>High-power (licensed/ham), SMA, OLED, QWIIC/GROVE IO</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">$109.00</td><td><a href="#s38">[38]</a></td>
+      </tr>
+      <tr data-cat="gateway" data-support="backer" data-price="129" data-search="b&q station g2 esp32-s3 sx1262 35dbm high power ham">
+        <td><span class="devname">Station G2</span></td>
+        <td>B&amp;Q Consulting</td><td>Gateway</td><td>ESP32-S3 · SX1262 + 35 dBm PA + LNA</td><td>864–928</td><td>High-power LoRa for licensed ham operation</td>
+        <td><span class="badge b-backer">Backer</span></td><td class="num">≈$99–129</td><td><a href="#s38">[38]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="documented" data-price="55" data-search="m5stack cardputer mesh kit esp32-s3 sx1262 keyboard lcd gps 1750mah preinstalled">
+        <td><span class="devname">Cardputer Mesh Kit</span></td>
+        <td>M5Stack</td><td>Turnkey</td><td>ESP32-S3 · SX1262</td><td>868–923</td><td>Keyboard + LCD + LoRa/GNSS cap, 1750 mAh, pre-flashed</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$55</td><td><a href="#s43">[43]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="documented" data-price="30" data-search="m5stack unit c6l esp32-c6 sx1262 oled buzzer rgb sma">
+        <td><span class="devname">Unit C6L</span></td>
+        <td>M5Stack</td><td>Turnkey</td><td>ESP32-C6 · SX1262</td><td>868–923</td><td>Enclosed mini node, OLED, buzzer, RGB, 2× SMA</td>
+        <td><span class="badge b-supported">Documented</span></td><td class="num">≈$30</td><td><a href="#s44">[44]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="community" data-price="20" data-search="raspberry pi pico pico 2 rp2040 rp2350 waveshare lora sx1262">
+        <td><span class="devname">Pico / Pico 2 + Waveshare LoRa</span></td>
+        <td>Raspberry Pi</td><td>Dev board</td><td>RP2040 / RP2350 · SX1262 (module)</td><td>410–525 / 863–870 / 902–930</td><td>Cheap DIY combo; BLE not yet supported</td>
+        <td><span class="badge b-community">Community</span></td><td class="num">≈$20</td><td><a href="#s45">[45]</a></td>
+      </tr>
+      <tr data-cat="turnkey" data-support="community" data-price="80" data-search="canaryone nrf52840 sx1262 gps battery screen case preflashed">
+        <td><span class="devname">CanaryOne</span></td>
+        <td>Canary</td><td>Turnkey</td><td>nRF52840 · SX1262</td><td>868 / 915</td><td>Complete device w/ battery, screen, case; ships pre-flashed</td>
+        <td><span class="badge b-community">Community</span></td><td class="num">≈$80</td><td><a href="#s46">[46]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="community" data-price="45" data-search="unphone esp32-s3 rf950w touchscreen imu lipo lora">
+        <td><span class="devname">unPhone</span></td>
+        <td>Unphone</td><td>Dev board</td><td>ESP32-S3 · RF950W</td><td>868 / 915</td><td>All-in-one dev device, touchscreen, IMU, LiPo</td>
+        <td><span class="badge b-community">Community</span></td><td class="num">≈$45</td><td><a href="#s46">[46]</a></td>
+      </tr>
+      <tr data-cat="devboard" data-support="community" data-price="35" data-search="chatter stem esp32 llcc68 education kit gps">
+        <td><span class="devname">Chatter (STEM kit)</span></td>
+        <td>Chatter</td><td>Dev board</td><td>ESP32 · LLCC68</td><td>868 / 915</td><td>Education kit, optional GPS</td>
+        <td><span class="badge b-community">Community</span></td><td class="num">≈$35</td><td><a href="#s46">[46]</a></td>
+      </tr>
+      <tr data-cat="module" data-support="experimental" data-price="25" data-search="radio master bandit expresslrs 900 esp32 sx1276 sky66122 experimental">
+        <td><span class="devname">Radio Master Bandit (ExpressLRS 900)</span></td>
+        <td>RadioMaster</td><td>Module</td><td>ESP32 · SX1276 + SKY66122</td><td>900</td><td>ExpressLRS TX repurposed — experimental</td>
+        <td><span class="badge b-experimental">Experimental</span></td><td class="num">≈$25</td><td><a href="#s46">[46]</a></td>
+      </tr>
+    </tbody>
+  </table></div>
+  <div class="note info" style="margin-top:1rem"><span class="lbl">Reading the table</span>
+    <strong>Region</strong> lists the frequency variants a buyer must select. <strong>“≈” prices</strong> are estimates from typical listings and were <b>not</b> re-verified live on the research date — confirm at the linked store. RAK, muzi, and B&amp;Q prices were read from storefronts on 23 Aug 2026. “Documented” = listed on the official devices page without an explicit partner/backer label in the sources reviewed.
+  </div>
+</section>
+<section id="turnkey-vs-selfbuild">
+  <h2><span class="sec-num">04</span>Turnkey vs. self-build</h2>
+  <p class="lede">Two honest definitions, then a direct comparison.</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>Turnkey</h4>
+      <p>A device that is <strong>ready to use (or nearly so)</strong> out of the box: board, radio, antenna, battery, and case are already integrated — often with Meshtastic pre-flashed. You charge it, pair it, set your region, and transmit. Little or no soldering, wiring, enclosure work, or component selection.</p>
+    </div>
+    <div class="card">
+      <h4>Self-build</h4>
+      <p>Assembling a node from a <strong>compatible board/module</strong> plus a chosen antenna, power system, enclosure, and optional peripherals. You select every part, do the wiring/mechanical work, and flash the firmware yourself.</p>
+    </div>
+  </div>
+
+  <h3>Side-by-side comparison</h3>
+  <div class="tblwrap"><table>
+    <caption>Turnkey vs self-build across the dimensions that matter in practice.</caption>
+    <thead><tr><th>Dimension</th><th>Turnkey</th><th>Self-build</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Up-front cost</strong></td><td>Higher per device ($39–$129 typical)</td><td>Lower core cost ($15–$40 board), but parts add up</td></tr>
+      <tr><td><strong>Total cost after accessories</strong></td><td>Usually already included (case, battery, antenna)</td><td>Often $60–$120 once you add antenna, battery, enclosure, tools</td></tr>
+      <tr><td><strong>Setup time</strong></td><td>Minutes to an hour</td><td>Hours to a weekend (or more for solar/custom)</td></tr>
+      <tr><td><strong>Technical skill</strong></td><td>Low — app/Bluetooth comfort is enough</td><td>Moderate to high — wiring, flashing, troubleshooting</td></tr>
+      <tr><td><strong>Soldering / wiring</strong></td><td>None (or a single antenna)</td><td>Variable: none (JST/XIAO kits) to full SMT (HT-CT62)</td></tr>
+      <tr><td><strong>Flashing difficulty</strong></td><td>Often pre-flashed; if not, drag-and-drop UF2 or web flasher</td><td>Same tools, but you must pick the correct target firmware</td></tr>
+      <tr><td><strong>Reliability / weather resistance</strong></td><td>Designed-in (IP65/IP67 ratings common)</td><td>Depends entirely on your enclosure and sealing work</td></tr>
+      <tr><td><strong>Antenna &amp; power flexibility</strong></td><td>Limited to what's built in or the connector provided</td><td>Full control — any matched antenna, any battery/solar</td></tr>
+      <tr><td><strong>Repairability / upgradeability</strong></td><td>Lower — glued/sealed or proprietary parts</td><td>High — swap any module, cell, or antenna</td></tr>
+      <tr><td><strong>Size &amp; portability</strong></td><td>Usually smaller and cleaner</td><td>Usually bulkier (unless you invest in a good enclosure)</td></tr>
+      <tr><td><strong>Best use cases</strong></td><td>First node, EDC/handheld, trackers, quick solar relays</td><td>Custom sensors, high-power base stations, solar farms, learning</td></tr>
+      <tr><td><strong>Common failure points</strong></td><td>Proprietary charger/connector, non-replaceable battery, firmware lag on very new models</td><td>Wrong region hardware, bad antenna match, battery/charger mismatch, leaky enclosure</td></tr>
+      <tr><td><strong>Support / warranty</strong></td><td>Vendor warranty + official docs</td><td>Per-component warranties; you are the integrator</td></tr>
+      <tr><td><strong>Best for</strong></td><td>Beginners and hobbyists who want to talk now</td><td>Hobbyists/advanced users who want control or lowest cost</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Balanced pros &amp; cons</h3>
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>Turnkey — pros</h4>
+      <ul style="margin:.3rem 0;padding-left:1.2rem">
+        <li>Works in minutes; no tooling or parts selection</li>
+        <li>Weatherproofing and RF matching are done for you</li>
+        <li>Often pre-flashed and region-correct</li>
+        <li>Warranty and official documentation</li>
+      </ul>
+      <h4 style="margin-top:.9rem">Turnkey — cons</h4>
+      <ul style="margin:.3rem 0;padding-left:1.2rem">
+        <li>Costlier per node; less repairable</li>
+        <li>Fixed antenna/power choices; harder to upgrade</li>
+        <li>Stock/shipping variability, especially outside US/EU</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Self-build — pros</h4>
+      <ul style="margin:.3rem 0;padding-left:1.2rem">
+        <li>Lowest per-node cost at scale; fully repairable</li>
+        <li>Any antenna, battery, solar, or sensor you want</li>
+        <li>Deep learning value; reusable skills</li>
+      </ul>
+      <h4 style="margin-top:.9rem">Self-build — cons</h4>
+      <ul style="margin:.3rem 0;padding-left:1.2rem">
+        <li>More time, tools, and troubleshooting</li>
+        <li>Weatherproofing and RF tuning are your job</li>
+        <li>Easy to buy a frequency/connector-mismatched part</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note warn"><span class="lbl">Two myths</span>
+    <strong>Turnkey does not mean fully configured</strong> — you must still set the LoRa region, name, and channel; pairing and app setup are on you. <strong>Self-build does not automatically mean cheaper or better</strong> — after antenna, battery, enclosure, tools, and mistakes, a scratch build can cost more than a turnkey device, and its radio performance depends on your workmanship.
+  </div>
+</section>
+<section id="most-turnkey">
+  <h2><span class="sec-num">05</span>Most-turnkey ranking &amp; buyer guide</h2>
+  <p class="lede">Ranked by how close each device is to <strong>ready-to-use out of the box</strong> (pre-flashed firmware, integrated antenna + battery + case, minimal assembly). Setup-complexity is 1 (trivial) to 5 (still a project). <em>Recommendations are clearly separated from verified facts below.</em></p>
+
+  <div class="tblwrap"><table>
+    <caption>Turnkey devices ranked by out-of-the-box readiness. “Pre-flashed” claims are from official device pages <a href="#s2">[2]</a>; where not stated, it is marked “verify”.</caption>
+    <thead><tr><th>#</th><th>Device</th><th>Why it qualifies</th><th>Setup (1–5)</th><th>All-in cost</th><th>Best user</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="devname">SenseCAP Card Tracker T1000-E</span></td><td>Pre-flashed, IP65, GPS, integrated battery, magnetic charge</td><td class="num">1.5</td><td class="num">≈$40</td><td>Anyone — best first node</td></tr>
+      <tr><td>2</td><td><span class="devname">RAK WisMesh Pocket V2</span></td><td>Pre-flashed, OLED + GPS + accelerometer, 3200 mAh, USB-C</td><td class="num">2</td><td class="num">$89.97</td><td>Beginners wanting a screen</td></tr>
+      <tr><td>3</td><td><span class="devname">Heltec Mesh Node T1</span></td><td>IP67 card tracker w/ GPS, IMU, buzzer, built-in battery</td><td class="num">2</td><td class="num">≈$40</td><td>Trackers / outdoors</td></tr>
+      <tr><td>4</td><td><span class="devname">Seeed Wio Tracker L1 Pro</span></td><td>Case + battery pre-installed, pre-flashed</td><td class="num">2</td><td class="num">≈$89</td><td>Handheld with display</td></tr>
+      <tr><td>5</td><td><span class="devname">Elecrow ThinkNode M1 / M2 / M5</span></td><td>Pre-installed Meshtastic, battery + display + buzzer</td><td class="num">2</td><td class="num">≈$25–30</td><td>Budget turnkey</td></tr>
+      <tr><td>6</td><td><span class="devname">RAK WisMesh Tag</span></td><td>IP66 tracker, GPS, 1000 mAh, magnetic charge</td><td class="num">2</td><td class="num">$39.00</td><td>Asset / person tracking</td></tr>
+      <tr><td>7</td><td><span class="devname">LILYGO T-Deck Plus</span></td><td>Complete keyboard handheld; needs web-flash</td><td class="num">2.5</td><td class="num">≈$55–65</td><td>Phone-free messaging</td></tr>
+      <tr><td>8</td><td><span class="devname">B&amp;Q Nano G2 Ultra</span></td><td>Pre-installed, GPS, OLED, wideband antenna</td><td class="num">2</td><td class="num">$86.00</td><td>Outdoor handheld</td></tr>
+      <tr><td>9</td><td><span class="devname">Elecrow ThinkNode M3</span></td><td>IP66 card tracker, sensors, magnetic charge</td><td class="num">2</td><td class="num">≈$35</td><td>Trackers with sensors</td></tr>
+      <tr><td>10</td><td><span class="devname">Elecrow ThinkNode M4</span></td><td>Power-bank node, 7000 mAh, GNSS, Qi out</td><td class="num">2</td><td class="num">≈$40</td><td>EDC / power-bank users</td></tr>
+      <tr><td>11</td><td><span class="devname">M5Stack Cardputer Mesh Kit</span></td><td>Pre-installed; keyboard + LoRa/GNSS cap</td><td class="num">2.5</td><td class="num">≈$55</td><td>Tinkerers, M5 ecosystem</td></tr>
+      <tr><td>12</td><td><span class="devname">Heltec MeshPocket</span></td><td>QI2 charger + node, e-ink, 5000/10000 mAh (pogo-pin flash)</td><td class="num">2.5</td><td class="num">≈$60</td><td>EDC / power users</td></tr>
+      <tr><td>13</td><td><span class="devname">muzi R1 Neo</span></td><td>Rugged w/ GPS, RTC, buzzer, whip antenna (sold out on research date)</td><td class="num">2</td><td class="num">≈$129</td><td>Rugged EDC (US)</td></tr>
+      <tr><td>14</td><td><span class="devname">SenseCAP Solar Node P1 / P1 Pro</span></td><td>Pre-flashed 5 W solar relay (P1 needs 4×18650)</td><td class="num">2.5</td><td class="num">≈$69–99</td><td>Off-grid relay / fixed node</td></tr>
+      <tr><td>15</td><td><span class="devname">Elecrow ThinkNode M6</span></td><td>IP65 6 W solar + dual 18650 outdoor relay</td><td class="num">2.5</td><td class="num">≈$60</td><td>Off-grid repeater</td></tr>
+      <tr><td>16</td><td><span class="devname">M5Stack Unit C6L</span></td><td>Enclosed mini node; attach included SMA antennas</td><td class="num">2.5</td><td class="num">≈$30</td><td>Compact fixed node</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note info"><span class="lbl">What every turnkey buyer still does</span>
+    Regardless of ranking, plan on: <strong>(1)</strong> charging the device, <strong>(2)</strong> pairing over Bluetooth/USB, <strong>(3)</strong> setting the LoRa region, <strong>(4)</strong> naming the node, and <strong>(5)</strong> (for privacy) changing the channel PSK. A few devices still require a one-time firmware flash on arrival — marked “web-flash” above. Verify “pre-flashed” claims against the linked device page before buying <a href="#s2">[2]</a>.
+  </div>
+
+  <h3>Evidence-based recommendations</h3>
+  <p class="small">Criteria: verified specs from official docs <a href="#s2">[2]</a>, verified pricing where available, and suitability for the stated goal. These are <strong>recommendations/inference, not product endorsements</strong>.</p>
+  <div class="grid grid-2">
+    <div class="card rec"><div class="rec-title"><h4>🏆 Most turnkey / easiest first node</h4><span class="badge b-partner">Partner</span></div>
+      <p><strong>SenseCAP Card Tracker T1000-E</strong> (≈$40). Pre-flashed, IP65, GPS, magnetic charging — genuinely charge-and-go.</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>Nothing to assemble or flash</li><li>IP65 + GPS built in</li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>LR1110 can't hear legacy SX127x nodes directly <a href="#s15">[15]</a></li><li>No display; phone required</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>💰 Cheapest practical first node</h4><span class="badge b-partner">Partner</span></div>
+      <p><strong>Elecrow ThinkNode M2</strong> (≈$25, pre-flashed, Wi-Fi) if you want turnkey; or <strong>Heltec LoRa 32 V3</strong> (≈$22) + a matched antenna + 18650 if you don't mind a little assembly.</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>Lowest realistic entry cost</li><li>ThinkNode M2 ships with Meshtastic</li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>ESP32 nodes use more power</li><li>Heltec route needs antenna + cell</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>🌱 Best beginner-friendly node</h4><span class="badge b-partner">Partner</span></div>
+      <p><strong>RAK WisMesh Pocket V2</strong> ($89.97) — pre-flashed, OLED, GPS, 3200 mAh, USB-C. Or <strong>LILYGO T-Echo</strong> (≈$65) for a long-battery e-ink option.</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>No assembly; visible screen feedback</li><li>Official docs + big community</li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>Costlier than bare boards</li><li>T-Echo needs firmware flash on arrival</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>📟 Best handheld / portable</h4><span class="badge b-backer">Backer</span></div>
+      <p><strong>LILYGO T-Deck Plus</strong> (≈$55–65) for standalone keyboard messaging; <strong>T-Echo</strong> (≈$65) for pocketable e-ink with GPS.</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>T-Deck: phone-free keyboard + GPS</li><li>T-Echo: nRF52 long battery</li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>T-Deck must be flashed (web flasher)</li><li>T-Deck stock antenna is internal</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>☀️ Best outdoor / solar relay</h4><span class="badge b-partner">Partner</span></div>
+      <p><strong>SenseCAP Solar Node P1/P1 Pro</strong> (≈$69–99) or <strong>RAK WisMesh Repeater Mini V2</strong> ($89.90–$99.90, IP67 + solar).</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>Purpose-built, pre-flashed, weatherproof</li><li>nRF52 low power for solar</li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>P1 needs 4×18650 supplied by you</li><li>Fixed, not portable</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>📡 Best fixed / base-station setup</h4><span class="badge b-backer">Backer</span></div>
+      <p><strong>B&amp;Q Station G3</strong> ($109, high power — licensed operation) for reach; <strong>RAK WisBlock Starter Kit</strong> ($23.99–$51.99) on house power for a reliable budget base.</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>Station G3: 35 dBm PA + LNA, SMA</li><li>WisBlock: modular, upgradeable</li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>High power may require a license</li><li>Station stock was thin on research date</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>🛰 Best GPS / tracker option</h4><span class="badge b-partner">Partner</span></div>
+      <p><strong>T1000-E</strong> (≈$40), <strong>RAK WisMesh Tag</strong> ($39), or <strong>Heltec Mesh Node T1</strong> (≈$40). All card-sized, GPS-equipped trackers.</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>IP65/IP66 rated, magnetic charging</li><li>Double-press = position ping <a href="#s15">[15]</a></li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>Small batteries (700–1850 mAh)</li><li>No keyboard/display</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>🔧 Best for custom builds &amp; experimentation</h4><span class="badge b-partner">Partner</span></div>
+      <p><strong>RAK WisBlock</strong> (modular cores + sensors) or <strong>Heltec Mesh Node T114</strong> (solar/GPS/GNSS ports, UF2) or <strong>muzi BASE Uno/Duo</strong> ($25/$35).</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>Swap sensors/displays without soldering</li><li>nRF52 low-power + solar-ready</li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>More parts to buy and configure</li><li>BASE needs expansion board for GPS/display</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>🔒 Best privacy-conscious / off-grid setup</h4><span class="badge b-partner">Partner</span></div>
+      <p>Any <strong>nRF52 node with Wi-Fi off and MQTT disabled</strong> — e.g. <strong>T1000-E</strong> or <strong>WisMesh Pocket V2</strong> — keeps traffic local to the mesh.</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>No Wi-Fi radio = no cloud path</li><li>End-to-end AES channel encryption <a href="#s6">[6]</a></li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>Mesh traffic still re-broadcasts to all nodes on the channel</li><li>GPS position can be shared if you enable it</li></ul></div></div>
+    </div>
+    <div class="card rec"><div class="rec-title"><h4>🌍 Best by region (availability)</h4><span class="badge b-cat">Regional</span></div>
+      <p><strong>US:</strong> Rokland (RAK/LILYGO/Heltec), muzi works. <strong>EU/UK:</strong> HexaSpot, RAK EU store, Seeed EU. <strong>AU/NZ:</strong> ANZ band (915–928) hardware. <strong>Asia:</strong> Seeed/AliExpress official stores.</p>
+      <div class="pros-cons"><div class="p"><strong>Pros</strong><ul><li>Local distributors handle band + shipping</li></ul></div>
+      <div class="c"><strong>Cons</strong><ul><li>Always confirm the SKU is your region's band</li></ul></div></div>
+    </div>
+  </div>
+  <div class="note info"><span class="lbl">How these were chosen</span>
+    Recommendations weigh: (1) official support status, (2) verified specs from the docs, (3) how much assembly/flashing remains, (4) availability on the research date, and (5) fit for the stated goal. They are <strong>inference</strong> — your budget, region, and license status should drive the final call. No affiliate or sponsored links appear anywhere in this guide.
+  </div>
+</section>
+<section id="selfbuild">
+  <h2><span class="sec-num">06</span>Self-build guide</h2>
+  <p class="lede">Six practical build paths, from a $25 indoor node to a solar relay and a sensor automation node — plus the background you need to choose parts correctly. Costs are approximate USD (23 Aug 2026). All firmware/flash steps reference the official Meshtastic flasher and docs <a href="#s8">[8]</a> <a href="#s9">[9]</a>.</p>
+  <div class="note caution"><span class="lbl">Read before building</span>
+    Never power a LoRa radio without an antenna. Match the board's radio band to your region. Match battery chemistry to the board's charger. Verify pin/connector compatibility before ordering.
+  </div>
+
+  <h3 id="build1">Build 1 · Minimal low-cost indoor node</h3>
+  <p><strong>Use:</strong> a cheap always-on node near a window or on house power to join your local mesh. <strong>Skill:</strong> beginner (no soldering if you buy a pre-made board).</p>
+  <div class="tblwrap"><table>
+    <caption>Build 1 bill of materials (~$25–35).</caption>
+    <thead><tr><th>Part</th><th>Recommendation</th><th>Qty</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Core board</td><td>Heltec LoRa 32 V3 (ESP32-S3 + SX1262, OLED) or LILYGO LoRa T3-S3</td><td>1</td><td>≈$22–25</td></tr>
+      <tr><td>Antenna</td><td>Matched stubby/whip for your band (868/915), SMA or U.FL as the board needs</td><td>1</td><td>≈$5–10</td></tr>
+      <tr><td>Power</td><td>USB-A→C cable (data-capable) + 5 V USB charger</td><td>1</td><td>≈$5</td></tr>
+      <tr><td>Optional battery</td><td>18650 (if board has a holder) — flat-top, unprotected</td><td>1</td><td>≈$5</td></tr>
+      <tr><td>Optional enclosure</td><td>Any vented plastic box / 3D-printed case</td><td>1</td><td>≈$5</td></tr>
+    </tbody>
+  </table></div>
+  <ol class="steps">
+    <li><h4>Verify the cable</h4>Confirm your USB cable transfers <em>data</em>, not just charge — a charge-only cable will not flash <a href="#s3">[3]</a>.</li>
+    <li><h4>Attach the antenna</h4>Screw/tab the matched antenna on <em>before</em> powering the board.</li>
+    <li><h4>Flash Meshtastic</h4>Open <a href="https://flasher.meshtastic.org/">flasher.meshtastic.org</a> in Chrome/Edge, pick your board, use “1200bps reset” for ESP32, and flash <a href="#s8">[8]</a>.</li>
+    <li><h4>Configure</h4>Connect via the web client or phone app, set LoRa region, name, and channel (see §07).</li>
+    <li><h4>Place high</h4>Put it near a window, away from the USB cable and metal; LoRa likes elevation and clear line of sight <a href="#s12">[12]</a>.</li>
+  </ol>
+  <p><strong>Common mistakes:</strong> charge-only cable; transmitting before attaching antenna; buying a 433 MHz board for a 915 MHz region; using a USB-C→C cable on some Heltec boards (charging bug — use USB-A→C) <a href="#s34">[34]</a>.</p>
+
+  <h3 id="build2">Build 2 · Battery-powered portable node</h3>
+  <p><strong>Use:</strong> a pocket/handheld node that runs for days on a cell. <strong>Skill:</strong> beginner–intermediate.</p>
+  <div class="tblwrap"><table>
+    <caption>Build 2 bill of materials (~$45–70).</caption>
+    <thead><tr><th>Part</th><th>Recommendation</th><th>Qty</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Core board</td><td>nRF52 for battery life: <strong>Heltec Mesh Node T114</strong> or <strong>Seeed Wio Tracker L1</strong> (has GPS) or <strong>T-Echo</strong> (turnkey)</td><td>1</td><td>≈$30–65</td></tr>
+      <tr><td>Battery</td><td>Li-ion 18650 or LiPo with the board's connector (JST 1.25/2.0)</td><td>1</td><td>≈$5–10</td></tr>
+      <tr><td>Antenna</td><td>Flexible whip, matched band</td><td>1</td><td>≈$5–8</td></tr>
+      <tr><td>Case</td><td>3D-printed or soft case with strain relief</td><td>1</td><td>≈$5–10</td></tr>
+      <tr><td>Optional GPS</td><td>L76K / ATGM336H module for T114 (see board's GNSS port)</td><td>1</td><td>≈$10</td></tr>
+    </tbody>
+  </table></div>
+  <ol class="steps">
+    <li><h4>Choose nRF52, not ESP32</h4>nRF52840 uses far less power — days-to-weeks of runtime vs a day or two for ESP32 <a href="#s2">[2]</a>.</li>
+    <li><h4>Wire the battery</h4>Use the correct JST connector; confirm polarity. Never solder directly to a cell.</li>
+    <li><h4>Flash via UF2</h4>nRF52/RP2040 devices appear as a USB drive — drag the <code>.uf2</code> file on (double-click RST for DFU) <a href="#s9">[9]</a>.</li>
+    <li><h4>Set fixed position or GPS</h4>Disable GPS if not needed — it is a major power drain; use a fixed position for a static node <a href="#s14">[14]</a>.</li>
+    <li><h4>Field-test battery</h4>Run it a full day with your normal usage and note the drop before relying on it.</li>
+  </ol>
+  <p><strong>Common mistakes:</strong> picking ESP32 and being surprised by 1–2 day runtime; leaving GPS on with no need; using a protected/button-top 18650 in holders sized only for flat-tops <a href="#s28">[28]</a>.</p>
+  <h3 id="build3">Build 3 · Weather-resistant outdoor relay</h3>
+  <p><strong>Use:</strong> a fixed node on a pole/roof to extend mesh coverage. <strong>Skill:</strong> intermediate.</p>
+  <div class="tblwrap"><table>
+    <caption>Build 3 bill of materials (~$55–90).</caption>
+    <thead><tr><th>Part</th><th>Recommendation</th><th>Qty</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Core board</td><td>nRF52 with external antenna: <strong>RAK4631 + RAK19007</strong> (WisBlock) or Heltec T114</td><td>1</td><td>≈$25–40</td></tr>
+      <tr><td>Antenna</td><td>External fiberglass/omni (e.g. Rokland 5.8 dBi) + U.FL→SMA pigtail</td><td>1</td><td>≈$10–20</td></tr>
+      <tr><td>Enclosure</td><td>IP65+ box (RAK Unify, Hammond) with cable glands</td><td>1</td><td>≈$10–25</td></tr>
+      <tr><td>Power</td><td>USB power supply (sealed) or DC supply</td><td>1</td><td>≈$10</td></tr>
+      <tr><td>Hardware</td><td>Pole/mast mount, UV-rated ties, desiccant pack</td><td>—</td><td>≈$10</td></tr>
+    </tbody>
+  </table></div>
+  <ol class="steps">
+    <li><h4>Mount antenna first</h4>Keep the antenna vertical and clear of metal; height beats power <a href="#s12">[12]</a>.</li>
+    <li><h4>Seal the enclosure</h4>Glands for every cable, a drip loop, and a desiccant pack to fight condensation.</li>
+    <li><h4>Route power safely</h4>Strain-relieve and waterproof the power entry; keep the radio's antenna cable as short as practical (coax loss adds up) <a href="#s11">[11]</a>.</li>
+    <li><h4>Configure as ROUTER/REPEATER</h4>Set role to router/client-mute as appropriate for a relay (see §07).</li>
+    <li><h4>Range-test</h4>Walk the coverage area and check ACK ticks and RSSI; log results <a href="#s12">[12]</a>.</li>
+  </ol>
+  <p><strong>Common mistakes:</strong> long lossy coax between radio and antenna; condensation shorting the board; antenna inside a metal box; no drip loop letting water wick in.</p>
+
+  <h3 id="build4">Build 4 · Solar-powered remote relay</h3>
+  <p><strong>Use:</strong> an off-grid node that runs indefinitely. <strong>Skill:</strong> intermediate–advanced (power budgeting).</p>
+  <div class="tblwrap"><table>
+    <caption>Build 4 bill of materials (~$70–110).</caption>
+    <thead><tr><th>Part</th><th>Recommendation</th><th>Qty</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Core board</td><td>Solar-ready nRF52: RAK4631+RAK19007, Heltec T114, or Wio Tracker L1</td><td>1</td><td>≈$25–50</td></tr>
+      <tr><td>Solar panel</td><td>5–6 W, 6 V, with the board's solar connector (JST ZHR-2 etc.)</td><td>1</td><td>≈$10–20</td></tr>
+      <tr><td>Battery</td><td>18650 Li-ion (protected) or LiFePO4 per board support</td><td>1–2</td><td>≈$5–15</td></tr>
+      <tr><td>Enclosure</td><td>IP65+ box, UV-stable, panel mounted/angled</td><td>1</td><td>≈$15–25</td></tr>
+      <tr><td>Antenna</td><td>External omni + pigtail</td><td>1</td><td>≈$10–15</td></tr>
+    </tbody>
+  </table></div>
+  <ol class="steps">
+    <li><h4>Measure, don't guess</h4>Log real power draw over 2–6 h with a USB power meter; compute average watts <a href="#s14">[14]</a>.</li>
+    <li><h4>Size the panel</h4>Panel watt-hours/day must exceed node consumption × a 1.5–2× safety factor for cloudy days and winter sun.</li>
+    <li><h4>Pick the chemistry</h4>Match the board's charger (many boards do Li-ion only; muzi BASE adds LiFePO4). Protect cells in the cold/heat.</li>
+    <li><h4>Angle &amp; shade</h4>Face the panel toward the equator, avoid shade and bird fouling, and keep the antenna above the panel.</li>
+    <li><h4>Set a fixed position</h4>No GPS needed on a static relay; set coordinates manually to save power <a href="#s14">[14]</a>.</li>
+  </ol>
+  <p><strong>Common mistakes:</strong> undersized panel (“winter kills it”); GPS left on; battery too small for night; charging Li-ion below 0 °C without a low-temp cut-off.</p>
+  <h3 id="build5">Build 5 · GPS tracker build</h3>
+  <p><strong>Use:</strong> attach to a vehicle, pack, pet, or asset to report position on the mesh. <strong>Skill:</strong> beginner–intermediate.</p>
+  <div class="tblwrap"><table>
+    <caption>Build 5 bill of materials (~$40–60).</caption>
+    <thead><tr><th>Part</th><th>Recommendation</th><th>Qty</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Core board</td><td><strong>Seeed Wio Tracker L1</strong> (GPS + solar + battery) or Heltec Wireless Tracker V1.1</td><td>1</td><td>≈$28–49</td></tr>
+      <tr><td>Battery</td><td>LiPo/Li-ion matching the board connector</td><td>1</td><td>≈$5–10</td></tr>
+      <tr><td>Antenna</td><td>Matched band; U.FL on LoRa + GNSS ports</td><td>1</td><td>≈$5</td></tr>
+      <tr><td>Case</td><td>Compact 3D-printed case with a window for GPS</td><td>1</td><td>≈$5–10</td></tr>
+    </tbody>
+  </table></div>
+  <ol class="steps">
+    <li><h4>Pick a GPS-bearing board</h4>Integrated GPS (L76K, UC6580, ATGM336H) beats adding a module later.</li>
+    <li><h4>Give GPS sky view</h4>Mount the case so the GPS antenna faces up/out; metal roofs and glass coatings attenuate.</li>
+    <li><h4>Configure smart position</h4>Enable smart location broadcasts so the tracker reports when it moves, not constantly.</li>
+    <li><h4>Test acquisition</h4>Confirm a fast cold-start fix outdoors; log fix time and accuracy.</li>
+    <li><h4>Deploy &amp; verify on map</h4>Confirm the node appears on your paired app's map; remember map upload is opt-in <a href="#s51">[51]</a>.</li>
+  </ol>
+  <p><strong>Common mistakes:</strong> burying the GPS antenna in a metal case; expecting indoor GPS fix; leaving continuous location broadcasts on (battery drain).</p>
+
+  <h3 id="build6">Build 6 · Advanced / custom sensor or automation node</h3>
+  <p><strong>Use:</strong> telemetry (temp/humidity/pressure/AQI), or GPIO-triggered actions on a mesh node. <strong>Skill:</strong> advanced.</p>
+  <div class="tblwrap"><table>
+    <caption>Build 6 bill of materials (~$60–120, sensor-dependent).</caption>
+    <thead><tr><th>Part</th><th>Recommendation</th><th>Qty</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Core board</td><td><strong>RAK WisBlock</strong> (modular sensor slots) or Heltec T114 + I²C bus</td><td>1</td><td>≈$25–40</td></tr>
+      <tr><td>Sensors</td><td>RAK1901 (temp/hum), RAK1902 (baro), RAK1906 (BME680 env), or external I²C sensors</td><td>1–3</td><td>≈$10–20 each</td></tr>
+      <tr><td>Display (optional)</td><td>RAK1921 OLED or RAK14000 e-ink</td><td>1</td><td>≈$15–20</td></tr>
+      <tr><td>Automation I/O</td><td>RAK13002 IO module / relay for GPIO control</td><td>1</td><td>≈$10</td></tr>
+      <tr><td>Power</td><td>18650 + solar (RAK19007 solar input) or USB</td><td>1</td><td>≈$10–20</td></tr>
+    </tbody>
+  </table></div>
+  <ol class="steps">
+    <li><h4>Check pin conflicts</h4>Use RAK's IO Pin Mapping tool and cross-reference Meshtastic's variant.h before stacking modules <a href="#s20">[20]</a>.</li>
+    <li><h4>Assemble modules</h4>Click modules onto the base board per RAK's connection guide; never force pins.</li>
+    <li><h4>Enable telemetry</h4>In Meshtastic settings, enable the environment/metrics telemetry module and set intervals.</li>
+    <li><h4>Verify readings</h4>Watch values in the app; sanity-check against a known thermometer/barometer.</li>
+    <li><h4>Automate</h4>Use the GPIO/IO module or MQTT bridge for rules; test fail-safes before unattended use.</li>
+  </ol>
+  <p><strong>Common mistakes:</strong> stacking modules on conflicting pins; trusting uncalibrated sensor readings; enabling high-frequency telemetry that floods the channel and burns battery.</p>
+  <hr>
+  <h3>Self-build background: choosing parts correctly</h3>
+
+  <h4>How to choose a compatible board &amp; LoRa radio</h4>
+  <p>Start from the <a href="https://meshtastic.org/docs/hardware/devices/">official supported-hardware list</a> and pick a board whose <strong>MCU, radio chip, and frequency variant</strong> match your plan. Prefer the newer <strong>SX126x or LR11xx</strong> radios — they outperform and out-compat the older SX127x, which Meshtastic now recommends avoiding for new purchases <a href="#s2">[2]</a>. Then confirm the firmware target exists (check the device page's “firmware-…” filename) before buying.</p>
+
+  <h4>ESP32 vs nRF52 vs others</h4>
+  <div class="tblwrap"><table>
+    <caption>Platform tradeoffs, summarized from the official guidance <a href="#s2">[2]</a>.</caption>
+    <thead><tr><th>Platform</th><th>Power</th><th>Wi-Fi</th><th>Bluetooth</th><th>Best for</th><th>Watch-outs</th></tr></thead>
+    <tbody>
+      <tr><td><strong>nRF52840</strong></td><td>Very low</td><td>No</td><td>BLE 5.x</td><td>Solar, portables, trackers, handsets</td><td>No Wi-Fi; UF2/OTA flashing</td></tr>
+      <tr><td><strong>ESP32 / ESP32-S3</strong></td><td>Higher</td><td>Yes</td><td>BLE</td><td>House power, MQTT/Wi-Fi roles, MUI, web config</td><td>1–2 day battery on small cells</td></tr>
+      <tr><td><strong>ESP32-C3 / C6</strong></td><td>Low-ish</td><td>Yes (C6 Wi-Fi 6)</td><td>BLE (C6 BT not yet in firmware on some)</td><td>Compact/cheap modules (HT-CT62, Unit C6L)</td><td>Newer; verify firmware support</td></tr>
+      <tr><td><strong>RP2040 / RP2350</strong></td><td>Low</td><td>Pico W only (no web server)</td><td>Not yet supported</td><td>Budget DIY + Waveshare LoRa module</td><td>Community-supported <a href="#s45">[45]</a></td></tr>
+      <tr><td><strong>STM32WLE5</strong></td><td>Low</td><td>No</td><td>No</td><td>Wio-E5 single-chip LoRa</td><td>Community-supported <a href="#s46">[46]</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Choosing a frequency band legally &amp; correctly</h4>
+  <p>Meshtastic's region codes map your country to an allowed band, duty cycle, and power limit — see the full table in <a href="#region-table">§07</a> and the <a href="https://meshtastic.org/docs/configuration/region-by-country/">region-by-country list</a> <a href="#s5">[5]</a>. Two rules: <strong>(1)</strong> buy hardware for the physical band (a 433 MHz or 470–510 MHz board can't be “flashed” into a 915 MHz radio), and <strong>(2)</strong> set the software region to match where you are — EU_868 enforces a 10% duty cycle and lower power that US 915 does not <a href="#s4">[4]</a>. High-power (1 W) setups are for licensed amateur operation in most places.</p>
+
+  <h4>Battery chemistry, charging, protection &amp; safety</h4>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li><strong>Li-ion (18650/21700):</strong> 3.7 V nominal, 4.2 V full. Match the board's charger (many charge Li-ion only). Use flat-top cells in T-Beam-style holders (protected/button-top are too long) <a href="#s28">[28]</a>.</li>
+    <li><strong>LiPo:</strong> pouch cells; easy to shape, easier to puncture — always protect and cushion them.</li>
+    <li><strong>LiFePO4:</strong> 3.2 V nominal, safer and better in heat, but only on boards that support it (e.g. muzi BASE) <a href="#s42">[42]</a>.</li>
+    <li><strong>Protection:</strong> use protected cells or an external PCM; never solder directly to a cell; never charge a frozen Li-ion.</li>
+    <li><strong>Safety:</strong> buy cells from reputable vendors with datasheets; an unbranded “9999 mAh” 18650 is a red flag.</li>
+  </ul>
+
+  <h4>USB vs solar power</h4>
+  <p>USB is simplest and most reliable for indoor/fixed nodes. Solar is only worth it when you <strong>measure</strong> consumption first (see <a href="#build4">Build 4</a>) and size the panel with real winter/sun-hours margin — a 5 W panel on a low-power nRF52 node is the common sweet spot <a href="#s14">[14]</a>. ESP32 nodes generally make poor solar candidates without a much bigger panel.</p>
+  <h4>Antenna: type, gain, cable loss, connectors, placement</h4>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li><strong>Match the band.</strong> A 915 MHz antenna on an 868 MHz radio (or vice-versa) loses significant range. Cheap “universal” antennas are often mistuned <a href="#s12">[12]</a>.</li>
+    <li><strong>Type:</strong> quarter-wave stubby (pocketable, ~couple km), half-wave whip (better, conspicuous), omni base (5–8 dBi for fixed), directional Yagi (point-to-point only) <a href="#s11">[11]</a>.</li>
+    <li><strong>Gain ≠ always better.</strong> High gain omni flattens the pattern — good on flat ground, bad on hills. Beware “huge gain” marketing without a datasheet <a href="#s12">[12]</a>.</li>
+    <li><strong>Connectors:</strong> boards use SMA, RP-SMA, or U.FL/IPEX. Buy the matching pigtail; U.FL is fragile — strain-relieve it.</li>
+    <li><strong>Cable loss:</strong> keep coax short and use low-loss cable; it's often better to move the whole node outside than run long coax indoors <a href="#s11">[11]</a>.</li>
+    <li><strong>Placement:</strong> vertical, clear of metal and the human body, as high as possible. Check SWR with a NanoVNA if you can (<$100) <a href="#s12">[12]</a>.</li>
+  </ul>
+
+  <h4>GPS, displays, sensors, buttons &amp; other add-ons</h4>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li><strong>GPS/GNSS:</strong> great for trackers; a real power drain. Use smart-position updates or a fixed position for static nodes <a href="#s14">[14]</a>.</li>
+    <li><strong>Displays:</strong> OLED (cheap, bright, draws power) vs e-ink (readable, near-zero idle power, slower) — pick for your use <a href="#s2">[2]</a>.</li>
+    <li><strong>Sensors:</strong> RAK1901/1902/1906 and Grove I²C sensors are the easy path; confirm I²C address/pin conflicts.</li>
+    <li><strong>Buttons/buzzer/LED:</strong> useful for pings, alerts, and mute — many turnkey trackers use press-patterns (double = position ping, triple = toggle GPS) <a href="#s15">[15]</a>.</li>
+  </ul>
+
+  <h4>Enclosures, strain relief, waterproofing, heat &amp; condensation</h4>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li>Use IP65+ boxes for outdoors; glands + drip loops + desiccant for moisture; a small vent or breather to avoid condensation cycling.</li>
+    <li>Solar panels and black boxes bake in sun — allow airflow and keep batteries out of direct heat.</li>
+    <li>Strain-relieve every connector (U.FL especially); hot-glue or cable-tie inside the box.</li>
+    <li>Mount antennas above the enclosure and away from metal roofs/towers.</li>
+  </ul>
+
+  <h4>When soldering is needed (and non-solder alternatives)</h4>
+  <p>Most builds need <strong>no soldering</strong> if you use boards with JST/Grove/Qwiic connectors (WisBlock, XIAO kits, T114). Soldering is required mainly for bare modules (HT-CT62), header pins, or custom sensor wiring. Alternatives: pre-soldered headers, screw terminals, Qwiic/STEMMA chains, or buying a turnkey board.</p>
+
+  <h4>Basic tools, from beginner to advanced</h4>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li><strong>Beginner:</strong> data USB cable, phone with Meshtastic app, small screwdriver set.</li>
+    <li><strong>Intermediate:</strong> USB power meter (for solar), multimeter, heat-shrink, crimp tool for JST, 3D printer or ready cases.</li>
+    <li><strong>Advanced:</strong> soldering station, NanoVNA (antenna tuning), bench supply, oscilloscope for deep debugging.</li>
+  </ul>
+
+  <h4>Parts compatibility checks before purchase</h4>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li>Board region variant = your legal band; antenna = same band; connector = same type.</li>
+    <li>Battery connector/polarity and chemistry = board's charger spec.</li>
+    <li>Firmware target file exists for the exact board (check the device docs page).</li>
+    <li>For WisBlock stacking: check the RAK pin-mapping tool for conflicts <a href="#s20">[20]</a>.</li>
+  </ul>
+
+  <div class="note caution"><span class="lbl">Two hard warnings</span>
+    <strong>1.</strong> Never transmit without an antenna — reflected power can destroy the radio's final amplifier <a href="#s11">[11]</a>.
+    <strong>2.</strong> Never run frequency-mismatched hardware — an 868 MHz radio with a 915 MHz antenna (or wrong region setting) is both illegal and performs badly <a href="#s4">[4]</a>.
+  </div>
+</section>
+<section id="setup">
+  <h2><span class="sec-num">07</span>Meshtastic setup guide</h2>
+  <p class="lede">A beginner-to-intermediate path from “what is this?” to a working mesh, a relay, and safe, legal operation.</p>
+
+  <h3>What Meshtastic is — and its core limitations</h3>
+  <p>Meshtastic is open-source firmware that turns LoRa radios into a <strong>long-range, off-grid, encrypted text-and-GPS mesh</strong> with no cell or internet dependency. Each node relays messages for others, and you pair a phone/PC over Bluetooth, Wi-Fi, or USB <a href="#s6">[6]</a>. Real-world caveats to internalize:</p>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li><strong>Low bandwidth, small messages</strong> — short text and telemetry, not voice, photos, or video.</li>
+    <li><strong>Best-effort delivery</strong> — no guaranteed delivery; reliability depends on node density and terrain.</li>
+    <li><strong>One phone per node</strong> at a time <a href="#s6">[6]</a>.</li>
+    <li><strong>Range varies wildly</strong> — meters indoors to tens of km line-of-sight; the community record is ~331 km from a high-altitude link <a href="#s6">[6]</a>.</li>
+  </ul>
+
+  <h3>Legal / regional frequency, duty cycle &amp; power</h3>
+  <p>Meshtastic uses license-free ISM bands in most regions, but <strong>the band, power limit, and duty cycle differ by country</strong>, and some countries allow more power only under an amateur license. Set your software region to where you physically are — not where you bought the device.</p>
+  <div class="note warn"><span class="lbl">Verify before transmitting</span>
+    This table summarizes Meshtastic's region settings <a href="#s4">[4]</a> and the community-maintained country list <a href="#s5">[5]</a>. It is <strong>not legal advice</strong> — check your national regulator (e.g. FCC for the US, Ofcom for the UK, ACMA for Australia) before keying up.
+  </div>
+  <div class="tblwrap" id="region-table"><table>
+    <caption>Meshtastic LoRa region codes (frequency, duty cycle, power limit). Source: official docs <a href="#s4">[4]</a>.</caption>
+    <thead><tr><th>Region code</th><th>Description</th><th>Frequency (MHz)</th><th>Duty cycle</th><th>Power limit (dBm)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>US</strong></td><td>United States</td><td>902.0–928.0</td><td>100%</td><td>30</td></tr>
+      <tr><td><strong>EU_868</strong></td><td>European Union 868 MHz</td><td>869.4–869.65</td><td>10%</td><td>27</td></tr>
+      <tr><td><strong>EU_433</strong></td><td>European Union 433 MHz</td><td>433.0–434.0</td><td>10%</td><td>10</td></tr>
+      <tr><td><strong>CN</strong></td><td>China</td><td>470.0–510.0</td><td>100%</td><td>19</td></tr>
+      <tr><td><strong>JP</strong></td><td>Japan</td><td>920.5–923.5</td><td>100%</td><td>13</td></tr>
+      <tr><td><strong>ANZ</strong></td><td>Australia &amp; NZ</td><td>915.0–928.0</td><td>100%</td><td>30</td></tr>
+      <tr><td><strong>KR</strong></td><td>Korea</td><td>920.0–923.0</td><td>100%</td><td>23</td></tr>
+      <tr><td><strong>TW</strong></td><td>Taiwan</td><td>920.0–925.0</td><td>100%</td><td>27</td></tr>
+      <tr><td><strong>RU</strong></td><td>Russia</td><td>868.7–869.2</td><td>100%</td><td>20</td></tr>
+      <tr><td><strong>IN</strong></td><td>India</td><td>865.0–867.0</td><td>100%</td><td>30</td></tr>
+      <tr><td><strong>NZ_865</strong></td><td>New Zealand 865 MHz</td><td>864.0–868.0</td><td>100%</td><td>36</td></tr>
+      <tr><td><strong>TH</strong></td><td>Thailand</td><td>920.0–925.0</td><td>10%</td><td>27</td></tr>
+      <tr><td><strong>MY_919</strong></td><td>Malaysia 919 MHz</td><td>919.0–924.0</td><td>100%</td><td>27</td></tr>
+      <tr><td><strong>SG_923</strong></td><td>Singapore 923 MHz</td><td>917.0–925.0</td><td>100%</td><td>20</td></tr>
+      <tr><td><strong>BR_902</strong></td><td>Brazil 902 MHz</td><td>902.0–907.5</td><td>100%</td><td>30</td></tr>
+      <tr><td><strong>PH_868 / PH_915</strong></td><td>Philippines</td><td>868.0–869.4 / 915.0–918.0</td><td>100%</td><td>14 / 24</td></tr>
+      <tr><td><strong>LORA_24</strong></td><td>2.4 GHz worldwide</td><td>2400.0–2483.5</td><td>100%</td><td>10</td></tr>
+      <tr><td><strong>UA_433 / KZ_433 / MY_433 / PH_433 / ANZ_433 / KZ_863 / NP_865</strong></td><td>Other 433 / 863 / 865 variants</td><td>433–435 / 863–868 / 865–868</td><td>varies</td><td>10–30</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tiny">EU_433 and EU_868 enforce a 10% hourly duty cycle calculated on a rolling 1-hour basis — the device stops transmitting if exceeded <a href="#s4">[4]</a>.</p>
+
+  <h3>Selecting correct frequency-region hardware</h3>
+  <p>Match the physical radio to your band at purchase time — this is not changeable in software. US/ANZ/BR: 902–928 MHz. EU/UK/IN/RU: 868 MHz (or 433 in some EU cases). CN: 470–510 MHz. JP/KR/TW/TH/SG/MY: 920–925 MHz. Then set the matching software region code from the table above <a href="#s4">[4]</a> <a href="#s5">[5]</a>.</p>
+
+  <h3>What to buy for a two-person starter setup</h3>
+  <div class="tblwrap"><table>
+    <caption>Minimal two-node starter kit.</caption>
+    <thead><tr><th>Item</th><th>Quantity</th><th>Example</th><th>Approx cost</th></tr></thead>
+    <tbody>
+      <tr><td>Two nodes (same band)</td><td>2</td><td>2× T1000-E, or 2× WisMesh Pocket V2, or 2× Heltec V3 + antennas</td><td>≈$80–180</td></tr>
+      <tr><td>Data USB cables</td><td>2</td><td>USB-A→C, data-capable</td><td>≈$10</td></tr>
+      <tr><td>Phones</td><td>2</td><td>Android/iOS with Meshtastic app</td><td>—</td></tr>
+      <tr><td>Optional better antennas</td><td>2</td><td>Matched-band whip</td><td>≈$10–20</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Two identical-band nodes is the single most important detail — mismatched bands simply won't hear each other <a href="#s12">[12]</a>.</p>
+  <h3>Flashing / installing Meshtastic firmware</h3>
+  <ol class="steps">
+    <li><h4>Verify your cable</h4>Charge-only cables won't flash. Test file transfer on another device first <a href="#s3">[3]</a>.</li>
+    <li><h4>Attach the antenna</h4>Always before powering the radio.</li>
+    <li><h4>Install serial drivers if needed</h4>ESP32 boards usually need a CP210x/CH340 driver; nRF52/RP2040/RP2350 usually don't <a href="#s3">[3]</a>.</li>
+    <li><h4>Flash</h4><strong>Web flasher</strong> (Chrome/Edge) is recommended for ESP32 <a href="#s8">[8]</a>; <strong>drag-and-drop UF2</strong> for nRF52/RP2040/RP2350 (double-click RST to enter DFU) <a href="#s9">[9]</a>.</li>
+    <li><h4>Confirm</h4>The device should appear as a Bluetooth peripheral (or Wi-Fi AP on ESP32) afterward.</li>
+  </ol>
+  <div class="note info"><span class="lbl">OTA &amp; erase</span>
+    nRF52 devices also accept over-the-air firmware from a phone; a factory erase can clear stale config between major versions <a href="#s9">[9]</a>.
+  </div>
+
+  <h3>Pairing with the mobile or desktop client</h3>
+  <ol class="steps">
+    <li><h4>Install a client</h4>Meshtastic Android / iOS (links via <a href="https://meshtastic.org/">meshtastic.org</a>), the <a href="https://client.meshtastic.org/">web client</a>, or the Python CLI <a href="#s4">[4]</a>.</li>
+    <li><h4>Connect</h4>Bluetooth is the norm for phones; USB/serial works too; Wi-Fi/network only on ESP32 <a href="#s4">[4]</a>.</li>
+    <li><h4>Pair</h4>Accept the pairing prompt; remember only one client can control a node at a time.</li>
+  </ol>
+
+  <h3>Setting the LoRa region &amp; basic channel</h3>
+  <ol class="steps">
+    <li><h4>Set your region</h4>App: Settings → LoRa → region (or “SET YOUR REGION” prompt); CLI: <code>meshtastic --set lora.region US</code>; web client: LoRa → Regional Settings <a href="#s4">[4]</a>.</li>
+    <li><h4>Name your node</h4>Give each node a unique friendly name (the default long name is unwieldy).</li>
+    <li><h4>Confirm the channel</h4>The default is the public “LongFast” preset with a shared default key. For privacy, change the channel name + PSK so only your group can read messages (see security below).</li>
+  </ol>
+
+  <h3>Antenna selection, placement &amp; safe handling</h3>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li>Start with the stock antenna; upgrade only if range is inadequate — a <strong>matched-band</strong> quarter-wave or half-wave whip is the standard first upgrade <a href="#s12">[12]</a>.</li>
+    <li>Keep it vertical, clear of metal and your body; elevation and line-of-sight dominate range <a href="#s11">[11]</a>.</li>
+    <li>Never transmit without an antenna; don't hold/transmit against metal surfaces.</li>
+  </ul>
+
+  <h3>Creating a simple local mesh</h3>
+  <p>Two or more nodes on the <strong>same region and same channel key</strong> automatically form a mesh — no hub required. Send a test message and watch for the “ACK” receipt; each node re-broadcasts, so adding nodes between endpoints extends reach <a href="#s6">[6]</a>.</p>
+
+  <h3>Range expectations &amp; the factors that move them</h3>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li><strong>Typical:</strong> a few hundred meters through dense buildings; 1–5 km suburban; 5–20+ km with clear line-of-sight and decent antennas <a href="#s12">[12]</a>.</li>
+    <li><strong>Helps:</strong> height, clear Fresnel zone, matched antennas, higher spreading factor (at cost of speed).</li>
+    <li><strong>Hurts:</strong> walls/foliage/hills, antenna mismatch, long lossy coax, noise (near LTE towers), weather.</li>
+    <li><strong>Verify with the range-test module</strong> — one node transmits repeatedly, another logs reception <a href="#s12">[12]</a>.</li>
+  </ul>
+  <h3>Setting up a relay / router node</h3>
+  <p>A relay sits at a high point and re-broadcasts for everyone. Flash it, set region, set a fixed position (no GPS needed), and choose a <strong>role</strong>: <code>ROUTER</code> (always relays, battery-hungry — use house/solar power) or <code>CLIENT_MUTE</code> (relays but stays quiet) for a low-profile repeater. Place it high with a good antenna and validate coverage by walking the area <a href="#s12">[12]</a>.</p>
+
+  <h3>Solar &amp; battery planning basics</h3>
+  <ol class="steps">
+    <li><h4>Measure real consumption</h4>Log power over 2–6 h with a USB power meter; get average milliwatts <a href="#s14">[14]</a>.</li>
+    <li><h4>Convert to daily watt-hours</h4>mW × 24 ÷ 1000 = Wh/day. Add 20–50% margin.</li>
+    <li><h4>Size the panel</h4>Choose panel wattage so peak-sun hours × panel W ≥ daily Wh (use winter sun hours; add 1.5–2× for clouds).</li>
+    <li><h4>Size the battery</h4>Store at least 2–3 days of autonomy; more in cloudy/winter climates.</li>
+    <li><h4>Deploy and monitor</h4>Watch battery voltage trends over the first week and adjust angle/panel size.</li>
+  </ol>
+
+  <h3>Security, privacy, channels &amp; encryption</h3>
+  <ul style="margin:.4rem 0;padding-left:1.3rem">
+    <li>Messages are <strong>AES-encrypted</strong> on the channel key; the default public channel uses a well-known key — anyone on it can read you <a href="#s6">[6]</a>.</li>
+    <li>For a private group, set a <strong>unique channel name + PSK</strong> on every member node. Change it regularly; don't share it publicly.</li>
+    <li>Disable <strong>position sharing / MQTT uplink</strong> if you don't want your location on public maps <a href="#s51">[51]</a>.</li>
+    <li>Note: encryption protects confidentiality, not metadata (timing, signal, and relay paths are observable), and the project documents these limits honestly <a href="#s7">[7]</a>.</li>
+  </ul>
+
+  <h3>Troubleshooting common problems</h3>
+  <div class="tblwrap"><table>
+    <caption>Fast fixes for the most common first-time issues.</caption>
+    <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>Can't flash</td><td>Charge-only cable / wrong driver / not in download mode</td><td>Use a data cable; install driver; hold BOOT/USER during power-on for ESP32 <a href="#s3">[3]</a></td></tr>
+      <tr><td>No Bluetooth device</td><td>Firmware not flashed or crashed</td><td>Reflash; check power LED; factory erase + reflash <a href="#s9">[9]</a></td></tr>
+      <tr><td>Nodes don't hear each other</td><td>Mismatched region/band, channel key, or out of range</td><td>Verify both region codes + channel PSK; test line-of-sight at short range</td></tr>
+      <tr><td>Very short range</td><td>Wrong-band antenna, damaged U.FL, near metal</td><td>Swap in a matched antenna; relocate high/clear</td></tr>
+      <tr><td>Battery dies fast</td><td>ESP32 on small cell, GPS always on, high telemetry rate</td><td>Use nRF52; disable GPS; lower broadcast intervals</td></tr>
+      <tr><td>EU node stops transmitting</td><td>10% duty cycle hit</td><td>Reduce message frequency; that's by design <a href="#s4">[4]</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Pre-purchase &amp; pre-deployment checklists</h3>
+  <div class="grid grid-2">
+    <div class="card"><h4>Pre-purchase</h4>
+      <ul style="margin:.3rem 0;padding-left:1.2rem">
+        <li>☐ Confirmed my country's band + region code <a href="#s5">[5]</a></li>
+        <li>☐ Chose hardware in that exact band</li>
+        <li>☐ Verified firmware target exists for the board</li>
+        <li>☐ nRF52 vs ESP32 choice matches power plan</li>
+        <li>☐ Antenna connector + band match the board</li>
+        <li>☐ Bought a data-capable USB cable</li>
+      </ul>
+    </div>
+    <div class="card"><h4>Pre-deployment (outdoor/solar)</h4>
+      <ul style="margin:.3rem 0;padding-left:1.2rem">
+        <li>☐ Antenna attached and matched</li>
+        <li>☐ Region set correctly in firmware</li>
+        <li>☐ Enclosure sealed + strain relief + desiccant</li>
+        <li>☐ Solar/battery sized from measured draw</li>
+        <li>☐ Fixed position set (if static, no GPS)</li>
+        <li>☐ Range-tested and coverage logged</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section id="glossary" class="glossary">
+  <h2><span class="sec-num">08</span>Glossary</h2>
+  <dl>
+    <dt>LoRa</dt><dd>“Long Range” radio modulation — low-bandwidth, long-distance, license-free in many bands. Meshtastic rides on LoRa.</dd>
+    <dt>LoRaWAN</dt><dd>A managed network protocol that also uses LoRa. Meshtastic is <em>not</em> LoRaWAN; it's a peer-to-peer mesh.</dd>
+    <dt>SX126x / SX127x / LR11xx</dt><dd>Semtech radio chips. SX1262 and LR1110/LR1121 are the current-generation parts; SX127x is the older generation now being phased out <a href="#s2">[2]</a>.</dd>
+    <dt>MCU</dt><dd>Microcontroller — the “brain” (ESP32, nRF52840, RP2040, STM32, etc.).</dd>
+    <dt>ESP32 / ESP32-S3 / C3 / C6</dt><dd>Espressif chips with Wi-Fi + Bluetooth; higher power draw than nRF52 <a href="#s2">[2]</a>.</dd>
+    <dt>nRF52840</dt><dd>Nordic Bluetooth LE chip favored for low-power/solar Meshtastic nodes <a href="#s2">[2]</a>.</dd>
+    <dt>RP2040 / RP2350</dt><dd>Raspberry Pi dual-core MCUs used with an add-on LoRa module (e.g. Waveshare) <a href="#s45">[45]</a>.</dd>
+    <dt>dBm</dt><dd>Absolute RF power. +30 dBm = 1 W; +20 dBm = 0.1 W. Region rules cap this <a href="#s4">[4]</a>.</dd>
+    <dt>dBi</dt><dd>Antenna gain relative to an isotropic radiator. Higher ≠ better in all cases.</dd>
+    <dt>Duty cycle</dt><dd>The % of time you may transmit. EU_868 allows 10%; exceeding it pauses transmission <a href="#s4">[4]</a>.</dd>
+    <dt>U.FL / IPEX</dt><dd>Small snap-on antenna connectors on boards; fragile — strain-relieve them.</dd>
+    <dt>SMA / RP-SMA</dt><dd>Threaded antenna connectors. RP-SMA reverses the center pin; confirm which your device has.</dd>
+    <dt>GNSS / GPS</dt><dd>Satellite positioning (GPS, GLONASS, Galileo, BeiDou…). A major power consumer.</dd>
+    <dt>Channel / PSK</dt><dd>The logical “conversation” + its AES key. Nodes must share the channel + key to communicate <a href="#s6">[6]</a>.</dd>
+    <dt>MQTT</dt><dd>Messaging protocol used to bridge a mesh to the internet/cloud (optional, off by default).</dd>
+    <dt>MUI</dt><dd>“Meshtastic UI” — on-device graphical interface on ESP32-S3 devices (T-Deck, TAP V2).</dd>
+    <dt>UF2 / DFU</dt><dd>Firmware update methods: UF2 = drag-and-drop over USB drive; DFU = device firmware-update mode.</dd>
+    <dt>E-ink / OLED / TFT</dt><dd>Display types — e-ink (low power, sunlight-readable), OLED (cheap, bright), TFT (color).</dd>
+    <dt>IP rating</dt><dd>Ingress protection (e.g. IP65 dust-tight + water jets; IP67 immersion to 1 m).</dd>
+    <dt>Node / role</dt><dd>A mesh device. Roles include CLIENT, ROUTER, REPEATER, and CLIENT_MUTE (relay but silent).</dd>
+    <dt>Fresnel zone</dt><dd>The football-shaped clearance zone between antennas; obstructions in it attenuate the link <a href="#s12">[12]</a>.</dd>
+    <dt>VSWR / SWR</dt><dd>Voltage standing-wave ratio — measures antenna match. Low (<2) is good; a NanoVNA measures it <a href="#s12">[12]</a>.</dd>
+    <dt>Line of sight (LOS)</dt><dd>A clear radio path between antennas; the single biggest range factor.</dd>
+    <dt>18650 / LiPo / LiFePO4</dt><dd>Battery formats/chemistries — match to your board's charger and holder <a href="#s28">[28]</a> <a href="#s42">[42]</a>.</dd>
+  </dl>
+</section>
+<section id="sources" class="sources">
+  <h2><span class="sec-num">09</span>Sources &amp; citations</h2>
+  <p class="small">All URLs last accessed/verified 23 Aug 2026. Numbering matches the inline [n] citations. Primary sources (official docs and manufacturer datasheets) are preferred throughout.</p>
+  <ol>
+    <li id="s1">Meshtastic — Home. <a href="https://meshtastic.org/">https://meshtastic.org/</a></li>
+    <li id="s2">Meshtastic Docs — Supported Hardware Overview. <a href="https://meshtastic.org/docs/hardware/devices/">https://meshtastic.org/docs/hardware/devices/</a></li>
+    <li id="s3">Meshtastic Docs — Getting Started. <a href="https://meshtastic.org/docs/getting-started/">https://meshtastic.org/docs/getting-started/</a></li>
+    <li id="s4">Meshtastic Docs — Initial Configuration (region codes, duty cycles, power). <a href="https://meshtastic.org/docs/getting-started/initial-config/">https://meshtastic.org/docs/getting-started/initial-config/</a></li>
+    <li id="s5">Meshtastic Docs — LoRa Region by Country. <a href="https://meshtastic.org/docs/configuration/region-by-country/">https://meshtastic.org/docs/configuration/region-by-country/</a></li>
+    <li id="s6">Meshtastic Docs — Introduction. <a href="https://meshtastic.org/docs/introduction/">https://meshtastic.org/docs/introduction/</a></li>
+    <li id="s7">Meshtastic Docs — Legal (trademark, safety/regulatory disclaimer). <a href="https://meshtastic.org/docs/legal/">https://meshtastic.org/docs/legal/</a></li>
+    <li id="s8">Meshtastic Docs — Flash ESP32 Devices. <a href="https://meshtastic.org/docs/getting-started/flashing-firmware/esp32/">https://meshtastic.org/docs/getting-started/flashing-firmware/esp32/</a></li>
+    <li id="s9">Meshtastic Docs — Flash nRF52 &amp; RP2040 Devices. <a href="https://meshtastic.org/docs/getting-started/flashing-firmware/nrf52/">https://meshtastic.org/docs/getting-started/flashing-firmware/nrf52/</a></li>
+    <li id="s10">Meshtastic Docs — LoRa Antennas (community favorites). <a href="https://meshtastic.org/docs/hardware/antennas/">https://meshtastic.org/docs/hardware/antennas/</a></li>
+    <li id="s11">Meshtastic Docs — LoRa Antenna Selection. <a href="https://meshtastic.org/docs/hardware/antennas/lora-antenna/">https://meshtastic.org/docs/hardware/antennas/lora-antenna/</a></li>
+    <li id="s12">Meshtastic Docs — Antenna Testing. <a href="https://meshtastic.org/docs/hardware/antennas/antenna-testing/">https://meshtastic.org/docs/hardware/antennas/antenna-testing/</a></li>
+    <li id="s13">Meshtastic Docs — LoRa Antenna Resources. <a href="https://meshtastic.org/docs/hardware/antennas/resources/">https://meshtastic.org/docs/hardware/antennas/resources/</a></li>
+    <li id="s14">Meshtastic Docs — How To Measure Device Power Consumption. <a href="https://meshtastic.org/docs/hardware/solar-powered/measure-power-consumption/">https://meshtastic.org/docs/hardware/solar-powered/measure-power-consumption/</a></li>
+    <li id="s15">Meshtastic Docs — SenseCAP Card Tracker T1000-E. <a href="https://meshtastic.org/docs/hardware/devices/seeed-studio/sensecap/card-tracker/">https://meshtastic.org/docs/hardware/devices/seeed-studio/sensecap/card-tracker/</a></li>
+    <li id="s16">Meshtastic Docs — Seeed Wio Tracker L1. <a href="https://meshtastic.org/docs/hardware/devices/seeed-studio/wio-series/tracker-l1/">https://meshtastic.org/docs/hardware/devices/seeed-studio/wio-series/tracker-l1/</a></li>
+    <li id="s17">Meshtastic Docs — SenseCAP Solar Node. <a href="https://meshtastic.org/docs/hardware/devices/seeed-studio/sensecap/solar-node/">https://meshtastic.org/docs/hardware/devices/seeed-studio/sensecap/solar-node/</a></li>
+    <li id="s18">Meshtastic Docs — SenseCAP Indicator. <a href="https://meshtastic.org/docs/hardware/devices/seeed-studio/sensecap/indicator/">https://meshtastic.org/docs/hardware/devices/seeed-studio/sensecap/indicator/</a></li>
+    <li id="s19">Meshtastic Docs — Seeed Wio-SX1262 Series. <a href="https://meshtastic.org/docs/hardware/devices/seeed-studio/wio-series/wio-sx1262s/">https://meshtastic.org/docs/hardware/devices/seeed-studio/wio-series/wio-sx1262s/</a></li>
+    <li id="s20">Meshtastic Docs — RAK WisBlock Devices. <a href="https://meshtastic.org/docs/hardware/devices/rak-wireless/wisblock/">https://meshtastic.org/docs/hardware/devices/rak-wireless/wisblock/</a></li>
+    <li id="s21">Meshtastic Docs — RAK WisMesh Pocket. <a href="https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/pocket/">https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/pocket/</a></li>
+    <li id="s22">Meshtastic Docs — RAK WisMesh Tag. <a href="https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/tag/">https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/tag/</a></li>
+    <li id="s23">Meshtastic Docs — RAK WisMesh Tap. <a href="https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/tap/">https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/tap/</a></li>
+    <li id="s24">Meshtastic Docs — RAK WisMesh Repeater. <a href="https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/repeater/">https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/repeater/</a></li>
+    <li id="s25">Meshtastic Docs — RAK WisMesh Gateway. <a href="https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/gateway/">https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/gateway/</a></li>
+    <li id="s26">Meshtastic Docs — RAK WisMesh 1W Booster Starter Kit. <a href="https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/1w-booster/">https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/1w-booster/</a></li>
+    <li id="s27">Meshtastic Docs — RAK WisMesh Board ONE. <a href="https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/board-one/">https://meshtastic.org/docs/hardware/devices/rak-wireless/wismesh/board-one/</a></li>
+    <li id="s28">Meshtastic Docs — LILYGO T-Beam Devices. <a href="https://meshtastic.org/docs/hardware/devices/lilygo/tbeam/">https://meshtastic.org/docs/hardware/devices/lilygo/tbeam/</a></li>
+    <li id="s29">Meshtastic Docs — LILYGO T-Echo. <a href="https://meshtastic.org/docs/hardware/devices/lilygo/techo/">https://meshtastic.org/docs/hardware/devices/lilygo/techo/</a></li>
+    <li id="s30">Meshtastic Docs — LILYGO T-Deck. <a href="https://meshtastic.org/docs/hardware/devices/lilygo/tdeck/">https://meshtastic.org/docs/hardware/devices/lilygo/tdeck/</a></li>
+    <li id="s31">Meshtastic Docs — LILYGO LoRa Devices. <a href="https://meshtastic.org/docs/hardware/devices/lilygo/lora/">https://meshtastic.org/docs/hardware/devices/lilygo/lora/</a></li>
+    <li id="s32">Meshtastic Docs — LILYGO T-Lora Pager. <a href="https://meshtastic.org/docs/hardware/devices/lilygo/tpager/">https://meshtastic.org/docs/hardware/devices/lilygo/tpager/</a></li>
+    <li id="s33">Meshtastic Docs — HELTEC Mesh Node. <a href="https://meshtastic.org/docs/hardware/devices/heltec-automation/mesh-node/">https://meshtastic.org/docs/hardware/devices/heltec-automation/mesh-node/</a></li>
+    <li id="s34">Meshtastic Docs — HELTEC LoRa 32. <a href="https://meshtastic.org/docs/hardware/devices/heltec-automation/lora32/">https://meshtastic.org/docs/hardware/devices/heltec-automation/lora32/</a></li>
+    <li id="s35">Meshtastic Docs — HELTEC MeshPocket. <a href="https://meshtastic.org/docs/hardware/devices/heltec-automation/meshpocket/">https://meshtastic.org/docs/hardware/devices/heltec-automation/meshpocket/</a></li>
+    <li id="s36">Meshtastic Docs — HELTEC HT-CT62. <a href="https://meshtastic.org/docs/hardware/devices/heltec-automation/ht62/">https://meshtastic.org/docs/hardware/devices/heltec-automation/ht62/</a></li>
+    <li id="s37">Meshtastic Docs — B&amp;Q Consulting Nano Series. <a href="https://meshtastic.org/docs/hardware/devices/b-and-q-consulting/nano/">https://meshtastic.org/docs/hardware/devices/b-and-q-consulting/nano/</a></li>
+    <li id="s38">Meshtastic Docs — B&amp;Q Consulting Station Series. <a href="https://meshtastic.org/docs/hardware/devices/b-and-q-consulting/station-series/">https://meshtastic.org/docs/hardware/devices/b-and-q-consulting/station-series/</a></li>
+    <li id="s39">Meshtastic Docs — Elecrow ThinkNode Series. <a href="https://meshtastic.org/docs/hardware/devices/elecrow/thinknode/">https://meshtastic.org/docs/hardware/devices/elecrow/thinknode/</a></li>
+    <li id="s40">Meshtastic Docs — Elecrow CrowPanel Advance Series. <a href="https://meshtastic.org/docs/hardware/devices/elecrow/crowpanel/">https://meshtastic.org/docs/hardware/devices/elecrow/crowpanel/</a></li>
+    <li id="s41">Meshtastic Docs — muzi works R1 Neo. <a href="https://meshtastic.org/docs/hardware/devices/muziworks/r1-neo/">https://meshtastic.org/docs/hardware/devices/muziworks/r1-neo/</a></li>
+    <li id="s42">Meshtastic Docs — muzi works BASE System. <a href="https://meshtastic.org/docs/hardware/devices/muziworks/muzi-base/">https://meshtastic.org/docs/hardware/devices/muziworks/muzi-base/</a></li>
+    <li id="s43">Meshtastic Docs — M5Stack Cardputer Mesh Kit. <a href="https://meshtastic.org/docs/hardware/devices/m5stack/cardputer/">https://meshtastic.org/docs/hardware/devices/m5stack/cardputer/</a></li>
+    <li id="s44">Meshtastic Docs — M5Stack Unit C6L. <a href="https://meshtastic.org/docs/hardware/devices/m5stack/unit-c6l/">https://meshtastic.org/docs/hardware/devices/m5stack/unit-c6l/</a></li>
+    <li id="s45">Meshtastic Docs — Raspberry Pi Pico &amp; Pico 2. <a href="https://meshtastic.org/docs/hardware/devices/raspberrypi/pico/">https://meshtastic.org/docs/hardware/devices/raspberrypi/pico/</a></li>
+    <li id="s46">Meshtastic Docs — Community Supported Hardware. <a href="https://meshtastic.org/docs/hardware/devices/community-supported/">https://meshtastic.org/docs/hardware/devices/community-supported/</a></li>
+    <li id="s47">Meshtastic — GitHub organization. <a href="https://github.com/meshtastic">https://github.com/meshtastic</a></li>
+    <li id="s48">Meshtastic — Firmware repository. <a href="https://github.com/meshtastic/firmware">https://github.com/meshtastic/firmware</a></li>
+    <li id="s49">Meshtastic — Antenna Reports repository. <a href="https://github.com/meshtastic/antenna-reports">https://github.com/meshtastic/antenna-reports</a></li>
+    <li id="s50">Meshtastic Site Planner (official instance + repo). <a href="https://site.meshtastic.org/">https://site.meshtastic.org</a> · <a href="https://github.com/meshtastic/meshtastic-site-planner">github.com/meshtastic/meshtastic-site-planner</a></li>
+    <li id="s51">MeshMap — Meshtastic Node Map. <a href="https://meshmap.net/">https://meshmap.net/</a></li>
+    <li id="s52">RAKwireless — Meshtastic collection (pricing checked here). <a href="https://store.rakwireless.com/collections/meshtastic">https://store.rakwireless.com/collections/meshtastic</a></li>
+    <li id="s53">Rokland (US retailer). <a href="https://store.rokland.com/">https://store.rokland.com/</a></li>
+    <li id="s54">muzi works (US manufacturer; pricing checked here). <a href="https://muzi.works/">https://muzi.works/</a></li>
+    <li id="s55">B&amp;Q Consulting store (pricing checked here). <a href="https://store.bqvoy.com/">https://store.bqvoy.com/</a></li>
+    <li id="s56">Seeed Studio. <a href="https://www.seeedstudio.com/">https://www.seeedstudio.com/</a></li>
+    <li id="s57">LILYGO. <a href="https://lilygo.cc/">https://lilygo.cc/</a></li>
+    <li id="s58">HELTEC. <a href="https://heltec.org/">https://heltec.org/</a></li>
+    <li id="s59">Elecrow. <a href="https://www.elecrow.com/">https://www.elecrow.com/</a></li>
+    <li id="s60">M5Stack. <a href="https://m5stack.com/">https://m5stack.com/</a></li>
+    <li id="s61">HexaSpot (EU distributor). <a href="https://hexaspot.com/">https://hexaspot.com/</a></li>
+    <li id="s62">Meshtastic Discord. <a href="https://discord.gg/meshtastic">https://discord.gg/meshtastic</a></li>
+    <li id="s63">Meshtastic Reddit. <a href="https://reddit.com/r/meshtastic">https://reddit.com/r/meshtastic</a></li>
+    <li id="s64">Meshtastic Web Flasher. <a href="https://flasher.meshtastic.org/">https://flasher.meshtastic.org/</a></li>
+    <li id="s65">Meshtastic Web Client. <a href="https://client.meshtastic.org/">https://client.meshtastic.org/</a></li>
+  </ol>
+</section>
+</main>
+</div>
+
+<footer>
+  <div class="inner">
+    <p><strong>Meshtastic Hardware Research Guide</strong> — independent community resource. Not affiliated with or endorsed by Meshtastic LLC. “Meshtastic®” is a registered trademark of Meshtastic LLC <a href="https://meshtastic.org/docs/legal/">[7]</a>.</p>
+    <p>Research date: <b>23 August 2026</b> · Time-sensitive data (prices, availability) last verified: <b>23 August 2026</b>. Specs reflect the official Meshtastic documentation as of that date and may change with firmware releases.</p>
+    <p class="tiny">Radio regulations vary by country and license class and change over time. Verify local rules before transmitting. Prices marked “≈” are estimates that were not re-verified live on the research date. No affiliate or sponsored links are present. This document is not legal, electrical-safety, or RF-engineering advice.</p>
+  </div>
+</footer>
+
+<button class="backtop" id="backtop" aria-label="Back to top" title="Back to top">↑</button>
+
+<script>
+(function(){
+  "use strict";
+  // Reading progress bar
+  var bar = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement;
+    var scrolled = h.scrollTop || document.body.scrollTop;
+    var max = h.scrollHeight - h.clientHeight;
+    if(bar){ bar.style.width = (max > 0 ? (scrolled/max*100) : 0) + '%'; }
+    var bt = document.getElementById('backtop');
+    if(bt){ bt.classList.toggle('show', scrolled > 600); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  var bt = document.getElementById('backtop');
+  if(bt){ bt.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); }); }
+
+  // Catalog filter + sort
+  var search = document.getElementById('cat-search');
+  var catSel = document.getElementById('cat-category');
+  var supSel = document.getElementById('cat-support');
+  var sortSel = document.getElementById('cat-sort');
+  var clearBtn = document.getElementById('cat-clear');
+  var countEl = document.getElementById('cat-count');
+  var table = document.getElementById('cat-table');
+  if(table){
+    var rows = Array.prototype.slice.call(table.querySelectorAll('tbody tr'));
+    function applyFilters(){
+      var q = search ? search.value.trim().toLowerCase() : '';
+      var cat = catSel ? catSel.value : '';
+      var sup = supSel ? supSel.value : '';
+      var visible = [];
+      rows.forEach(function(tr){
+        var matchQ = !q || tr.getAttribute('data-search').indexOf(q) !== -1;
+        var matchCat = !cat || tr.getAttribute('data-cat') === cat;
+        var matchSup = !sup || tr.getAttribute('data-support') === sup;
+        var show = matchQ && matchCat && matchSup;
+        tr.classList.toggle('row-hidden', !show);
+        if(show) visible.push(tr);
+      });
+      // sort
+      var sort = sortSel ? sortSel.value : '';
+      if(sort === 'name'){
+        visible.sort(function(a,b){
+          var an = (a.querySelector('.devname')||{}).textContent||'';
+          var bn = (b.querySelector('.devname')||{}).textContent||'';
+          return an.localeCompare(bn);
+        });
+      } else if(sort === 'price'){
+        visible.sort(function(a,b){
+          return (parseFloat(a.getAttribute('data-price'))||0) - (parseFloat(b.getAttribute('data-price'))||0);
+        });
+      }
+      var tb = table.querySelector('tbody');
+      visible.forEach(function(tr){ tb.appendChild(tr); });
+      if(countEl){
+        countEl.textContent = 'Showing ' + visible.length + ' of ' + rows.length + ' documented devices/variants.';
+      }
+    }
+    if(search) search.addEventListener('input', applyFilters);
+    if(catSel) catSel.addEventListener('change', applyFilters);
+    if(supSel) supSel.addEventListener('change', applyFilters);
+    if(sortSel) sortSel.addEventListener('change', applyFilters);
+    if(clearBtn){
+      clearBtn.addEventListener('click', function(){
+        if(search) search.value='';
+        if(catSel) catSel.value='';
+        if(supSel) supSel.value='';
+        if(sortSel) sortSel.value='';
+        applyFilters();
+      });
+    }
+    applyFilters();
+  }
+})();
+</script>
+</body>
+</html>
