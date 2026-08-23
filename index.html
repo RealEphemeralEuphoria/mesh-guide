@@ -183,7 +183,58 @@
 <div class="wrap">
 <main id="main">
 
+<section id="first-principles">
+  <h2><span class="sec-num">★</span>Start here — what is Meshtastic, really?</h2>
+  <p class="lede">One sentence: Meshtastic is a bunch of small battery-powered radios that form their own private text-and-location network — no cell towers, no internet, no Wi-Fi. This is the plain-language version; the rest of the guide is the detail.</p>
+
+  <h3>The big idea: a bucket brigade</h3>
+  <p>Picture a row of people passing buckets from a lake to a fire — no single person walks the whole way, but together they move water for miles. Meshtastic does the same with <strong>messages</strong>. Each radio only reaches its neighbors, but when a radio hears a message it <strong>repeats it</strong> to the next radio, which repeats it to the next… so a message hops radio-to-radio across town. That repeating is the <strong>mesh</strong>.</p>
+
+  <h3>The two jobs every device does</h3>
+  <div class="grid grid-2">
+    <div class="card" style="border-top:4px solid var(--green)">
+      <div class="tag-row"><span class="badge b-partner">CLIENT</span><span class="badge b-cat">You talk through it</span></div>
+      <h4>Client devices</h4>
+      <p>The radios you actually use. In your pocket, on your belt, clipped to a pack, or on your desk. Your <strong>phone is the keyboard and screen</strong>; the radio puck is the “voice.” A client sends <em>your</em> messages and receives messages <em>for you</em>.</p>
+      <p class="small">Bucket-brigade version: the person who wants the water.</p>
+    </div>
+    <div class="card" style="border-top:4px solid var(--blue)">
+      <div class="tag-row"><span class="badge b-backer">ROUTER / CLIENT_MUTE</span><span class="badge b-cat">Carries everyone's messages</span></div>
+      <h4>Relay / network devices</h4>
+      <p>Not for chatting — these are the workhorses. Bolt one to a <strong>roof, hilltop, tree, or tower</strong>, and it just listens and <strong>repeats every message it hears</strong>, so everyone's range gets longer. It's your own miniature cell tower — the “host” that propagates the signal.</p>
+      <p class="small">Bucket-brigade version: the person in the middle who only passes buckets along.</p>
+    </div>
+  </div>
+  <div class="note tip"><span class="lbl">The rule of thumb</span>
+    Two <strong>clients</strong> talk when they're close. Put a <strong>relay</strong> on the hill between them, and they can be miles apart — the relay hops the message along. <strong>Clients = you. Relays = the backbone.</strong> You usually want a few of both.
+  </div>
+
+  <h3>How you get one</h3>
+  <div class="grid grid-2">
+    <div class="card">
+      <h4>Buy it ready (turnkey)</h4>
+      <p>A finished device — case, battery, antenna, and brain already assembled, often pre-flashed. Charge, pair, set your region, go. <a href="#turnkey-vs-selfbuild">See the turnkey vs self-build breakdown →</a></p>
+    </div>
+    <div class="card">
+      <h4>Build it (self-build)</h4>
+      <p>Four parts + one software step: a <strong>board</strong> (brain + LoRa radio), an <strong>antenna</strong> (matched to your country's band), a <strong>battery</strong>, a <strong>case</strong> — then <strong>flash Meshtastic firmware</strong> and configure it. <a href="#selfbuild">See the six build guides →</a></p>
+    </div>
+  </div>
+  <div class="note info"><span class="lbl">The neat part</span>
+    The <em>same physical device</em> can be either job. You flip one setting — its <strong>role</strong> — to decide whether it's a <strong>CLIENT</strong> (you talk through it) or a <strong>ROUTER/relay</strong> (it carries everyone's messages). <a href="#roles">Read the mesh roles explainer →</a>
+  </div>
+
+  <h3>Where to go next</h3>
+  <ul>
+    <li><a href="#categories">Device categories &amp; form factors</a> — module vs dev board vs turnkey vs gateway, and handheld vs tracker vs relay.</li>
+    <li><a href="#roles">Mesh roles &amp; modes</a> — the exact client / relay / sensor settings and when to use each.</li>
+    <li><a href="#catalog">The full hardware catalog</a> — every device, filterable.</li>
+    <li><a href="#setup">The setup guide</a> — flashing, pairing, region, channels, range, and troubleshooting.</li>
+  </ul>
+</section>
+
 <section id="exec-summary">
+  <p class="small" style="margin:-.4rem 0 .8rem"><a href="#first-principles">New to Meshtastic? Read “Start here” first →</a></p>
   <h2><span class="sec-num">00</span>Executive summary</h2>
   <p class="lede">Meshtastic turns inexpensive LoRa radios into a long-range, off-grid, encrypted text-and-GPS mesh that works without cell service or internet <a href="#s6">[6]</a>. The ecosystem has matured well beyond “boards that need assembly”: there is now a genuine tier of <strong>ready-to-use turnkey devices</strong> — IP-rated card trackers, handheld keyboard terminals, solar relays, and pre-flashed pocket nodes — that you can charge, pair to a phone, and use within minutes.</p>
   <div class="grid grid-2" style="margin-top:1.1rem">
@@ -246,6 +297,7 @@
   <div class="toc">
     <h2>On this page</h2>
     <ol>
+      <li><a href="#first-principles"><span class="toc-num">★</span>Start here — what is Meshtastic?</a></li>
       <li><a href="#exec-summary"><span class="toc-num">00</span>Executive summary</a></li>
       <li><a href="#scope"><span class="toc-num">01</span>Scope, method &amp; limitations</a></li>
       <li><a href="#directory"><span class="toc-num">02</span>Resource directory</a></li>
@@ -376,6 +428,8 @@
   <div class="note tip"><span class="lbl">Which one do you need?</span>
     Start with a <strong>turnkey portable or tracker</strong> (fastest path to on-air). Reach for a <strong>dev board</strong> when you want to choose your own antenna/battery/case. Reach for a <strong>module</strong> only for custom PCB work. Add a <strong>gateway</strong> only when you need internet (MQTT) bridging or a dedicated fixed relay.
   </div>
+
+  <p class="small">First time here? <a href="#first-principles">Start here</a> for the plain-language intro, then come back to this table.</p>
 
   <div class="filterbar" role="search" aria-label="Filter the hardware catalog">
     <input type="search" id="cat-search" placeholder="Search name, chip, feature (e.g. nRF52840, GPS, e-ink, 1W)…" aria-label="Search catalog">
@@ -1316,6 +1370,8 @@
   </ul>
   <h4>Rebroadcast modes</h4>
   <p>A second setting controls which packets a node re-sends: <code>ALL</code> (default), <code>LOCAL_ONLY</code> (only your channel's mesh), <code>KNOWN_ONLY</code> (only known node IDs), <code>NONE</code> (sensor/tracker/TAK-tracker only), <code>ALL_SKIP_DECODING</code> (repeater only), and <code>CORE_PORTNUMS_ONLY</code> (standard packet types only) <a href="#s66">[66]</a>.</p>
+
+  <p class="small">New to this? The plain-language version of client vs relay is in <a href="#first-principles">Start here</a>.</p>
 
   <h3>Setting up a relay / router node</h3>
   <p>A relay sits at a high point and re-broadcasts for everyone. Flash it, set region, set a fixed position (no GPS needed), and choose the role from the table above: <code>ROUTER</code> (always relays, battery-hungry — use house/solar power) for a visible relay, or <code>CLIENT_MUTE</code> for a low-profile relay that stays out of the way. Place it high with a good antenna and validate coverage by walking the area <a href="#s12">[12]</a>.</p>
