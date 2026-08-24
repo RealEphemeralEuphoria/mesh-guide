@@ -1,19 +1,39 @@
-# mesh-guide.alicetech.io
+# Meshtastic Hardware Guide
 
-An independent, community-run **Meshtastic hardware research guide** — a single, self-contained reference covering turnkey devices, development boards, radios, antennas, power, GPS, sensors, cases, and self-build paths.
+An independent research guide for choosing Meshtastic devices, radios, antennas, power systems, GPS modules, sensors, cases, and self-build paths.
 
-- **Live site:** https://mesh-guide.alicetech.io
-- **Content:** one static `index.html` (no build step, no frameworks, works offline)
-- **Not affiliated with Meshtastic LLC.** “Meshtastic®” is a registered trademark of Meshtastic LLC.
+![Meshtastic Hardware Guide](docs/mesh-guide.png)
 
-## Files
-- `index.html` — the full guide (research report + how-to)
-- `CNAME` — custom domain record for GitHub Pages
+**[Open the live guide](https://mesh-guide.alicetech.io)**
 
-## Deploying
-1. Repo → **Settings → Pages → Build and deployment → Source: Deploy from a branch** → `main` / `(root)` → Save.
-2. At your DNS host, add a `CNAME` record: host `mesh-guide` → value `<your-username>.github.io`.
-3. GitHub automatically issues an HTTPS certificate for the custom domain.
+## Why this exists
 
-## License & attribution
-Content is original research citing official Meshtastic documentation. All product names and trademarks belong to their respective owners.
+Comparing Meshtastic hardware usually means piecing together radio specifications, regional compatibility, power requirements, enclosure details, and community experience across many sources. This project organizes that research into one practical decision surface for both turnkey buyers and people assembling their own nodes.
+
+## Research approach
+
+The guide is original independent research built from manufacturer specifications, official Meshtastic documentation, and attributed community references. It is not affiliated with Meshtastic LLC. Product names and trademarks belong to their respective owners.
+
+## Design constraints
+
+- One self-contained `index.html`
+- No framework, dependency install, or build step
+- Works offline after download
+- Responsive enough for field use on a phone
+- Published through GitHub Pages with a custom subdomain
+
+The single-file constraint keeps the guide easy to archive, share, inspect, and use when connectivity is unreliable.
+
+## Run locally
+
+```bash
+python3 -m http.server 8000
+```
+
+Then open `http://localhost:8000`.
+
+## Repository contents
+
+- `index.html`: the complete research guide and application
+- `docs/mesh-guide.png`: current project screenshot
+- `CNAME`: GitHub Pages custom-domain record
